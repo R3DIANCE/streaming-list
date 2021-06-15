@@ -17,7 +17,7 @@ class Servers extends Component {
   
     async componentDidMount() {
         const [streamers] = await Promise.all([
-          axios.get(`https://api.twitch.tv/kraken/search/streams?query=luckyv.de`, {
+          axios.get(`https://api.twitch.tv/kraken/search/streams?query=luckyv`, {
             headers: { 'accept': 'application/vnd.twitchtv.v5+json', 'client-id': 'pwkzresl8kj2rdj6g7bvxl9ys1wly3j' }
           })
         ]);
@@ -38,25 +38,28 @@ class Servers extends Component {
             <table className={table.table}>
                 <thead>
                 <tr>
-                    <td>Streamer</td>
+                    <td>Streamer: { filteredstreamers.length }</td>
                 </tr>
                 <tr>
                     <input type="text" placeholder="Streamer..." value={this.inputValue} onChange={this.FilterOnChange}/>
                 </tr>
                 </thead>
                 <tbody>
-                  {this.inputValue}
-                    { filteredstreamers.map((streamer) => {
+                  {this.inputValue,
+                   filteredstreamers.map((streamer) => {
                       const {_id, game, broadcast_platform, community_id, community_ids, viewers, video_height, average_fps, delay, created_at, is_playlist, stream_type, preview, channel} = streamer
                       if (game == "Grand Theft Auto V") {
-                        return <tr>
-                        <td className={table.td}>
-                          {channel.display_name}
-                        </td>
+                        return (
+                        <tr>
+                          <td className={table.td}>
+                            <p>
+                                {channel.display_name}
+                            </p>
+                          </td>
                         </tr>
-                      }
-                    }
-                    )}
+                        )
+                      } else {}
+                    })}
                 </tbody>
             </table>
         </div>

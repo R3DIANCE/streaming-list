@@ -17,7 +17,7 @@ class Servers extends Component {
   
     async componentDidMount() {
         const [streamers] = await Promise.all([
-          axios.get(`https://api.twitch.tv/kraken/search/streams?query=luckyv`, {
+          axios.get(`https://api.twitch.tv/kraken/search/streams?query=luckyv&limit=100`, {
             headers: { 'accept': 'application/vnd.twitchtv.v5+json', 'client-id': 'pwkzresl8kj2rdj6g7bvxl9ys1wly3j' }
           })
         ]);

@@ -48,7 +48,7 @@ class Servers extends Component {
                   {this.inputValue,
                    filteredstreamers.map((streamer) => {
                       const {_id, game, broadcast_platform, community_id, community_ids, viewers, video_height, average_fps, delay, created_at, is_playlist, stream_type, preview, channel} = streamer
-                      if (game == "Grand Theft Auto V") {
+                      if (game == "Grand Theft Auto V" && channel.language == "de") {
                         return (
                         <tr>
                           <td className={table.td}>

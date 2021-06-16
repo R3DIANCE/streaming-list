@@ -5,9 +5,7 @@ import {
 } from 'react-router-dom';
 import React, { Suspense, lazy } from "react";
 
-import './styles/html.module.css';
-
-const Servers = lazy(() => import('./components/servers'));
+const Streamers = lazy(() => import('./components/streamers'));
 
 function App() {
   return (
@@ -16,7 +14,7 @@ function App() {
       <Router>
         <Suspense fallback={<div>Loading...</div>}>
           <Switch>
-            <Route exact path="/" component={Servers}></Route>
+            <Route exact path="/" component={Streamers}></Route>
           </Switch>
         </Suspense>
       </Router>

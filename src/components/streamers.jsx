@@ -59,7 +59,7 @@ class Streamers extends Component {
   render() {
     let filteredstreamers = this.state.streamers.filter((streamer) => {
       const {game, stream_type, channel} = streamer
-      if (channel.status.match(/luckyv/gi) && game === "Grand Theft Auto V" && stream_type === "live" && channel.language === "de") { // && channel.language == "de"
+      if (channel.status.match(/luckyv/gi) && game === "Grand Theft Auto V" && stream_type === "live") { // && channel.language == "de"
         return channel.display_name.toLowerCase().includes(this.state.inputValue.toLocaleLowerCase())
       }
     })

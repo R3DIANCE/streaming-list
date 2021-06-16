@@ -30,18 +30,30 @@ class Streamers extends Component {
     images.forEach(image => {
       this.boundary.watch(image, this.whenImageEnters(image))
     })
-  } 
+  }
 
-  async componentDidMount() {
+  async getData() {
+    console.log("loading streamers");
     const [streamers] = await Promise.all([
       axios.get(`https://api.twitch.tv/kraken/search/streams?query=luckyv&limit=100`, {
         headers: { 'accept': 'application/vnd.twitchtv.v5+json', 'client-id': 'pwkzresl8kj2rdj6g7bvxl9ys1wly3j' }
       })
     ]);
 
+    this.state.streamers = [];
+
     this.setState({
       streamers: streamers.data.streams
     });
+  }
+
+  async componentDidMount() {
+    this.interval = setInterval(this.getData.bind(this), 300000); // refresh data every 5 minutes
+    this.getData();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   render() {

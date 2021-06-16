@@ -13,6 +13,12 @@ html {
 	color: white;
 }
 
+*,
+*::before,
+*::after { 
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
 }
@@ -32,57 +38,76 @@ input[type=text] {
   border-radius: 10px;
 }
 
-* {
-  box-sizing: border-box;
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+  max-width: 75%;
 }
 
-/* Float four columns side by side */
-.column {
-  float: left;
-  width: 25%;
-  padding: 0 10px;
-  padding-top: 2%;
-  padding-bottom: 2%;
+.cards__item {
+  display: flex;
+  padding: 1rem;
 }
 
-/* Remove extra left and right margins, due to padding */
-.row {
-  margin: 0 -5px;
-  max-width: 100%;
-  padding-left: 10%;
-  padding-right: 10%;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* Responsive columns */
-@media screen and (max-width: 600px) {
-  .column {
-    width: 100%;
-    display: block;
-    margin-bottom: 20px;
+@media(min-width: 40rem) {
+  .cards__item {
+    width: 50%;
   }
 }
 
-/* Style the counter cards */
+@media(min-width: 56rem) {
+  .cards__item {
+    width: 33.3333%;
+  } 
+}
+
 .card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  padding: 5% 1% 5% 1%;
-  text-align: center;
-  background-color: #f1f1f1;
-  border-radius: 5px;
   background-color: gray;
+  border-radius: 0.25rem;
+  box-shadow: 0 20px 40px -14px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-.card img {
-  width: 75%;
+.card__content {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  padding: 1rem;
 }
 
-.card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+.card__image {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  filter: contrast(70%);
+  overflow: hidden;
+  position: relative;
+  transition: filter 0.5s cubic-bezier(.43,.41,.22,.91);;
+}
+
+img {
+  width: 100%;
+}
+
+.card__title {
+  font-size: 1.25rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.card__text {
+  flex: 1 1 auto;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
 }

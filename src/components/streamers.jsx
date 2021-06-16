@@ -70,26 +70,30 @@ class Streamers extends Component {
           <h1>Streamer Online: { filteredstreamers.length }</h1>
           <input type="text" placeholder="Streamer..." value={this.inputValue} onChange={this.FilterOnChange}/>
         </div>
-        <div class="row">
+        <ul class="cards">
           {
             filteredstreamers.map((streamer) => {
-              const {_id, viewers, video_height, average_fps, preview, channel} = streamer
+              const {viewers, video_height, average_fps, preview, channel} = streamer
               return (
-                <div class="column" key={_id}>
+                <li class="cards__item">
                   <a href={channel.url} rel="noreferrer" target="_blank">
-                    <div class="card">
-                      <h3>{channel.display_name}</h3>
-                      <p>{channel.status}</p>
-                      <p>Zuschauer: {viewers}</p>
-                      <img data-src={preview.medium} alt={channel.display_name} referrerPolicy="same-origin"></img>
-                      <p>Auflösung: { video_height + "p"} | FPS: {average_fps} | Follower: {channel.followers}</p>
-                    </div>
+                  <div class="card">
+                    <div class="card__image"><img data-src={preview.large + "?" + new Date().getTime()} alt={channel.display_name} referrerPolicy="same-origin"></img></div>
+		                <div class="card__content">
+			                <div class="card__title">{channel.display_name}</div>
+			                <p class="card__text">
+				                {channel.status}<br />
+                        Zuschauer: {viewers}<br />
+                        Auflösung: { video_height + "p"} | FPS: {average_fps} | Follower: {channel.followers}<br />
+			                </p>
+		                  </div>
+	                  </div>
                   </a>
-                </div>
+                </li>
               )
             })
           }
-        </div>
+        </ul>
       </div>
       )
     }

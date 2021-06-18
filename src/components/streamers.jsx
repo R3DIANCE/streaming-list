@@ -66,7 +66,7 @@ class Streamers extends Component {
     let filteredstreamers = this.state.streamers.filter((streamer) => {
       const {game, stream_type, channel} = streamer
       if (channel.status.match(/luckyv/gi) && game === "Grand Theft Auto V" && stream_type === "live") { // && channel.language == "de"
-        return channel.display_name.toLowerCase().includes(this.state.inputValue.toLocaleLowerCase())
+        return channel.display_name.toLowerCase().includes(this.state.inputValue.toLocaleLowerCase()) || channel.status.toLowerCase().includes(this.state.inputValue.toLocaleLowerCase())
       }
     })
 
@@ -107,7 +107,7 @@ class Streamers extends Component {
 			                <p class="card__text">
 				                {channel.status}<br />
                         Zuschauer: {viewers}<br />
-                        Auflösung: { video_height + "p"} | FPS: {average_fps} | Follower: {channel.followers}<br />
+                        Auflösung: {video_height + "p"} | FPS: {average_fps} | Follower: {channel.followers}<br />
 			                </p>
 		                  </div>
 	                  </div>

@@ -16,6 +16,7 @@ class Streamers extends Component {
 
   state = {
     streamers: [],
+    server: [],
     inputValue: ''
   }
 
@@ -33,22 +34,27 @@ class Streamers extends Component {
   }
 
   async getData() {
-    console.log("loading streamers");
-    const [streamers] = await Promise.all([
+    console.log("loading data");
+    const [streamers, servers] = await Promise.all([
       axios.get(`https://api.twitch.tv/kraken/search/streams?query=luckyv&limit=100`, {
         headers: { 'accept': 'application/vnd.twitchtv.v5+json', 'client-id': Buffer.from("ZmszanN6MGxzaGltOThheHo2Y2Iyc3ZwcHRsdXpl", 'base64').toString('ascii') }
-      })
+      }),
+      axios.get(`https://api.altv.mp/server/bb7228a0d366fc575a5682a99359424f`, {
+        headers: { 'accept': 'application/json' }
+      }),
     ]);
 
     this.state.streamers = [];
+    this.state.server = [];
 
     this.setState({
-      streamers: streamers.data.streams
+      streamers: streamers.data.streams,
+      server: servers.data
     });
   }
 
   async componentDidMount() {
-    this.interval = setInterval(this.getData.bind(this), 300000); // refresh data every 5 minutes
+    this.interval = setInterval(this.getData.bind(this), 300000); // refresh data every 5 minutes (300000)
     this.getData();
   }
 
@@ -64,10 +70,26 @@ class Streamers extends Component {
       }
     })
 
+    var extrainfo;
+
+    const {active, info} = this.state.server;
+    if (info !== undefined) {
+      const {players} = info;
+      extrainfo = "Spieler Online: " + players;
+    }
+
+    var serverstate;
+    if (active) {
+      serverstate = "online";
+    } else {
+      serverstate = "offline";
+    }
+
     return (
       <div>
         <div class="head">
           <h1>Streamer Online: { filteredstreamers.length }</h1>
+          <div>Gameserver: {serverstate}<br/>{extrainfo}</div>
           <input type="text" placeholder="Streamer..." value={this.inputValue} onChange={this.FilterOnChange}/>
         </div>
         <ul class="cards">

@@ -6,6 +6,7 @@ import {
 import React, { Suspense, lazy } from "react";
 
 const Streamers = lazy(() => import('./components/streamers'));
+const Streamerdetails = lazy(() => import('./components/streamer'));
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Suspense fallback={<div>Loading...</div>}>
           <Switch>
             <Route exact path="/" component={Streamers}></Route>
+            <Route exact path="/streamer/:twitchname" component={Streamerdetails}></Route>
           </Switch>
         </Suspense>
       </Router>

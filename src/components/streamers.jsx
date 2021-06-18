@@ -99,9 +99,9 @@ class Streamers extends Component {
               const date = new Date().getTime();
               return (
                 <li class="cards__item">
-                  <a href={channel.url} rel="noreferrer" target="_blank">
+                  <a href={"/streamer/" + channel.display_name} rel="noreferrer">
                   <div class="card">
-                    <div class="card__image"><img width="640px" height="340px" data-src={preview.large + "?" + date} alt={channel.display_name} referrerPolicy="same-origin"></img></div>
+                  <a href={channel.url} rel="noreferrer" target="_blank"><div class="card__image"><img width="640px" height="340px" data-src={preview.large + "?" + date} alt={channel.display_name} referrerPolicy="same-origin"></img></div></a>
 		                <div class="card__content">
 			                <div class="card__title">{channel.display_name}</div>
 			                <p class="card__text">

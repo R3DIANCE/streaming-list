@@ -79,7 +79,7 @@ class Streamers extends Component {
                 <li class="cards__item">
                   <a href={channel.url} rel="noreferrer" target="_blank">
                   <div class="card">
-                    <div class="card__image"><img data-src={preview.large + "?" + date} alt={channel.display_name} referrerPolicy="same-origin"></img></div>
+                    <div class="card__image"><img width="640px" height="340px" data-src={preview.large + "?" + date} alt={channel.display_name} referrerPolicy="same-origin"></img></div>
 		                <div class="card__content">
 			                <div class="card__title">{channel.display_name}</div>
 			                <p class="card__text">

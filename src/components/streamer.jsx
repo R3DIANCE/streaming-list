@@ -30,7 +30,7 @@ class Streamerdetails extends Component {
     async componentDidMount() {
         const { twitchname } = this.props.match.params;
         const getid = 
-          await axios.get(`https://api.twitch.tv/kraken/users?login=` + twitchname, {
+          await axios.get(`https://api.twitch.tv/kraken/users?login=` + Buffer.from(twitchname, 'base64').toString('ascii'), {
             headers: { 'Accept': 'application/vnd.twitchtv.v5+json', 'Client-ID': Buffer.from("ZmszanN6MGxzaGltOThheHo2Y2Iyc3ZwcHRsdXpl", 'base64').toString('ascii') }
           });
           
@@ -90,9 +90,9 @@ class Streamerdetails extends Component {
             <ul class="cards">
             {
             this.state.vods.map((vod) => {
-              const {url, title, game, preview, views, channel} = vod;
+              const {_id, url, title, game, preview, views, channel} = vod;
               return (
-                <li class="cards__item">
+                <li class="cards__item" key={_id}>
                   <a href={url} rel="noreferrer" target="_blank">
                   <div class="card">
                   <div class="card__image"><img width="640px" height="340px" data-src={preview.large} alt={channel.display_name} referrerPolicy="same-origin"></img></div>

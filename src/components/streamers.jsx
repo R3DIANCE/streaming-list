@@ -95,11 +95,11 @@ class Streamers extends Component {
         <ul class="cards">
           {
             filteredstreamers.map((streamer) => {
-              const {viewers, video_height, average_fps, preview, channel} = streamer
+              const {_id, viewers, video_height, average_fps, preview, channel} = streamer
               const date = new Date().getTime();
               return (
-                <li class="cards__item">
-                  <a href={"/streamer/" + channel.display_name} rel="noreferrer">
+                <li class="cards__item" key={_id}>
+                  <a href={"/streamer/" + Buffer.from(channel.display_name).toString('base64')} rel="noreferrer">
                   <div class="card">
                   <a href={channel.url} rel="noreferrer" target="_blank"><div class="card__image"><img width="640px" height="340px" data-src={preview.large + "?" + date} alt={channel.display_name} referrerPolicy="same-origin"></img></div></a>
 		                <div class="card__content">

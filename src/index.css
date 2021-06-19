@@ -28,6 +28,29 @@ a {
 	text-decoration: none;
 }
 
+.shareicon {
+  display: block;
+  margin: 0px;
+  padding-top: 1%;
+  position: relative;
+  height: auto;
+  width: 100%;
+  overflow-y: hidden;
+  overflow-x: auto;
+  word-wrap: normal;
+  white-space: nowrap;
+}
+
+.shareicon img {
+  display: inline;
+  margin: 0px;
+  padding: 0px;
+  vertical-align: middle;
+  width: 5%;
+}
+
+
+
 .head {
 	text-align: center;
 }
@@ -64,6 +87,12 @@ input[type=text] {
 @media(max-width: 641px) {
   .cards {
     max-width: 95%;
+  }
+  input[type=text] {
+    width: 85%;
+  }
+  .shareicon img {
+    width: 15%;
   }
 }
 

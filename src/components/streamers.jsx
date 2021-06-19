@@ -90,6 +90,11 @@ class Streamers extends Component {
         <div class="head">
           <h1>Streamer Online: { filteredstreamers.length }</h1>
           <div>Gameserver: {serverstate}<br/>{extrainfo}</div>
+          <div class="shareicon">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu" rel="noreferrer" target="_blank"><img data-src="/img/social/LI-Logo.png"></img></a>
+            <a href="https://twitter.com/intent/tweet?text=Schaue wer auf https://luckyv.de Online ist! https://luckyv.nickwasused.eu" rel="noreferrer" target="_blank"><img data-src="/img/social/Logo blue.svg"></img></a>
+            <a href="https://reddit.com/submit?url=https://luckyv.nickwasused.eu&title=Schaue wer auf https://luckyv.de Online ist!" rel="noreferrer" target="_blank"><img data-src="/img/social/Reddit_Mark_OnDark.svg"></img></a>
+          </div><br />
           <input type="text" placeholder="Streamer..." value={this.inputValue} onChange={this.FilterOnChange}/>
         </div>
         <ul class="cards">

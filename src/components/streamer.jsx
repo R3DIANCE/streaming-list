@@ -17,6 +17,7 @@ class Streamerdetails extends Component {
 
     state = {
       channel: [],
+      base64string: "",
       vods: []
     }
 
@@ -48,6 +49,7 @@ class Streamerdetails extends Component {
 
         this.setState({
           channel: channel.data,
+          base64string: twitchname,
           vods: vods.data.videos
         });
 
@@ -64,6 +66,11 @@ class Streamerdetails extends Component {
                 <button>Zurück</button>
             </NavLink><br/>
             <a href={url} rel="noreferrer" target="_blank"><h1>{display_name}</h1></a>
+            <div class="shareicon">
+            <a href={"https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} rel="noreferrer" target="_blank"><img data-src="/img/social/LI-Logo.png"></img></a>
+            <a href={"https://twitter.com/intent/tweet?text=Schaue dir jetzt " + display_name + " live auf https://luckyv.de an. https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} rel="noreferrer" target="_blank"><img data-src="/img/social/Logo blue.svg"></img></a>
+            <a href={"https://reddit.com/submit?url=https://luckyv.nickwasused.eu&title=Schaue dir jetzt " + display_name + " live auf https://luckyv.de an. https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} rel="noreferrer" target="_blank"><img data-src="/img/social/Reddit_Mark_OnDark.svg"></img></a>
+          </div><br />
             <table>
                 <tr>
                     <td>Streamtitel</td><td>{status}</td>
@@ -90,24 +97,27 @@ class Streamerdetails extends Component {
             <ul class="cards">
             {
             this.state.vods.map((vod) => {
-              const {_id, url, title, game, preview, views, channel} = vod;
-              return (
-                <li class="cards__item" key={_id}>
-                  <a href={url} rel="noreferrer" target="_blank">
-                  <div class="card">
-                  <div class="card__image"><img width="640px" height="340px" data-src={preview.large} alt={channel.display_name} referrerPolicy="same-origin"></img></div>
-		                <div class="card__content">
-			                <div class="card__title">{channel.display_name}</div>
-			                <p class="card__text">
-				                {channel.status}<br />
-                        Views: {views}<br />
-                        Kategorie / Spiel: {game}<br />
-			                </p>
-		                  </div>
-	                  </div>
-                  </a>
-                </li>
-              )
+              const {_id, url, status, title, game, preview, views, channel} = vod;
+              console.log(status);
+              if (status == "archive" | status == "recorded") {
+                return (
+                  <li class="cards__item" key={_id}>
+                    <a href={url} rel="noreferrer" target="_blank">
+                    <div class="card">
+                    <div class="card__image"><img width="640px" height="340px" data-src={preview.large} alt={channel.display_name} referrerPolicy="same-origin"></img></div>
+                      <div class="card__content">
+                        <div class="card__title">{channel.display_name}</div>
+                        <p class="card__text">
+                          {channel.status}<br />
+                          Views: {views}<br />
+                          Kategorie / Spiel: {game}<br />
+                        </p>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                )
+              }
             })
           }
           </ul>

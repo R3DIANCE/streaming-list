@@ -5,6 +5,9 @@ import Bound from 'bounds.js'
 class Streamers extends Component {
   constructor() {
 		super();
+    this.teamspeakip = "51.75.145.14";
+    this.altvserverid = "bb7228a0d366fc575a5682a99359424f";
+    this.searchquery = "luckyv";
 		this.boundary = Bound();
     this.whenImageEnters = (image) => {
 			return () => {
@@ -14,9 +17,12 @@ class Streamers extends Component {
 		} 
 	}
 
+  
+
   state = {
     streamers: [],
     server: [],
+    teamspeak: [],
     inputValue: ''
   }
 
@@ -35,21 +41,26 @@ class Streamers extends Component {
 
   async getData() {
     console.log("loading data");
-    const [streamers, servers] = await Promise.all([
-      axios.get(`https://api.twitch.tv/kraken/search/streams?query=luckyv&limit=100`, {
+    const [streamers, servers, teamdata] = await Promise.all([
+      axios.get(`https://api.twitch.tv/kraken/search/streams?query=` + this.searchquery + `&limit=100`, {
         headers: { 'accept': 'application/vnd.twitchtv.v5+json', 'client-id': Buffer.from("ZmszanN6MGxzaGltOThheHo2Y2Iyc3ZwcHRsdXpl", 'base64').toString('ascii') }
       }),
-      axios.get(`https://api.altv.mp/server/bb7228a0d366fc575a5682a99359424f`, {
+      axios.get(`https://api.altv.mp/server/` + this.altvserverid, {
         headers: { 'accept': 'application/json' }
       }),
+      axios.get(`https://api.cleanvoice.ru/ts3/?address=` + this.teamspeakip, {
+        headers: { 'accept': 'application/json' }
+      })
     ]);
 
     this.state.streamers = [];
     this.state.server = [];
+    this.state.teamspeak = [];
 
     this.setState({
       streamers: streamers.data.streams,
-      server: servers.data
+      server: servers.data,
+      teamspeak: teamdata.data
     });
   }
 
@@ -69,27 +80,19 @@ class Streamers extends Component {
         return channel.display_name.toLowerCase().includes(this.state.inputValue.toLocaleLowerCase()) || channel.status.toLowerCase().includes(this.state.inputValue.toLocaleLowerCase())
       }
     })
-
-    var extrainfo;
-
+    
     const {active, info} = this.state.server;
-    if (info !== undefined) {
-      const {players} = info;
-      extrainfo = "Spieler Online: " + players;
-    }
-
-    var serverstate;
-    if (active) {
-      serverstate = "online";
-    } else {
-      serverstate = "offline";
-    }
+    const {can_connect} = this.state.teamspeak;
 
     return (
       <div>
         <div class="head">
           <h1>Streamer Online: { filteredstreamers.length }</h1>
-          <div>Gameserver: {serverstate}<br/>{extrainfo}</div>
+          <a href={info ? "https://"+info.website:""} rel="noreferrer" target="_blank"><h2>{info ? info.name:""}</h2></a>
+          <div>Gameserver: {active ? 'Online':'Offline'}</div>
+          <div>Teamspeak: {can_connect ? 'Online':'Offline'}</div>
+          <div>alt:V Version: {active ? info.version:""}</div>
+          <div>Spieler Online: {info ? info.players:""}/{info ? info.maxPlayers:""}</div>
           <div class="shareicon">
             <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu" rel="noreferrer" target="_blank"><img data-src="/img/social/LI-Logo.png" alt="Likedin Share Button"></img></a>
             <a href="https://twitter.com/intent/tweet?text=Schaue wer auf https://luckyv.de Online ist! https://luckyv.nickwasused.eu" rel="noreferrer" target="_blank"><img data-src="/img/social/Logo blue.svg" alt="Twitter Share Button"></img></a>

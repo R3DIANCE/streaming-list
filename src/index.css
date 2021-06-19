@@ -49,8 +49,6 @@ a {
   width: 5%;
 }
 
-
-
 .head {
 	text-align: center;
 }
@@ -82,6 +80,9 @@ input[type=text] {
   .cards {
     max-width: 90%;
   }
+  table {
+    width: 90%;
+  }
 }
 
 @media(max-width: 641px) {
@@ -93,6 +94,9 @@ input[type=text] {
   }
   .shareicon img {
     width: 15%;
+  }
+  table {
+    width: 95%;
   }
 }
 

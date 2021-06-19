@@ -67,9 +67,9 @@ class Streamerdetails extends Component {
             </NavLink><br/>
             <a href={url} rel="noreferrer" target="_blank"><h1>{display_name}</h1></a>
             <div class="shareicon">
-            <a href={"https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} rel="noreferrer" target="_blank"><img data-src="/img/social/LI-Logo.png"></img></a>
-            <a href={"https://twitter.com/intent/tweet?text=Schaue dir jetzt " + display_name + " live auf https://luckyv.de an. https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} rel="noreferrer" target="_blank"><img data-src="/img/social/Logo blue.svg"></img></a>
-            <a href={"https://reddit.com/submit?url=https://luckyv.nickwasused.eu&title=Schaue dir jetzt " + display_name + " live auf https://luckyv.de an. https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} rel="noreferrer" target="_blank"><img data-src="/img/social/Reddit_Mark_OnDark.svg"></img></a>
+            <a href={"https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} rel="noreferrer" target="_blank"><img data-src="/img/social/LI-Logo.png" alt="Likedin Share Button"></img></a>
+            <a href={"https://twitter.com/intent/tweet?text=Schaue dir jetzt " + display_name + " live auf https://luckyv.de an. https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} rel="noreferrer" target="_blank"><img data-src="/img/social/Logo blue.svg" alt="Twitter Share Button"></img></a>
+            <a href={"https://reddit.com/submit?url=https://luckyv.nickwasused.eu&title=Schaue dir jetzt " + display_name + " live auf https://luckyv.de an. https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} rel="noreferrer" target="_blank"><img data-src="/img/social/Reddit_Mark_OnDark.svg" alt="Reddit Share Button"></img></a>
           </div><br />
             <table>
                 <tr>

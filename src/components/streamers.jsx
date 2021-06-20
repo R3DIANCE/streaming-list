@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Bound from 'bounds.js'
+import Bound from 'bounds.js';
+import moment from 'moment';
 
 class Streamers extends Component {
   constructor() {
@@ -39,8 +40,8 @@ class Streamers extends Component {
     })
   }
 
-  async getData() {
-    console.log("loading data");
+  async writenewdata() {
+    console.log("writing new data");
     const [streamers, servers, teamdata] = await Promise.all([
       axios.get(`https://api.twitch.tv/kraken/search/streams?query=` + this.searchquery + `&limit=100`, {
         headers: { 'accept': 'application/vnd.twitchtv.v5+json', 'client-id': Buffer.from("ZmszanN6MGxzaGltOThheHo2Y2Iyc3ZwcHRsdXpl", 'base64').toString('ascii') }
@@ -52,16 +53,45 @@ class Streamers extends Component {
         headers: { 'accept': 'application/json' }
       })
     ]);
-
-    this.state.streamers = [];
-    this.state.server = [];
-    this.state.teamspeak = [];
-
+    localStorage.setItem("streamers", JSON.stringify(streamers.data.streams))
+    localStorage.setItem("server", JSON.stringify(servers.data))
+    localStorage.setItem("teamspeak", JSON.stringify(teamdata.data))
     this.setState({
       streamers: streamers.data.streams,
       server: servers.data,
       teamspeak: teamdata.data
     });
+    var d = new Date();
+    d.setHours(d.getHours(),d.getMinutes()+2.5,0,0);
+    localStorage.setItem("invaliddata:streamers", d);
+  }
+
+  async loaddata() {
+    console.log("loading data from localstorage");
+    this.setState({
+      streamers: JSON.parse(localStorage.getItem("streamers")),
+      server: JSON.parse(localStorage.getItem("server")),
+      teamspeak: JSON.parse(localStorage.getItem("teamspeak"))
+    });
+  }
+
+  async getData() {
+    if (!localStorage.getItem('streamers') && !localStorage.getItem('servers') && !localStorage.getItem('teamdata') && !localStorage.getItem('invaliddata:streamers')) {
+      this.writenewdata();
+    } else {
+      const dateLimit = moment(localStorage.getItem("invaliddata:streamers"));
+      const now = moment();
+      if (dateLimit.isValid() && now.isAfter(dateLimit)) {
+        console.log("data is invalid");
+        localStorage.removeItem("streamers");
+        localStorage.removeItem("server");
+        localStorage.removeItem("teamspeak");
+        localStorage.removeItem("invaliddata:streamers");
+        this.writenewdata();
+      } else {
+        this.loaddata();
+      }
+    }
   }
 
   async componentDidMount() {

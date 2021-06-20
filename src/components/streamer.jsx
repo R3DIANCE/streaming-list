@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {NavLink} from 'react-router-dom';
-import Bound from 'bounds.js'
+import Bound from 'bounds.js';
+import moment from 'moment';
 
 class Streamerdetails extends Component {
     constructor() {
@@ -27,16 +28,17 @@ class Streamerdetails extends Component {
           this.boundary.watch(image, this.whenImageEnters(image))
         })
     }
-    
-    async componentDidMount() {
-        const { twitchname } = this.props.match.params;
-        const getid = 
+
+    async writenewdata() {
+      console.log("writing new data");
+      const { twitchname } = this.props.match.params;
+      const getid = 
           await axios.get(`https://api.twitch.tv/kraken/users?login=` + Buffer.from(twitchname, 'base64').toString('ascii'), {
             headers: { 'Accept': 'application/vnd.twitchtv.v5+json', 'Client-ID': Buffer.from("ZmszanN6MGxzaGltOThheHo2Y2Iyc3ZwcHRsdXpl", 'base64').toString('ascii') }
           });
           
         const channelid = getid.data.users[0]._id;
-        console.log(channelid);
+        localStorage.setItem('streamer:id:'+twitchname, channelid);
 
         const [channel, vods] = await Promise.all([
             axios.get(`https://api.twitch.tv/kraken/channels/` + channelid, {
@@ -47,13 +49,53 @@ class Streamerdetails extends Component {
             })
         ]);
 
-        this.setState({
-          channel: channel.data,
-          base64string: twitchname,
-          vods: vods.data.videos
-        });
+      localStorage.setItem('streamer:channel:'+twitchname, JSON.stringify(channel.data))
+      localStorage.setItem('streamer:vods:'+twitchname, JSON.stringify(vods.data.videos))
 
+      this.setState({
+        channel: channel.data,
+        base64string: twitchname,
+        vods: vods.data.videos
+      });
+
+      var d = new Date();
+      d.setHours(d.getHours(),d.getMinutes()+60,0,0);
+      localStorage.setItem('invaliddata:streamer:'+twitchname, d);
+    }
+
+    async loaddata() {
+      const { twitchname } = this.props.match.params;
+      console.log("loading data from localstorage");
+      this.setState({
+        channel: JSON.parse(localStorage.getItem('streamer:channel:'+twitchname)),
+        base64string: twitchname,
+        vods: JSON.parse(localStorage.getItem('streamer:vods:'+twitchname))
+      });
+    }
+
+    async getData() {
+      const { twitchname } = this.props.match.params;
+      if (!localStorage.getItem('invaliddata:streamer:'+twitchname) && !localStorage.getItem('streamer:id:'+twitchname) && !localStorage.getItem('streamer:channel:'+twitchname) && !localStorage.getItem('streamer:vods:'+twitchname)) {
+        this.writenewdata();
+      } else {
+        const dateLimit = moment(localStorage.getItem("invaliddata:streamer:"+twitchname));
+        const now = moment();
+        if (dateLimit.isValid() && now.isAfter(dateLimit)) {
+          console.log("data is invalid");
+          localStorage.removeItem("streamer:id:"+twitchname);
+          localStorage.removeItem("streamer:channel:"+twitchname);
+          localStorage.removeItem("streamer:vods:"+twitchname);
+          localStorage.removeItem("invaliddata:streamer:"+twitchname);
+          this.writenewdata();
+        } else {
+          this.loaddata();
+        }
       }
+    }
+
+    async componentDidMount() {
+      this.getData();
+    }
 
     render() {
       const {mature, status, broadcaster_language, broadcaster_software, display_name, game, language, _id, name, created_at, updated_at, partner, logo, video_banner, profile_banner, profile_banner_background_color, url, views, followers, broadcaster_type, description, private_video, privacy_options_enabled} = this.state.channel;
@@ -98,7 +140,6 @@ class Streamerdetails extends Component {
             {
             this.state.vods.map((vod) => {
               const {_id, url, status, title, game, preview, views, channel} = vod;
-              console.log(status);
               if (status == "archive" | status == "recorded") {
                 return (
                   <li class="cards__item" key={_id}>

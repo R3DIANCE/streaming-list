@@ -128,7 +128,7 @@ class Streamers extends Component {
           <div>Teamspeak: {can_connect ? 'Online':'Offline'}</div>
           <div>alt:V Version: {active ? info.version:""}</div>
           <div>Spieler Online: {info ? info.players:""}/{info ? info.maxPlayers:""}</div>
-          <div>Zuletzt akualisiert: {last_update + " Uhr"}</div>
+          <div>Zuletzt aktualisiert: {last_update + " Uhr"}</div>
           <div class="shareicon">
             <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu" rel="noreferrer" target="_blank"><img data-src="/img/social/LI-Logo.png" alt="Likedin Share Button"></img></a>
             <a href="https://twitter.com/intent/tweet?text=Schaue wer auf https://luckyv.de Online ist! https://luckyv.nickwasused.eu" rel="noreferrer" target="_blank"><img data-src="/img/social/Logo blue.svg" alt="Twitter Share Button"></img></a>

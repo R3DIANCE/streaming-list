@@ -4,7 +4,7 @@ import {NavLink} from 'react-router-dom';
 import Bound from 'bounds.js';
 import moment from 'moment';
 
-class Streamerdetails extends Component {
+class Streamerdetails extends React.PureComponent {
     constructor() {
 		super();
 		this.boundary = Bound();
@@ -140,7 +140,7 @@ class Streamerdetails extends Component {
             {
             this.state.vods.map((vod) => {
               const {_id, url, status, title, game, preview, views, channel} = vod;
-              if (status == "archive" | status == "recorded") {
+              if (status === "archive" | status === "recorded") {
                 return (
                   <li class="cards__item" key={_id}>
                     <a href={url} rel="noreferrer" target="_blank">
@@ -165,4 +165,4 @@ class Streamerdetails extends Component {
         </div>
       )
     }
-  } export default Streamerdetails;
+  } export default React.memo(Streamerdetails);

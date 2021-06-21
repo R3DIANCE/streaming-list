@@ -3,7 +3,7 @@ import axios from 'axios';
 import Bound from 'bounds.js';
 import moment from 'moment';
 
-class Streamers extends Component {
+class Streamers extends React.PureComponent {
   constructor() {
 		super();
     this.teamspeakip = "51.75.145.14";
@@ -164,4 +164,4 @@ class Streamers extends Component {
       </div>
       )
     }
-  } export default Streamers;
+  } export default React.memo(Streamers);

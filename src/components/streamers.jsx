@@ -17,14 +17,13 @@ class Streamers extends Component {
 			}
 		} 
 	}
-
   
-
   state = {
     streamers: [],
     server: [],
     teamspeak: [],
-    inputValue: ''
+    inputValue: '',
+    lastupdate: ''
   }
 
   FilterOnChange = (event) => {
@@ -56,14 +55,15 @@ class Streamers extends Component {
     localStorage.setItem("streamers", JSON.stringify(streamers.data.streams))
     localStorage.setItem("server", JSON.stringify(servers.data))
     localStorage.setItem("teamspeak", JSON.stringify(teamdata.data))
+    let date = new Date();
+    date.setHours(date.getHours(),date.getMinutes()+2.5,0,0);
+    localStorage.setItem("invaliddata:streamers", date);
     this.setState({
       streamers: streamers.data.streams,
       server: servers.data,
-      teamspeak: teamdata.data
+      teamspeak: teamdata.data,
+      lastupdate: date
     });
-    var d = new Date();
-    d.setHours(d.getHours(),d.getMinutes()+2.5,0,0);
-    localStorage.setItem("invaliddata:streamers", d);
   }
 
   async loaddata() {
@@ -71,7 +71,8 @@ class Streamers extends Component {
     this.setState({
       streamers: JSON.parse(localStorage.getItem("streamers")),
       server: JSON.parse(localStorage.getItem("server")),
-      teamspeak: JSON.parse(localStorage.getItem("teamspeak"))
+      teamspeak: JSON.parse(localStorage.getItem("teamspeak")),
+      lastupdate: localStorage.getItem("invaliddata:streamers")
     });
   }
 
@@ -105,14 +106,18 @@ class Streamers extends Component {
 
   render() {
     let filteredstreamers = this.state.streamers.filter((streamer) => {
-      const {game, stream_type, channel} = streamer
+      let {game, stream_type, channel} = streamer
       if (channel.status.match(/luckyv/gi) && game === "Grand Theft Auto V" && stream_type === "live") { // && channel.language == "de"
         return channel.display_name.toLowerCase().includes(this.state.inputValue.toLocaleLowerCase()) || channel.status.toLowerCase().includes(this.state.inputValue.toLocaleLowerCase())
       }
     })
     
-    const {active, info} = this.state.server;
-    const {can_connect} = this.state.teamspeak;
+    let {active, info} = this.state.server;
+    let {can_connect} = this.state.teamspeak;
+    let date = moment(this.state.lastupdate).toDate();
+    date.setHours(date.getHours(),date.getMinutes()-2.5,0,0);
+    let datestring = moment(date).format('HH:mm');
+    const last_update = datestring;
 
     return (
       <div>
@@ -123,6 +128,7 @@ class Streamers extends Component {
           <div>Teamspeak: {can_connect ? 'Online':'Offline'}</div>
           <div>alt:V Version: {active ? info.version:""}</div>
           <div>Spieler Online: {info ? info.players:""}/{info ? info.maxPlayers:""}</div>
+          <div>Zuletzt akualisiert: {last_update + " Uhr"}</div>
           <div class="shareicon">
             <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu" rel="noreferrer" target="_blank"><img data-src="/img/social/LI-Logo.png" alt="Likedin Share Button"></img></a>
             <a href="https://twitter.com/intent/tweet?text=Schaue wer auf https://luckyv.de Online ist! https://luckyv.nickwasused.eu" rel="noreferrer" target="_blank"><img data-src="/img/social/Logo blue.svg" alt="Twitter Share Button"></img></a>

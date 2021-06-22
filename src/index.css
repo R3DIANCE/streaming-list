@@ -9,7 +9,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   word-wrap : break-word;
-	background-color: #2b2e4a;
+	background-color: #343a40;
 	color: white;
 }
 
@@ -17,6 +17,17 @@ html {
 *::before,
 *::after { 
   box-sizing: border-box;
+}
+
+@font-face {
+  font-family: "Courgette";
+  src: url("fonts/Courgette-Regular.ttf");
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Courgette";
 }
 
 body {
@@ -57,7 +68,15 @@ input[type=text] {
   width: 50%;
   padding: 0.75%;
   margin-top: 0.75%;
-  border-radius: 10px;
+  background: #333;
+  border-color: #1a1a1a;
+  border-radius: 4px;
+  color: #dadada;
+}
+
+input[type=text]:focus {
+  border-color: #fcd401;
+  border-radius: 5px;
 }
 
 .cards {
@@ -113,12 +132,19 @@ input[type=text] {
 }
 
 .card {
-  background-color: gray;
+  background-color: #fcd401;
+  color: black;
   border-radius: 0.25rem;
   box-shadow: 0 20px 40px -14px rgba(0,0,0,0.25);
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  transition: all .3s linear;
+}
+
+.card:hover {
+  color: white;
+  background-color: black;
 }
 
 .card__content {
@@ -182,7 +208,7 @@ tr:nth-of-type(even) {
 
 button {
   border: none;
-  color: white;
+  color: black;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
@@ -190,5 +216,11 @@ button {
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
-  background-color: #4CAF50;
+  background-color: #fcd401;
+  transition: all .2s linear;
+}
+
+button:hover {
+  color: white;
+  background-color: black;
 }

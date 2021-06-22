@@ -102,6 +102,11 @@ class Streamerdetails extends React.PureComponent {
       
       return (
         <div class="streamerdetails">
+          <meta name="twitter:card" content="photo" />
+          <meta name="twitter:title" content={display_name} />
+          <meta name="twitter:description" content={"Schaue dir " + display_name + " auf Twitch an!"} />
+          <meta name="twitter:image" content={logo} />
+          <meta name="twitter:url" content={"https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} />
             <NavLink 
                 exact to="/" 
                 activeClassName="selected">
@@ -110,7 +115,7 @@ class Streamerdetails extends React.PureComponent {
             <a href={url} rel="noreferrer" target="_blank"><h1>{display_name}</h1></a>
             <div class="shareicon">
             <a href={"https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} rel="noreferrer" target="_blank"><img data-src="/img/social/LI-Logo.png" alt="Likedin Share Button"></img></a>
-            <a href={"https://twitter.com/intent/tweet?text=Schaue dir jetzt " + display_name + " live auf https://luckyv.de an. https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} rel="noreferrer" target="_blank"><img data-src="/img/social/Logo blue.svg" alt="Twitter Share Button"></img></a>
+            <a href={"https://twitter.com/intent/tweet?text=Schaue dir jetzt " + display_name + " live auf %23LuckyV an. https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} rel="noreferrer" target="_blank"><img data-src="/img/social/Logo blue.svg" alt="Twitter Share Button"></img></a>
             <a href={"https://reddit.com/submit?url=https://luckyv.nickwasused.eu&title=Schaue dir jetzt " + display_name + " live auf https://luckyv.de an. https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} rel="noreferrer" target="_blank"><img data-src="/img/social/Reddit_Mark_OnDark.svg" alt="Reddit Share Button"></img></a>
           </div><br />
             <table>

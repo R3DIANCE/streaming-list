@@ -27,6 +27,7 @@ class Streamerdetails extends React.PureComponent {
         images.forEach(image => {
           this.boundary.watch(image, this.whenImageEnters(image))
         })
+        document.title = Buffer.from(this.state.base64string, 'base64').toString('ascii');
     }
 
     async writenewdata() {

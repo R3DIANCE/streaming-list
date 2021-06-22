@@ -37,6 +37,7 @@ class Streamers extends React.PureComponent {
     images.forEach(image => {
       this.boundary.watch(image, this.whenImageEnters(image))
     })
+    document.title = "Nickwasused`s Streamer Liste";
   }
 
   async writenewdata() {

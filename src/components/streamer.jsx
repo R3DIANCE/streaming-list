@@ -171,17 +171,16 @@ class Streamerdetails extends React.PureComponent {
             <ul class="cards">
             {
             this.state.vods.map((vod) => {
-              const {_id, url, status, title, game, preview, views, channel} = vod;
+              const {_id, url, status, title, length, game, preview, views, channel} = vod;
               if (status === "archive" | status === "recorded") {
                 return (
                   <li class="cards__item" key={_id}>
                     <a href={url} rel="noreferrer" target="_blank">
                     <div class="card">
-                    <div class="card__image"><img width="640px" height="340px" src="/img/placeholder.webp" data-src={preview.large} alt={channel.display_name} referrerPolicy="same-origin"></img><div class="text-block">Aufrufe: {views}</div></div>
+                    <div class="card__image"><img width="640px" height="340px" src="/img/placeholder.webp" data-src={preview.large} alt={channel.display_name} referrerPolicy="same-origin"></img><div class="text-block">Aufrufe: {views}<br />Länge: {new Date(0, 0, 0, 0, 0, length, 0).toLocaleTimeString()}</div></div>
                       <div class="card__content">
                         <p class="card__text">
                           {channel.status}<br />
-                          Views: {views}<br />
                           Kategorie / Spiel: {game}<br />
                         </p>
                         </div>

@@ -34,7 +34,7 @@ class Streamerdetails extends React.PureComponent {
       console.log("writing new data");
       const { twitchname } = this.props.match.params;
       const getid = 
-          await axios.get(`https://api.twitch.tv/kraken/users?login=` + Buffer.from(twitchname, 'base64').toString('ascii'), {
+          await axios.get(`https://api.twitch.tv/kraken/users?login=${Buffer.from(twitchname, 'base64').toString('ascii')}`, {
             headers: { 'Accept': 'application/vnd.twitchtv.v5+json', 'Client-ID': Buffer.from("ZmszanN6MGxzaGltOThheHo2Y2Iyc3ZwcHRsdXpl", 'base64').toString('ascii') }
           });
           
@@ -42,10 +42,10 @@ class Streamerdetails extends React.PureComponent {
         localStorage.setItem('streamer:id:'+twitchname, channelid);
 
         const [channel, vods] = await Promise.all([
-            axios.get(`https://api.twitch.tv/kraken/channels/` + channelid, {
+            axios.get(`https://api.twitch.tv/kraken/channels/${channelid}`, {
                 headers: { 'Accept': 'application/vnd.twitchtv.v5+json', 'Client-ID': Buffer.from("ZmszanN6MGxzaGltOThheHo2Y2Iyc3ZwcHRsdXpl", 'base64').toString('ascii') }
             }),
-            axios.get(`https://api.twitch.tv/kraken/channels/`+ channelid +`/videos?limit=100`, {
+            axios.get(`https://api.twitch.tv/kraken/channels/${channelid}/videos?limit=100`, {
                 headers: { 'Accept': 'application/vnd.twitchtv.v5+json', 'Client-ID': Buffer.from("ZmszanN6MGxzaGltOThheHo2Y2Iyc3ZwcHRsdXpl", 'base64').toString('ascii') }
             })
         ]);
@@ -110,9 +110,9 @@ class Streamerdetails extends React.PureComponent {
           <a name="#top"></a>
           <meta name="twitter:card" content="photo" />
           <meta name="twitter:title" content={display_name} />
-          <meta name="twitter:description" content={"Schaue dir " + display_name + " auf Twitch an!"} />
+          <meta name="twitter:description" content={`Schaue dir ${display_name} auf Twitch an!`} />
           <meta name="twitter:image" content={logo} />
-          <meta name="twitter:url" content={"https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} />
+          <meta name="twitter:url" content={`https://luckyv.nickwasused.eu/streamer/${this.state.base64string}`} />
             <NavLink 
                 exact to="/" 
                 activeClassName="selected">
@@ -124,9 +124,9 @@ class Streamerdetails extends React.PureComponent {
               <tr>
                 <td>
                   <div class="shareicon">
-                    <a href={"https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} rel="noreferrer" target="_blank"><i class="fa fa-linkedin"></i></a>
-                    <a href={"https://twitter.com/intent/tweet?text=Schaue dir jetzt " + display_name + " live auf %23LuckyV an. https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} rel="noreferrer" target="_blank"><i class="fa fa-twitter"></i></a>
-                    <a href={"https://reddit.com/submit?url=https://luckyv.nickwasused.eu&title=Schaue dir jetzt " + display_name + " live auf https://luckyv.de an. https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} rel="noreferrer" target="_blank"><i class="fa fa-reddit"></i></a>
+                    <a href={`https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu/streamer/${this.state.base64string}`} rel="noreferrer" target="_blank"><i class="fa fa-linkedin"></i></a>
+                    <a href={`https://twitter.com/intent/tweet?text=Schaue dir jetzt ${display_name} live auf %23LuckyV an. https://luckyv.nickwasused.eu/streamer/${this.state.base64string}`} rel="noreferrer" target="_blank"><i class="fa fa-twitter"></i></a>
+                    <a href={`https://reddit.com/submit?url=https://luckyv.nickwasused.eu&title=Schaue dir jetzt ${display_name} live auf https://luckyv.de an. https://luckyv.nickwasused.eu/streamer/${this.state.base64string}`} rel="noreferrer" target="_blank"><i class="fa fa-reddit"></i></a>
                   </div><br />
                   <table>
                     <tr>
@@ -157,7 +157,7 @@ class Streamerdetails extends React.PureComponent {
                   <a href={url} rel="noreferrer" target="_blank">
                   <div class="bigcard">
                     <div class="card__image">
-                      <img width="640px" height="340px" src="/img/placeholder.webp" data-src={"https://static-cdn.jtvnw.net/previews-ttv/live_user_" + display_name + "-640x360.jpg?" + new Date()} referrerPolicy="same-origin"></img>
+                      <img width="640px" height="340px" src="/img/placeholder.webp" data-src={`https://static-cdn.jtvnw.net/previews-ttv/live_user_${display_name}-640x360.jpg?${new Date()}`} referrerPolicy="same-origin"></img>
                       <div class="text-block">Live</div>
                     </div>
                     <div class="card__content">

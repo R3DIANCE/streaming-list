@@ -119,10 +119,8 @@ class Streamerdetails extends React.PureComponent {
                 <button>Zurück</button>
             </NavLink><br/>
             <a href={url} rel="noreferrer" target="_blank"><h1>{display_name}</h1></a>
-            <table class="streamer">
-            <tr>
-              <tr>
-                <td>
+            <div class="streamergrid">
+              <div class="A">
                   <div class="shareicon">
                     <a href={`https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu/streamer/${this.state.base64string}`} rel="noreferrer" target="_blank"><i class="fa fa-linkedin"></i></a>
                     <a href={`https://twitter.com/intent/tweet?text=Schaue dir jetzt ${display_name} live auf %23LuckyV an. https://luckyv.nickwasused.eu/streamer/${this.state.base64string}`} rel="noreferrer" target="_blank"><i class="fa fa-twitter"></i></a>
@@ -151,8 +149,8 @@ class Streamerdetails extends React.PureComponent {
                         <td>Streamer-Typ</td><td>{broadcaster_type}</td>
                     </tr>
                   </table>
-                </td>
-                <td>
+              </div>
+              <div class="B">
                   <li class="cards__item" key={_id}>
                   <a href={url} rel="noreferrer" target="_blank">
                   <div class="bigcard">
@@ -168,10 +166,8 @@ class Streamerdetails extends React.PureComponent {
                   </div>
                     </a>
                   </li>
-                </td>
-              </tr>
-            </tr>
-            </table>
+                </div>
+            </div>
             <ul class="cards">
             {
             this.state.vods.map((vod) => {

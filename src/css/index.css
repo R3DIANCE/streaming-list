@@ -156,7 +156,7 @@ input[type=text]:focus {
   flex-direction: column;
   overflow: hidden;
   transition: all .3s linear;
-  width: 35vw;
+  width: 40vw;
   margin: 0 auto;
 }
 
@@ -239,8 +239,39 @@ table {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
-.streamer {
-  width: 90%;
+.streamergrid {
+  display               : grid;
+  grid-auto-flow        : column;
+  grid-template-rows    : auto;
+  grid-template-columns : auto auto;
+  grid-template-areas   : "A B";
+  width: 100%;
+}
+
+@media(max-width: 890px) {
+  .streamergrid {
+    grid-template-areas   : "A"
+                            "B";
+  }
+  .B {
+    margin: 0 auto;
+  }
+  .B .cards__item {
+    width: 100%;
+  }
+  .bigcard {
+    width: 100%;
+  }
+}
+
+.A {
+  grid-area			   : A;
+  width: 100%;
+}
+
+.B {
+  grid-area			   : B;
+  width: 100%;
 }
 
 th,

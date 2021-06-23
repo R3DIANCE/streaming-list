@@ -123,6 +123,7 @@ class Streamers extends React.PureComponent {
     return (
       <div>
         <div class="head">
+          <a name="#top"></a>
           <h1>Streamer Online: { filteredstreamers.length }</h1>
           <a href={info ? "https://"+info.website:""} rel="noreferrer" target="_blank"><h2>{info ? info.name:""}</h2></a>
           <div>Gameserver: {active ? 'Online':'Offline'}</div>
@@ -131,9 +132,9 @@ class Streamers extends React.PureComponent {
           <div>Spieler Online: {info ? info.players:""}/{info ? info.maxPlayers:""}</div>
           <div>Zuletzt aktualisiert: {last_update + " Uhr"}</div>
           <div class="shareicon">
-            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu" rel="noreferrer" target="_blank"><img data-src="/img/social/LI-Logo.png" alt="Likedin Share Button"></img></a>
-            <a href="https://twitter.com/intent/tweet?text=Schaue hier: https://luckyv.nickwasused.eu wer auf https://luckyv.de Online ist! %23LuckyV" rel="noreferrer" target="_blank"><img data-src="/img/social/Logo blue.svg" alt="Twitter Share Button"></img></a>
-            <a href="https://reddit.com/submit?url=https://luckyv.nickwasused.eu&title=Schaue wer auf https://luckyv.de Online ist!" rel="noreferrer" target="_blank"><img data-src="/img/social/Reddit_Mark_OnDark.svg" alt="Reddit Share Button"></img></a>
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu" rel="noreferrer" target="_blank"><i class="fa fa-linkedin"></i></a>
+            <a href="https://twitter.com/intent/tweet?text=Schaue hier: https://luckyv.nickwasused.eu wer auf https://luckyv.de Online ist! %23LuckyV" rel="noreferrer" target="_blank"><i class="fa fa-twitter"></i></a>
+            <a href="https://reddit.com/submit?url=https://luckyv.nickwasused.eu&title=Schaue wer auf https://luckyv.de Online ist!" rel="noreferrer" target="_blank"><i class="fa fa-reddit"></i></a>
           </div><br />
           <input type="text" placeholder="Streamer..." value={this.inputValue} onChange={this.FilterOnChange}/>
         </div>
@@ -146,9 +147,9 @@ class Streamers extends React.PureComponent {
                 <li class="cards__item" key={_id}>
                   <a href={"/streamer/" + Buffer.from(channel.display_name).toString('base64')} rel="noreferrer">
                   <div class="card">
-                  <a href={channel.url} rel="noreferrer" target="_blank"><div class="card__image"><img width="640px" height="340px" data-src={preview.large + "?" + date} alt={channel.display_name} referrerPolicy="same-origin"></img></div></a>
+                  <div class="card__image"><img width="640px" height="340px" src="/img/placeholder.webp" data-src={preview.large + "?" + date} alt={channel.display_name} referrerPolicy="same-origin"></img>
+                  <div class="text-block">{channel.display_name} <i class="fa fa-twitch"></i></div></div>
 		                <div class="card__content">
-			                <div class="card__title">{channel.display_name}</div>
 			                <p class="card__text">
 				                {channel.status}<br />
                         Zuschauer: {viewers}<br />
@@ -162,6 +163,7 @@ class Streamers extends React.PureComponent {
             })
           }
         </ul>
+        <div class="note">Nickwasused {(new Date().getFullYear())} | We &#128155; LuckyV<br /><a href="#top">Nach oben</a></div>
       </div>
       )
     }

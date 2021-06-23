@@ -99,10 +99,15 @@ class Streamerdetails extends React.PureComponent {
     }
 
     render() {
-      const {mature, status, broadcaster_language, broadcaster_software, display_name, game, language, _id, name, created_at, updated_at, partner, logo, video_banner, profile_banner, profile_banner_background_color, url, views, followers, broadcaster_type, description, private_video, privacy_options_enabled} = this.state.channel;
+      let {mature, status, broadcaster_language, broadcaster_software, display_name, game, language, _id, name, created_at, updated_at, partner, logo, video_banner, profile_banner, profile_banner_background_color, url, views, followers, broadcaster_type, description, private_video, privacy_options_enabled} = this.state.channel;
+
+      if (broadcaster_type === "") {
+        broadcaster_type = "pleb";
+      }
       
       return (
         <div class="streamerdetails">
+          <a name="#top"></a>
           <meta name="twitter:card" content="photo" />
           <meta name="twitter:title" content={display_name} />
           <meta name="twitter:description" content={"Schaue dir " + display_name + " auf Twitch an!"} />
@@ -114,33 +119,58 @@ class Streamerdetails extends React.PureComponent {
                 <button>Zurück</button>
             </NavLink><br/>
             <a href={url} rel="noreferrer" target="_blank"><h1>{display_name}</h1></a>
-            <div class="shareicon">
-            <a href={"https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} rel="noreferrer" target="_blank"><img data-src="/img/social/LI-Logo.png" alt="Likedin Share Button"></img></a>
-            <a href={"https://twitter.com/intent/tweet?text=Schaue dir jetzt " + display_name + " live auf %23LuckyV an. https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} rel="noreferrer" target="_blank"><img data-src="/img/social/Logo blue.svg" alt="Twitter Share Button"></img></a>
-            <a href={"https://reddit.com/submit?url=https://luckyv.nickwasused.eu&title=Schaue dir jetzt " + display_name + " live auf https://luckyv.de an. https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} rel="noreferrer" target="_blank"><img data-src="/img/social/Reddit_Mark_OnDark.svg" alt="Reddit Share Button"></img></a>
-          </div><br />
-            <table>
-                <tr>
-                    <td>Streamtitel</td><td>{status}</td>
-                </tr>
-                <tr>
-                    <td>Sprache</td><td>{broadcaster_language}</td>
-                </tr>
-                <tr>
-                    <td>Kategorie / Spiel</td><td>{game}</td>
-                </tr>
-                <tr>
-                    <td>Follower</td><td>{followers}</td>
-                </tr>
-                <tr>
-                    <td>Views</td><td>{views}</td>
-                </tr>
-                <tr>
-                    <td>Beschreibung</td><td>{description}</td>
-                </tr>
-                <tr>
-                    <td>Streamer-Typ</td><td>{broadcaster_type}</td>
-                </tr>
+            <table class="streamer">
+            <tr>
+              <tr>
+                <td>
+                  <div class="shareicon">
+                    <a href={"https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} rel="noreferrer" target="_blank"><i class="fa fa-linkedin"></i></a>
+                    <a href={"https://twitter.com/intent/tweet?text=Schaue dir jetzt " + display_name + " live auf %23LuckyV an. https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} rel="noreferrer" target="_blank"><i class="fa fa-twitter"></i></a>
+                    <a href={"https://reddit.com/submit?url=https://luckyv.nickwasused.eu&title=Schaue dir jetzt " + display_name + " live auf https://luckyv.de an. https://luckyv.nickwasused.eu/streamer/" + this.state.base64string} rel="noreferrer" target="_blank"><i class="fa fa-reddit"></i></a>
+                  </div><br />
+                  <table>
+                    <tr>
+                      <td>Streamtitel</td><td>{status}</td>
+                    </tr>
+                    <tr>
+                      <td>Sprache</td><td>{broadcaster_language}</td>
+                    </tr>
+                    <tr>
+                        <td>Kategorie / Spiel</td><td>{game}</td>
+                    </tr>
+                    <tr>
+                        <td>Follower</td><td>{followers}</td>
+                    </tr>
+                    <tr>
+                        <td>Aufrufe</td><td>{views}</td>
+                    </tr>
+                    <tr>
+                        <td>Beschreibung</td><td>{description}</td>
+                    </tr>
+                    <tr>
+                        <td>Streamer-Typ</td><td>{broadcaster_type}</td>
+                    </tr>
+                  </table>
+                </td>
+                <td>
+                  <li class="cards__item" key={_id}>
+                  <a href={url} rel="noreferrer" target="_blank">
+                  <div class="bigcard">
+                    <div class="card__image">
+                      <img width="640px" height="340px" src="/img/placeholder.webp" data-src={"https://static-cdn.jtvnw.net/previews-ttv/live_user_" + display_name + "-640x360.jpg?" + new Date()} referrerPolicy="same-origin"></img>
+                      <div class="text-block">Live</div>
+                    </div>
+                    <div class="card__content">
+                      <p class="card__text">
+                        {status}
+                      </p>
+                    </div>
+                  </div>
+                    </a>
+                  </li>
+                </td>
+              </tr>
+            </tr>
             </table>
             <ul class="cards">
             {
@@ -151,9 +181,8 @@ class Streamerdetails extends React.PureComponent {
                   <li class="cards__item" key={_id}>
                     <a href={url} rel="noreferrer" target="_blank">
                     <div class="card">
-                    <div class="card__image"><img width="640px" height="340px" data-src={preview.large} alt={channel.display_name} referrerPolicy="same-origin"></img></div>
+                    <div class="card__image"><img width="640px" height="340px" src="/img/placeholder.webp" data-src={preview.large} alt={channel.display_name} referrerPolicy="same-origin"></img><div class="text-block">Aufrufe: {views}</div></div>
                       <div class="card__content">
-                        <div class="card__title">{channel.display_name}</div>
                         <p class="card__text">
                           {channel.status}<br />
                           Views: {views}<br />
@@ -168,6 +197,7 @@ class Streamerdetails extends React.PureComponent {
             })
           }
           </ul>
+          <div class="note">Nickwasused {(new Date().getFullYear())} | We &#128155; LuckyV<br /><a href="#top">Nach oben</a></div>
         </div>
       )
     }

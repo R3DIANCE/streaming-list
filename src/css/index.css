@@ -216,7 +216,7 @@ img {
 }
 
 .twitchproicon {
-  width: 15%;
+  width: 5vw;
 }
 
 .profileheader {
@@ -253,34 +253,49 @@ table {
   grid-auto-flow        : column;
   grid-template-rows    : auto;
   grid-template-columns : 50% 50%;
-  grid-template-areas   : "A B";
+  grid-template-areas   : "A A"
+                          "B C";
   width: 100%;
 }
 
-@media(max-width: 890px) {
+@media(max-width: 641px) {
   .streamergrid {
     grid-template-areas   : "A"
-                            "B";
+                            "B"
+                            "C";
   }
-  .B {
+  .A,
+  .B,
+  .C {
+    width: 200%;
+  }
+  .C {
     margin: 0 auto;
   }
-  .B .cards__item {
+  .C .cards__item {
     width: 100%;
   }
   .bigcard {
     width: 100%;
   }
+  .shareicon .fa {
+    font-size: 3.5em;
+  }
+  .twitchproicon {
+    width: 15vw;
+  }
 }
 
 .A {
-  grid-area			   : A;
-  width: 100%;
+  grid-area: A;
 }
 
 .B {
-  grid-area			   : B;
-  width: 100%;
+  grid-area: B;
+}
+
+.C {
+  grid-area: C;
 }
 
 th,

@@ -118,9 +118,9 @@ class Streamerdetails extends React.PureComponent {
                 activeClassName="selected">
                 <button>Zurück</button>
             </NavLink><br/>
-            <a href={url} rel="noreferrer" target="_blank"><table class="profileheader"><tr><td><h1>{display_name}</h1></td><td><img class="twitchproicon" data-src={logo}></img></td></tr></table></a>
             <div class="streamergrid">
-              <div class="A">
+            <div class="A"><a href={url} rel="noreferrer" target="_blank"><table class="profileheader"><tr><td><h1>{display_name}</h1></td><td><img class="twitchproicon" data-src={logo}></img></td></tr></table></a></div>
+              <div class="B">
                   <div class="shareicon">
                     <a href={`https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu/streamer/${this.state.base64string}`} rel="noreferrer" target="_blank"><i class="fa fa-linkedin"></i></a>
                     <a href={`https://twitter.com/intent/tweet?text=Schaue dir jetzt ${display_name} live auf %23LuckyV an. https://luckyv.nickwasused.eu/streamer/${this.state.base64string}`} rel="noreferrer" target="_blank"><i class="fa fa-twitter"></i></a>
@@ -150,7 +150,7 @@ class Streamerdetails extends React.PureComponent {
                     </tr>
                   </table>
               </div>
-              <div class="B">
+              <div class="C">
                   <li class="cards__item" key={_id}>
                   <a href={url} rel="noreferrer" target="_blank">
                   <div class="bigcard">

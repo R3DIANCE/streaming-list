@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import axios from 'axios';
 import {NavLink} from 'react-router-dom';
 import Bound from 'bounds.js';
@@ -99,7 +99,7 @@ class Streamerdetails extends React.PureComponent {
     }
 
     render() {
-      let {mature, status, broadcaster_language, broadcaster_software, display_name, game, language, _id, name, created_at, updated_at, partner, logo, video_banner, profile_banner, profile_banner_background_color, url, views, followers, broadcaster_type, description, private_video, privacy_options_enabled} = this.state.channel;
+      let {status, broadcaster_language, display_name, game, _id, logo, url, views, followers, broadcaster_type, description} = this.state.channel;
 
       if (broadcaster_type === "") {
         broadcaster_type = "pleb";
@@ -118,7 +118,7 @@ class Streamerdetails extends React.PureComponent {
                 activeClassName="selected">
                 <button>Zurück</button>
             </NavLink><br/>
-            <a href={url} rel="noreferrer" target="_blank"><h1>{display_name}</h1></a>
+            <a href={url} rel="noreferrer" target="_blank"><table class="profileheader"><tr><td><h1>{display_name}</h1></td><td><img class="twitchproicon" data-src={logo}></img></td></tr></table></a>
             <div class="streamergrid">
               <div class="A">
                   <div class="shareicon">
@@ -156,7 +156,7 @@ class Streamerdetails extends React.PureComponent {
                   <div class="bigcard">
                     <div class="card__image">
                       <img width="640px" height="340px" src="/img/placeholder.webp" data-src={`https://static-cdn.jtvnw.net/previews-ttv/live_user_${display_name}-640x360.jpg?${new Date()}`} referrerPolicy="same-origin"></img>
-                      <div class="text-block">Live</div>
+                      <div class="text-block"><i class="fa fa-circle"></i>Live</div>
                     </div>
                     <div class="card__content">
                       <p class="card__text">
@@ -171,7 +171,7 @@ class Streamerdetails extends React.PureComponent {
             <ul class="cards">
             {
             this.state.vods.map((vod) => {
-              const {_id, url, status, title, length, game, preview, views, channel} = vod;
+              const {_id, url, status, length, game, preview, views, channel} = vod;
               if (status === "archive" | status === "recorded") {
                 return (
                   <li class="cards__item" key={_id}>

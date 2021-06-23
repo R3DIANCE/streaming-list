@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import axios from 'axios';
 import Bound from 'bounds.js';
 import moment from 'moment';
@@ -8,6 +8,7 @@ class Streamers extends React.PureComponent {
 		super();
     this.teamspeakip = "51.75.145.14";
     this.altvserverid = "bb7228a0d366fc575a5682a99359424f";
+    this.altvserverid2 = "998";
     this.searchquery = "luckyv";
 		this.boundary = Bound();
     this.whenImageEnters = (image) => {
@@ -126,7 +127,7 @@ class Streamers extends React.PureComponent {
           <a name="#top"></a>
           <h1>Streamer Online: { filteredstreamers.length }</h1>
           <a href={info ? `https://${info.website}`:``} rel="noreferrer" target="_blank"><h2>{info ? info.name:``}</h2></a>
-          <div>Gameserver: {active ? 'Online':'Offline'}</div>
+          <a href={`https://altstats.net/server/${this.altvserverid2}`} rel="noreferrer" target="_blank"><div>Gameserver: {active ? 'Online':'Offline'}</div></a>
           <div>Teamspeak: {can_connect ? 'Online':'Offline'}</div>
           <div>alt:V Version: {active ? info.version:""}</div>
           <div>Spieler Online: {info ? info.players:""}/{info ? info.maxPlayers:""}</div>
@@ -136,7 +137,7 @@ class Streamers extends React.PureComponent {
             <a href="https://twitter.com/intent/tweet?text=Schaue hier: https://luckyv.nickwasused.eu wer auf https://luckyv.de Online ist! %23LuckyV" rel="noreferrer" target="_blank"><i class="fa fa-twitter"></i></a>
             <a href="https://reddit.com/submit?url=https://luckyv.nickwasused.eu&title=Schaue wer auf https://luckyv.de Online ist!" rel="noreferrer" target="_blank"><i class="fa fa-reddit"></i></a>
           </div><br />
-          <input type="text" placeholder="Streamer..." value={this.inputValue} onChange={this.FilterOnChange}/>
+          <input type="text" placeholder="Streamer, Streamtitel ..." value={this.inputValue} onChange={this.FilterOnChange}/>
         </div>
         <ul class="cards">
           {

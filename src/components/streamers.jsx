@@ -109,7 +109,7 @@ class Streamers extends React.PureComponent {
   render() {
     let filteredstreamers = this.state.streamers.filter((streamer) => {
       let {game, stream_type, channel} = streamer
-      if (channel.status.match(/luckyv/gi) && game === "Grand Theft Auto V" && stream_type === "live") { // && channel.language == "de"
+      if (channel.status.match(/luckyv|lucky v/gi) && game === "Grand Theft Auto V" && stream_type === "live") { // && channel.language == "de"
         return channel.display_name.toLowerCase().includes(this.state.inputValue.toLocaleLowerCase()) || channel.status.toLowerCase().includes(this.state.inputValue.toLocaleLowerCase())
       }
     })

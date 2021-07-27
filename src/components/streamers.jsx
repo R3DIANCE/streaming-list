@@ -6,10 +6,12 @@ import moment from 'moment';
 class Streamers extends React.PureComponent {
   constructor() {
 		super();
-    this.teamspeakip = "51.75.145.14";
+    this.twitchloginurl = "https://id.twitch.tv/oauth2/authorize?client_id=mlk8sfol2tf0cfdsfjk31pepd4yh6i&redirect_uri=https://luckyv.nickwasused.eu/login&response_type=token";
     this.altvserverid = "bb7228a0d366fc575a5682a99359424f";
     this.altvserverid2 = "998";
     this.searchquery = "luckyv";
+    this.neededgameid = 32982;
+    this.clientidbase64 = "bWxrOHNmb2wydGYwY2Zkc2ZqazMxcGVwZDR5aDZp";
 		this.boundary = Bound();
     this.whenImageEnters = (image) => {
 			return () => {
@@ -22,7 +24,6 @@ class Streamers extends React.PureComponent {
   state = {
     streamers: [],
     server: [],
-    teamspeak: [],
     inputValue: '',
     lastupdate: ''
   }
@@ -43,27 +44,30 @@ class Streamers extends React.PureComponent {
 
   async writenewdata() {
     console.log("writing new data");
-    const [streamers, servers, teamdata] = await Promise.all([
-      axios.get(`https://api.twitch.tv/kraken/search/streams?query=${this.searchquery}&limit=100`, {
-        headers: { 'accept': 'application/vnd.twitchtv.v5+json', 'client-id': Buffer.from("ZmszanN6MGxzaGltOThheHo2Y2Iyc3ZwcHRsdXpl", 'base64').toString('ascii') }
+    const token = localStorage.getItem("token");
+    const [streamers, servers] = await Promise.all([
+      axios.get(`https://api.twitch.tv/helix/search/channels?query=${this.searchquery}&first=100&live_only=true`, {
+        headers: { 'client-id': Buffer.from(this.clientidbase64, 'base64').toString('ascii'), 'Authorization': 'Bearer ' + token }
       }),
       axios.get(`https://api.altv.mp/server/${this.altvserverid}`, {
         headers: { 'accept': 'application/json' }
-      }),
-      axios.get(`https://api.cleanvoice.ru/ts3/?address=${this.teamspeakip}`, {
-        headers: { 'accept': 'application/json' }
       })
     ]);
-    localStorage.setItem("streamers", JSON.stringify(streamers.data.streams))
+
+    localStorage.setItem("streamers", JSON.stringify(streamers.data.data))
     localStorage.setItem("server", JSON.stringify(servers.data))
-    localStorage.setItem("teamspeak", JSON.stringify(teamdata.data))
+
+    streamers.data.data.filter((streamer) => {
+      let {id, display_name} = streamer
+      localStorage.setItem('streamer:id:'+display_name, id);
+    })
+
     let date = new Date();
     date.setHours(date.getHours(),date.getMinutes()+2.5,0,0);
     localStorage.setItem("invaliddata:streamers", date);
     this.setState({
-      streamers: streamers.data.streams,
+      streamers: streamers.data.data,
       server: servers.data,
-      teamspeak: teamdata.data,
       lastupdate: date
     });
   }
@@ -73,7 +77,6 @@ class Streamers extends React.PureComponent {
     this.setState({
       streamers: JSON.parse(localStorage.getItem("streamers")),
       server: JSON.parse(localStorage.getItem("server")),
-      teamspeak: JSON.parse(localStorage.getItem("teamspeak")),
       lastupdate: localStorage.getItem("invaliddata:streamers")
     });
   }
@@ -88,7 +91,6 @@ class Streamers extends React.PureComponent {
         console.log("data is invalid");
         localStorage.removeItem("streamers");
         localStorage.removeItem("server");
-        localStorage.removeItem("teamspeak");
         localStorage.removeItem("invaliddata:streamers");
         this.writenewdata();
       } else {
@@ -97,9 +99,21 @@ class Streamers extends React.PureComponent {
     }
   }
 
+  async getstreamerdata(streamer) {
+      const token = localStorage.getItem("token");
+      const streamerinfo = await Promise.all([
+        axios.get(`https://api.twitch.tv/helix/streams?user_login=${streamer}`, {
+          headers: { 'client-id': Buffer.from(this.clientidbase64, 'base64').toString('ascii'), 'Authorization': 'Bearer ' + token }
+        })
+      ]);
+      return streamerinfo
+  }
+
   async componentDidMount() {
     this.interval = setInterval(this.getData.bind(this), 300000); // refresh data every 5 minutes (300000)
-    this.getData();
+    if (localStorage.getItem("token") != undefined && localStorage.getItem("token") != null) {
+      this.getData();
+    }
   }
 
   componentWillUnmount() {
@@ -108,14 +122,13 @@ class Streamers extends React.PureComponent {
 
   render() {
     let filteredstreamers = this.state.streamers.filter((streamer) => {
-      let {game, stream_type, channel} = streamer
-      if (channel.status.match(/luckyv|lucky v/gi) && game === "Grand Theft Auto V" && stream_type === "live") { // && channel.language == "de"
-        return channel.display_name.toLowerCase().includes(this.state.inputValue.toLocaleLowerCase()) || channel.status.toLowerCase().includes(this.state.inputValue.toLocaleLowerCase())
+      let {title, game_id, is_live, display_name} = streamer
+      if (title.match(/luckyv|lucky v/gi) && game_id == this.neededgameid && is_live === true) { // && channel.language == "de"
+        return display_name.toLowerCase().includes(this.state.inputValue.toLocaleLowerCase()) || display_name.status.toLowerCase().includes(this.state.inputValue.toLocaleLowerCase())
       }
     })
     
     let {active, info} = this.state.server;
-    let {can_connect} = this.state.teamspeak;
     let date = moment(this.state.lastupdate).toDate();
     date.setHours(date.getHours(),date.getMinutes()-2.5,0,0);
     let datestring = moment(date).format('HH:mm');
@@ -128,10 +141,10 @@ class Streamers extends React.PureComponent {
           <h1>Streamer Online: { filteredstreamers.length }</h1>
           <a href={info ? `https://${info.website}`:``} rel="noreferrer" target="_blank"><h2>{info ? info.name:``}</h2></a>
           <a href={`https://altstats.net/server/${this.altvserverid2}`} rel="noreferrer" target="_blank"><div>Gameserver: {active ? 'Online':'Offline'}</div></a>
-          <div>Teamspeak: {can_connect ? 'Online':'Offline'}</div>
           <div>alt:V Version: {active ? info.version:""}</div>
           <div>Spieler Online: {info ? info.players:""}/{info ? info.maxPlayers:""}</div>
           <div>Zuletzt aktualisiert: {`${last_update} Uhr`}</div>
+          {localStorage.getItem("token") === undefined ? <a href={this.twitchloginurl}><button>Login to Twitch</button></a>:""}
           <div class="shareicon">
             <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu" rel="noreferrer" target="_blank"><i class="fa fa-linkedin"></i></a>
             <a href="https://twitter.com/intent/tweet?text=Schaue hier: https://luckyv.nickwasused.eu wer auf https://luckyv.de Online ist! %23LuckyV" rel="noreferrer" target="_blank"><i class="fa fa-twitter"></i></a>
@@ -142,19 +155,18 @@ class Streamers extends React.PureComponent {
         <ul class="cards">
           {
             filteredstreamers.map((streamer) => {
-              const {_id, viewers, video_height, average_fps, preview, channel} = streamer
+              const {id, display_name, title, thumbnail_url} = streamer;
               const date = new Date().getTime();
+              
               return (
-                <li class="cards__item" key={_id}>
-                  <a href={"/streamer/" + Buffer.from(channel.display_name).toString('base64')} rel="noreferrer">
+                <li class="cards__item" key={id}>
+                  <a href={"/streamer/" + display_name + "/" + id} rel="noreferrer">
                   <div class="card">
-                  <div class="card__image"><img width="640px" height="340px" src="/img/placeholder.webp" data-src={`${preview.large}?${date}`} alt={channel.display_name} referrerPolicy="same-origin"></img>
-                  <div class="text-block">{channel.display_name} <i class="fa fa-twitch"></i></div></div>
+                  <div class="card__image"><img width="640px" height="340px" src="/img/placeholder.webp" data-src={`https://static-cdn.jtvnw.net/previews-ttv/live_user_${display_name}-640x360.jpg?${new Date()}`} alt={display_name} referrerPolicy="same-origin"></img>
+                  <div class="text-block">{display_name} <i class="fa fa-twitch"></i></div></div>
 		                <div class="card__content">
 			                <p class="card__text">
-				                {channel.status}<br />
-                        Zuschauer: {viewers}<br />
-                        Auflösung: {`${video_height}p`} | FPS: {average_fps} | Follower: {channel.followers}<br />
+				                {title}<br />
 			                </p>
 		                  </div>
 	                  </div>

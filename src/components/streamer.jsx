@@ -7,6 +7,9 @@ import moment from 'moment';
 class Streamerdetails extends React.PureComponent {
     constructor() {
 		super();
+
+    this.clientidbase64 = "bWxrOHNmb2wydGYwY2Zkc2ZqazMxcGVwZDR5aDZp";
+
 		this.boundary = Bound();
         this.whenImageEnters = (image) => {
 			return () => {
@@ -18,7 +21,6 @@ class Streamerdetails extends React.PureComponent {
 
     state = {
       channel: [],
-      base64string: "",
       vods: []
     }
 
@@ -27,36 +29,28 @@ class Streamerdetails extends React.PureComponent {
         images.forEach(image => {
           this.boundary.watch(image, this.whenImageEnters(image))
         })
-        document.title = Buffer.from(this.state.base64string, 'base64').toString('ascii');
     }
 
     async writenewdata() {
       console.log("writing new data");
-      const { twitchname } = this.props.match.params;
-      const getid = 
-          await axios.get(`https://api.twitch.tv/kraken/users?login=${Buffer.from(twitchname, 'base64').toString('ascii')}`, {
-            headers: { 'Accept': 'application/vnd.twitchtv.v5+json', 'Client-ID': Buffer.from("ZmszanN6MGxzaGltOThheHo2Y2Iyc3ZwcHRsdXpl", 'base64').toString('ascii') }
-          });
-          
-        const channelid = getid.data.users[0]._id;
-        localStorage.setItem('streamer:id:'+twitchname, channelid);
+      const { twitchname, id } = this.props.match.params;
+      const token = localStorage.getItem("token");
 
-        const [channel, vods] = await Promise.all([
-            axios.get(`https://api.twitch.tv/kraken/channels/${channelid}`, {
-                headers: { 'Accept': 'application/vnd.twitchtv.v5+json', 'Client-ID': Buffer.from("ZmszanN6MGxzaGltOThheHo2Y2Iyc3ZwcHRsdXpl", 'base64').toString('ascii') }
-            }),
-            axios.get(`https://api.twitch.tv/kraken/channels/${channelid}/videos?limit=100`, {
-                headers: { 'Accept': 'application/vnd.twitchtv.v5+json', 'Client-ID': Buffer.from("ZmszanN6MGxzaGltOThheHo2Y2Iyc3ZwcHRsdXpl", 'base64').toString('ascii') }
-            })
-        ]);
+      const [channel, vods] = await Promise.all([
+        axios.get(`https://api.twitch.tv/helix/channels?broadcaster_id=${id}`, {
+          headers: { 'Client-ID': Buffer.from(this.clientidbase64, 'base64').toString('ascii'), 'Authorization': 'Bearer ' + token }
+        }),
+        axios.get(`https://api.twitch.tv/helix/videos?user_id=${id}`, {
+          headers: { 'Client-ID': Buffer.from(this.clientidbase64, 'base64').toString('ascii'), 'Authorization': 'Bearer ' + token }
+        })
+      ]);
 
-      localStorage.setItem('streamer:channel:'+twitchname, JSON.stringify(channel.data))
-      localStorage.setItem('streamer:vods:'+twitchname, JSON.stringify(vods.data.videos))
+      localStorage.setItem('streamer:vods:'+twitchname, JSON.stringify(vods.data.data))
+      localStorage.setItem('streamer:channel:'+twitchname, JSON.stringify(channel.data.data[0]))
 
       this.setState({
-        channel: channel.data,
-        base64string: twitchname,
-        vods: vods.data.videos
+        channel: JSON.parse(localStorage.getItem('streamer:channel:'+twitchname)),
+        vods: JSON.parse(localStorage.getItem('streamer:vods:'+twitchname))
       });
 
       var d = new Date();
@@ -69,14 +63,13 @@ class Streamerdetails extends React.PureComponent {
       console.log("loading data from localstorage");
       this.setState({
         channel: JSON.parse(localStorage.getItem('streamer:channel:'+twitchname)),
-        base64string: twitchname,
         vods: JSON.parse(localStorage.getItem('streamer:vods:'+twitchname))
       });
     }
 
     async getData() {
       const { twitchname } = this.props.match.params;
-      if (!localStorage.getItem('invaliddata:streamer:'+twitchname) && !localStorage.getItem('streamer:id:'+twitchname) && !localStorage.getItem('streamer:channel:'+twitchname) && !localStorage.getItem('streamer:vods:'+twitchname)) {
+      if (!localStorage.getItem('invaliddata:streamer:'+twitchname) | !localStorage.getItem('streamer:id:'+twitchname) | !localStorage.getItem('streamer:channel:'+twitchname) | !localStorage.getItem('streamer:vods:'+twitchname)) {
         this.writenewdata();
       } else {
         const dateLimit = moment(localStorage.getItem("invaliddata:streamer:"+twitchname));
@@ -99,68 +92,52 @@ class Streamerdetails extends React.PureComponent {
     }
 
     render() {
-      let {status, broadcaster_language, display_name, game, _id, logo, url, views, followers, broadcaster_type, description} = this.state.channel;
+      const { twitchname } = this.props.match.params;
+      let {broadcaster_id, broadcaster_language, game_name, title} = this.state.channel;
 
-      if (broadcaster_type === "") {
-        broadcaster_type = "pleb";
-      }
-      
       return (
         <div class="streamerdetails">
           <a name="#top"></a>
           <meta name="twitter:card" content="photo" />
-          <meta name="twitter:title" content={display_name} />
-          <meta name="twitter:description" content={`Schaue dir ${display_name} auf Twitch an!`} />
-          <meta name="twitter:image" content={logo} />
-          <meta name="twitter:url" content={`https://luckyv.nickwasused.eu/streamer/${this.state.base64string}`} />
+          <meta name="twitter:title" content={twitchname} />
+          <meta name="twitter:description" content={`Schaue dir ${twitchname} auf Twitch an!`} />
+          <meta name="twitter:url" content={`https://luckyv.nickwasused.eu/streamer/${twitchname}`} />
             <NavLink 
                 exact to="/" 
                 activeClassName="selected">
                 <button>Zurück</button>
             </NavLink><br/>
             <div class="streamergrid">
-            <div class="A"><a href={url} rel="noreferrer" target="_blank"><table class="profileheader"><tr><td><h1>{display_name}</h1></td><td><img class="twitchproicon" data-src={logo}></img></td></tr></table></a></div>
+            <div class="A"><a href={`https://twitch.tv/${twitchname}`} rel="noreferrer" target="_blank"><table class="profileheader"><tr><td><h1>{twitchname}</h1></td><td></td></tr></table></a></div>
               <div class="B">
                   <div class="shareicon">
-                    <a href={`https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu/streamer/${this.state.base64string}`} rel="noreferrer" target="_blank"><i class="fa fa-linkedin"></i></a>
-                    <a href={`https://twitter.com/intent/tweet?text=Schaue dir jetzt ${display_name} live auf %23LuckyV an. https://luckyv.nickwasused.eu/streamer/${this.state.base64string}`} rel="noreferrer" target="_blank"><i class="fa fa-twitter"></i></a>
-                    <a href={`https://reddit.com/submit?url=https://luckyv.nickwasused.eu&title=Schaue dir jetzt ${display_name} live auf https://luckyv.de an. https://luckyv.nickwasused.eu/streamer/${this.state.base64string}`} rel="noreferrer" target="_blank"><i class="fa fa-reddit"></i></a>
+                    <a href={`https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu/streamer/${twitchname}`} rel="noreferrer" target="_blank"><i class="fa fa-linkedin"></i></a>
+                    <a href={`https://twitter.com/intent/tweet?text=Schaue dir jetzt ${twitchname} live auf %23LuckyV an. https://luckyv.nickwasused.eu/streamer/${twitchname}`} rel="noreferrer" target="_blank"><i class="fa fa-twitter"></i></a>
+                    <a href={`https://reddit.com/submit?url=https://luckyv.nickwasused.eu&title=Schaue dir jetzt ${twitchname} live auf https://luckyv.de an. https://luckyv.nickwasused.eu/streamer/${twitchname}`} rel="noreferrer" target="_blank"><i class="fa fa-reddit"></i></a>
                   </div><br />
                   <table>
                     <tr>
-                      <td>Streamtitel</td><td>{status}</td>
+                      <td>Streamtitel</td><td>{title}</td>
                     </tr>
                     <tr>
                       <td>Sprache</td><td>{broadcaster_language}</td>
                     </tr>
                     <tr>
-                        <td>Kategorie / Spiel</td><td>{game}</td>
-                    </tr>
-                    <tr>
-                        <td>Follower</td><td>{followers}</td>
-                    </tr>
-                    <tr>
-                        <td>Aufrufe</td><td>{views}</td>
-                    </tr>
-                    <tr>
-                        <td>Beschreibung</td><td>{description}</td>
-                    </tr>
-                    <tr>
-                        <td>Streamer-Typ</td><td>{broadcaster_type}</td>
+                        <td>Kategorie / Spiel</td><td>{game_name}</td>
                     </tr>
                   </table>
               </div>
               <div class="C">
-                  <li class="cards__item" key={_id}>
-                  <a href={url} rel="noreferrer" target="_blank">
+                  <li class="cards__item" key={broadcaster_id}>
+                  <a href={`https://twitch.tv/${twitchname}`} rel="noreferrer" target="_blank">
                   <div class="bigcard">
                     <div class="card__image">
-                      <img width="640px" height="340px" src="/img/placeholder.webp" data-src={`https://static-cdn.jtvnw.net/previews-ttv/live_user_${display_name}-640x360.jpg?${new Date()}`} referrerPolicy="same-origin"></img>
+                      <img width="640px" height="340px" src="/img/placeholder.webp" data-src={`https://static-cdn.jtvnw.net/previews-ttv/live_user_${twitchname}-640x360.jpg?${new Date()}`} referrerPolicy="same-origin"></img>
                       <div class="text-block"><i class="fa fa-circle"></i>Live</div>
                     </div>
                     <div class="card__content">
                       <p class="card__text">
-                        {status}
+                        {title}
                       </p>
                     </div>
                   </div>
@@ -171,17 +148,16 @@ class Streamerdetails extends React.PureComponent {
             <ul class="cards">
             {
             this.state.vods.map((vod) => {
-              const {_id, url, status, length, game, preview, views, channel} = vod;
-              if (status === "archive" | status === "recorded") {
+              const {id, url, title, type, duration, thumbnail_url, view_count, display_name} = vod;
+              if (type === "archive" | type === "recorded") {
                 return (
-                  <li class="cards__item" key={_id}>
+                  <li class="cards__item" key={id}>
                     <a href={url} rel="noreferrer" target="_blank">
                     <div class="card">
-                    <div class="card__image"><img width="640px" height="340px" src="/img/placeholder.webp" data-src={preview.large} alt={channel.display_name} referrerPolicy="same-origin"></img><div class="text-block">Aufrufe: {views}<br />Länge: {new Date(0, 0, 0, 0, 0, length, 0).toLocaleTimeString()}</div></div>
+                    <div class="card__image"><img width="640px" height="340px" src="/img/placeholder.webp" data-src={thumbnail_url ? thumbnail_url.replace("%{width}", "640").replace("%{height}", "340"):"/img/placeholder.webp"} alt={display_name} referrerPolicy="same-origin"></img><div class="text-block">Aufrufe: {view_count}<br />Länge: {duration}</div></div>
                       <div class="card__content">
                         <p class="card__text">
-                          {channel.status}<br />
-                          Kategorie / Spiel: {game}<br />
+                          {title}<br />
                         </p>
                         </div>
                       </div>

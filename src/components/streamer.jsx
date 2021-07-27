@@ -92,7 +92,7 @@ class Streamerdetails extends React.PureComponent {
     }
 
     render() {
-      const { twitchname } = this.props.match.params;
+      const { twitchname, id } = this.props.match.params;
       let {broadcaster_id, broadcaster_language, game_name, title} = this.state.channel;
 
       return (
@@ -111,9 +111,9 @@ class Streamerdetails extends React.PureComponent {
             <div class="A"><a href={`https://twitch.tv/${twitchname}`} rel="noreferrer" target="_blank"><table class="profileheader"><tr><td><h1>{twitchname}</h1></td><td></td></tr></table></a></div>
               <div class="B">
                   <div class="shareicon">
-                    <a href={`https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu/streamer/${twitchname}`} rel="noreferrer" target="_blank"><i class="fa fa-linkedin"></i></a>
-                    <a href={`https://twitter.com/intent/tweet?text=Schaue dir jetzt ${twitchname} live auf %23LuckyV an. https://luckyv.nickwasused.eu/streamer/${twitchname}`} rel="noreferrer" target="_blank"><i class="fa fa-twitter"></i></a>
-                    <a href={`https://reddit.com/submit?url=https://luckyv.nickwasused.eu&title=Schaue dir jetzt ${twitchname} live auf https://luckyv.de an. https://luckyv.nickwasused.eu/streamer/${twitchname}`} rel="noreferrer" target="_blank"><i class="fa fa-reddit"></i></a>
+                    <a href={`https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu/streamer/${twitchname}/${id}`} rel="noreferrer" target="_blank"><i class="fa fa-linkedin"></i></a>
+                    <a href={`https://twitter.com/intent/tweet?text=Schaue dir jetzt ${twitchname} live auf %23LuckyV an. https://luckyv.nickwasused.eu/streamer/${twitchname}/${id}`} rel="noreferrer" target="_blank"><i class="fa fa-twitter"></i></a>
+                    <a href={`https://reddit.com/submit?url=https://luckyv.nickwasused.eu&title=Schaue dir jetzt ${twitchname} live auf https://luckyv.de an. https://luckyv.nickwasused.eu/streamer/${twitchname}/${id}`} rel="noreferrer" target="_blank"><i class="fa fa-reddit"></i></a>
                   </div><br />
                   <table>
                     <tr>

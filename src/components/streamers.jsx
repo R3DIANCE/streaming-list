@@ -6,6 +6,7 @@ import moment from 'moment';
 class Streamers extends React.PureComponent {
   constructor() {
 		super();
+    //this.twitchloginurl = "https://id.twitch.tv/oauth2/authorize?client_id=mlk8sfol2tf0cfdsfjk31pepd4yh6i&redirect_uri=http://localhost:3000/login&response_type=token";
     this.twitchloginurl = "https://id.twitch.tv/oauth2/authorize?client_id=mlk8sfol2tf0cfdsfjk31pepd4yh6i&redirect_uri=https://luckyv.nickwasused.eu/login&response_type=token";
     this.altvserverid = "bb7228a0d366fc575a5682a99359424f";
     this.altvserverid2 = "998";
@@ -144,7 +145,7 @@ class Streamers extends React.PureComponent {
           <div>alt:V Version: {active ? info.version:""}</div>
           <div>Spieler Online: {info ? info.players:""}/{info ? info.maxPlayers:""}</div>
           <div>Zuletzt aktualisiert: {`${last_update} Uhr`}</div>
-          {localStorage.getItem("token") === undefined ? <a href={this.twitchloginurl}><button>Login to Twitch</button></a>:""}
+          {localStorage.getItem("token") === null ? <a href={this.twitchloginurl}><button>Login to Twitch</button></a>:""}
           <div class="shareicon">
             <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu" rel="noreferrer" target="_blank"><i class="fa fa-linkedin"></i></a>
             <a href="https://twitter.com/intent/tweet?text=Schaue hier: https://luckyv.nickwasused.eu wer auf https://luckyv.de Online ist! %23LuckyV" rel="noreferrer" target="_blank"><i class="fa fa-twitter"></i></a>

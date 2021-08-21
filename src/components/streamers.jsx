@@ -24,6 +24,7 @@ class Streamers extends React.PureComponent {
   
   state = {
     streamers: [],
+    streams: [],
     server: [],
     inputValue: '',
     lastupdate: ''
@@ -55,6 +56,7 @@ class Streamers extends React.PureComponent {
       })
     ]);
 
+
     localStorage.setItem("streamers", JSON.stringify(streamers.data.data))
     localStorage.setItem("server", JSON.stringify(servers.data))
 
@@ -71,14 +73,38 @@ class Streamers extends React.PureComponent {
       server: servers.data,
       lastupdate: date
     });
+    this.getStreamData();
   }
 
   async loaddata() {
     console.log("loading data from localstorage");
-    this.setState({
+    await this.setState({
       streamers: JSON.parse(localStorage.getItem("streamers")),
       server: JSON.parse(localStorage.getItem("server")),
       lastupdate: localStorage.getItem("invaliddata:streamers")
+    });
+    this.getStreamData();
+  }
+
+  async getStreamData() {
+    const token = localStorage.getItem("token");
+    let idstring = "";
+
+    this.state.streamers.map(item => {
+      console.log(item.title, item.game_id, item.is_live)
+      if (item.title.match(/luckyv|lucky v/gi) && item.game_id == this.neededgameid && item.is_live === true) {
+        idstring = idstring + "user_id=" + item.id + "&";
+      }
+    });
+
+    const [streams] = await Promise.all([
+      axios.get(`https://api.twitch.tv/helix/streams?first=100&${idstring}`, {
+        headers: { 'client-id': Buffer.from(this.clientidbase64, 'base64').toString('ascii'), 'Authorization': 'Bearer ' + token }
+      })
+    ]);
+
+    this.setState({
+      streams: streams.data.data
     });
   }
 
@@ -97,22 +123,16 @@ class Streamers extends React.PureComponent {
       } else {
         this.loaddata();
       }
-    }
+    } 
   }
 
-  async getstreamerdata(streamer) {
-      const token = localStorage.getItem("token");
-      const streamerinfo = await Promise.all([
-        axios.get(`https://api.twitch.tv/helix/streams?user_login=${streamer}`, {
-          headers: { 'client-id': Buffer.from(this.clientidbase64, 'base64').toString('ascii'), 'Authorization': 'Bearer ' + token }
-        })
-      ]);
-      return streamerinfo
+  logout() {
+    localStorage.removeItem("token");
   }
 
   async componentDidMount() {
     this.interval = setInterval(this.getData.bind(this), 300000); // refresh data every 5 minutes (300000)
-    if (localStorage.getItem("token") != undefined && localStorage.getItem("token") != null) {
+    if (localStorage.getItem("token") !== undefined && localStorage.getItem("token") != null) {
       this.getData();
     }
   }
@@ -122,10 +142,10 @@ class Streamers extends React.PureComponent {
   }
 
   render() {
-    let filteredstreamers = this.state.streamers.filter((streamer) => {
-      let {title, game_id, is_live, display_name} = streamer
-      if (title.match(/luckyv|lucky v/gi) && game_id == this.neededgameid && is_live === true) { // && channel.language == "de"
-        return display_name.toLowerCase().includes(this.state.inputValue.toLocaleLowerCase()) || display_name.status.toLowerCase().includes(this.state.inputValue.toLocaleLowerCase())
+    let filteredstreamers = this.state.streams.filter((stream) => {
+      let {title, game_id, type, user_name} = stream;
+      if (title.match(/luckyv|lucky v/gi) && game_id == this.neededgameid && type === "live") { // && channel.language == "de"
+        return user_name.toLowerCase().includes(this.state.inputValue.toLocaleLowerCase()) || title.toLowerCase().includes(this.state.inputValue.toLocaleLowerCase())
       }
     })
     
@@ -145,7 +165,7 @@ class Streamers extends React.PureComponent {
           <div>alt:V Version: {active ? info.version:""}</div>
           <div>Spieler Online: {info ? info.players:""}/{info ? info.maxPlayers:""}</div>
           <div>Zuletzt aktualisiert: {`${last_update} Uhr`}</div>
-          {localStorage.getItem("token") === null ? <a href={this.twitchloginurl}><button>Login to Twitch</button></a>:""}
+          {localStorage.getItem("token") === null ? <a href={this.twitchloginurl}><button>Login to Twitch</button></a>:<a href={this.logout}><button>Logout</button></a>}
           <div class="shareicon">
             <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu" rel="noreferrer" target="_blank"><i class="fa fa-linkedin"></i></a>
             <a href="https://twitter.com/intent/tweet?text=Schaue hier: https://luckyv.nickwasused.eu wer auf https://luckyv.de Online ist! %23LuckyV" rel="noreferrer" target="_blank"><i class="fa fa-twitter"></i></a>
@@ -155,19 +175,21 @@ class Streamers extends React.PureComponent {
         </div>
         <ul class="cards">
           {
-            filteredstreamers.map((streamer) => {
-              const {id, display_name, title, thumbnail_url} = streamer;
+            filteredstreamers.map((stream) => {
+              const {id, user_id, user_name, user_login, title, thumbnail_url, viewer_count, started_at} = stream;
               const date = new Date().getTime();
               
               return (
                 <li class="cards__item" key={id}>
-                  <a href={"/streamer/" + display_name + "/" + id} rel="noreferrer">
+                  <a href={"/streamer/" + user_login + "/" + user_id} rel="noreferrer">
                   <div class="card">
-                  <div class="card__image"><img width="640px" height="340px" src="/img/placeholder.webp" data-src={`https://static-cdn.jtvnw.net/previews-ttv/live_user_${display_name}-640x360.jpg?${new Date()}`} alt={display_name} referrerPolicy="same-origin"></img>
-                  <div class="text-block">{display_name} <i class="fa fa-twitch"></i></div></div>
+                  <div class="card__image"><img width="640px" height="340px" src="/img/placeholder.webp" data-src={`${thumbnail_url.replace("{width}", "640").replace("{height}", "360")}?${date}`} alt={user_name} referrerPolicy="same-origin"></img>
+                  <div class="text-block">{user_name} <i class="fa fa-twitch"></i></div></div>
 		                <div class="card__content">
 			                <p class="card__text">
 				                {title}<br />
+                        Zuschauer: {viewer_count}<br />
+                        Live seit: {new Date(started_at).toTimeString()}<br />
 			                </p>
 		                  </div>
 	                  </div>

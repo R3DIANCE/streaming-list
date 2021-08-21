@@ -55,6 +55,9 @@ class Streamers extends React.PureComponent {
   async writenewdata() {
     console.log("writing new data");
     const token = this.state.token;
+
+    let idstring = "";
+
     const [streamers, servers] = await Promise.all([
       axios.get(`https://api.twitch.tv/helix/search/channels?query=${this.searchquery}&first=100&live_only=true`, {
         headers: { 'client-id': Buffer.from(this.clientidbase64, 'base64').toString('ascii'), 'Authorization': 'Bearer ' + token }
@@ -64,24 +67,31 @@ class Streamers extends React.PureComponent {
       })
     ]);
 
+    await streamers.data.data.map(item => {
+      if (item.title.match(/luckyv|lucky v/gi) && item.game_id == this.neededgameid && item.is_live === true) {
+        idstring = idstring + "user_id=" + item.id + "&";
+      }
+    });
+
+    const [streams] = await Promise.all([
+      axios.get(`https://api.twitch.tv/helix/streams?first=100&game_id=${this.neededgameid}&language=de&${idstring}`, {
+        headers: { 'client-id': Buffer.from(this.clientidbase64, 'base64').toString('ascii'), 'Authorization': 'Bearer ' + token }
+      })
+    ]);
 
     localStorage.setItem("streamers", JSON.stringify(streamers.data.data))
     localStorage.setItem("server", JSON.stringify(servers.data))
-
-    streamers.data.data.filter((streamer) => {
-      let {id, display_name} = streamer
-      localStorage.setItem('streamer:id:'+display_name, id);
-    })
+    localStorage.setItem("streams", JSON.stringify(streams.data.data));
 
     let date = new Date();
     date.setHours(date.getHours(),date.getMinutes()+2.5,0,0);
-    localStorage.setItem("invaliddata:streamers", date);
+    localStorage.setItem("lastupdate", date);
     this.setState({
       streamers: streamers.data.data,
       server: servers.data,
+      streams: streams.data.data,
       lastupdate: date
     });
-    this.getStreamData();
   }
 
   async loaddata() {
@@ -89,43 +99,23 @@ class Streamers extends React.PureComponent {
     await this.setState({
       streamers: JSON.parse(localStorage.getItem("streamers")),
       server: JSON.parse(localStorage.getItem("server")),
-      lastupdate: localStorage.getItem("invaliddata:streamers")
-    });
-    this.getStreamData();
-  }
-
-  async getStreamData() {
-    const token = this.state.token;
-    let idstring = "";
-
-    this.state.streamers.map(item => {
-      if (item.title.match(/luckyv|lucky v/gi) && item.game_id == this.neededgameid && item.is_live === true) {
-        idstring = idstring + "user_id=" + item.id + "&";
-      }
-    });
-
-    const [streams] = await Promise.all([
-      axios.get(`https://api.twitch.tv/helix/streams?first=100&${idstring}`, {
-        headers: { 'client-id': Buffer.from(this.clientidbase64, 'base64').toString('ascii'), 'Authorization': 'Bearer ' + token }
-      })
-    ]);
-
-    this.setState({
-      streams: streams.data.data
+      streams: JSON.parse(localStorage.getItem("streams")),
+      lastupdate: localStorage.getItem("lastupdate")
     });
   }
 
   async getData() {
-    if (!localStorage.getItem('streamers') && !localStorage.getItem('servers') && !localStorage.getItem('teamdata') && !localStorage.getItem('invaliddata:streamers')) {
+    if (!localStorage.getItem('streamers') || !localStorage.getItem('streams') || !localStorage.getItem('server') || !localStorage.getItem('lastupdate')) {
       this.writenewdata();
     } else {
-      const dateLimit = moment(localStorage.getItem("invaliddata:streamers"));
+      const dateLimit = moment(localStorage.getItem("lastupdate"));
       const now = moment();
       if (dateLimit.isValid() && now.isAfter(dateLimit)) {
         console.log("data is invalid");
         localStorage.removeItem("streamers");
         localStorage.removeItem("server");
-        localStorage.removeItem("invaliddata:streamers");
+        localStorage.removeItem("streams");
+        localStorage.removeItem("lastupdate");
         this.writenewdata();
       } else {
         this.loaddata();
@@ -147,6 +137,7 @@ class Streamers extends React.PureComponent {
   render() {
     let filteredstreamers = this.state.streams.filter((stream) => {
       let {title, game_id, type, user_name} = stream;
+      console.log(title, game_id, type, user_name);
       if (title.match(/luckyv|lucky v/gi) && game_id == this.neededgameid && type === "live") { // && channel.language == "de"
         return user_name.toLowerCase().includes(this.state.inputValue.toLocaleLowerCase()) || title.toLowerCase().includes(this.state.inputValue.toLocaleLowerCase())
       }

@@ -76,14 +76,13 @@ class Streamerdetails extends React.PureComponent {
 
     async getData() {
       const { twitchname } = this.props.match.params;
-      if (!localStorage.getItem('invaliddata:streamer:'+twitchname) | !localStorage.getItem('streamer:id:'+twitchname) | !localStorage.getItem('streamer:channel:'+twitchname) | !localStorage.getItem('streamer:vods:'+twitchname)) {
+      if (!localStorage.getItem('invaliddata:streamer:'+twitchname) | !localStorage.getItem('streamer:channel:'+twitchname) | !localStorage.getItem('streamer:vods:'+twitchname)) {
         this.writenewdata();
       } else {
         const dateLimit = moment(localStorage.getItem("invaliddata:streamer:"+twitchname));
         const now = moment();
         if (dateLimit.isValid() && now.isAfter(dateLimit)) {
           console.log("data is invalid");
-          localStorage.removeItem("streamer:id:"+twitchname);
           localStorage.removeItem("streamer:channel:"+twitchname);
           localStorage.removeItem("streamer:vods:"+twitchname);
           localStorage.removeItem("invaliddata:streamer:"+twitchname);

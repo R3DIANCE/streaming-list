@@ -2,10 +2,16 @@ import React from 'react';
 import axios from 'axios';
 import Bound from 'bounds.js';
 import moment from 'moment';
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
 
 class Streamers extends React.PureComponent {
-  constructor() {
-		super();
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired
+  };
+
+  constructor(props) {
+		super(props);
     //this.twitchloginurl = "https://id.twitch.tv/oauth2/authorize?client_id=mlk8sfol2tf0cfdsfjk31pepd4yh6i&redirect_uri=http://localhost:3000/login&response_type=token";
     this.twitchloginurl = "https://id.twitch.tv/oauth2/authorize?client_id=mlk8sfol2tf0cfdsfjk31pepd4yh6i&redirect_uri=https://luckyv.nickwasused.eu/login&response_type=token";
     this.altvserverid = "bb7228a0d366fc575a5682a99359424f";
@@ -19,13 +25,15 @@ class Streamers extends React.PureComponent {
 				image.src = image.dataset.src
 				this.boundary.unWatch(image)
 			}
-		} 
+		}
+
 	}
   
   state = {
     streamers: [],
     streams: [],
     server: [],
+    token: this.props.cookies.get("token") || "",
     inputValue: '',
     lastupdate: ''
   }
@@ -46,7 +54,7 @@ class Streamers extends React.PureComponent {
 
   async writenewdata() {
     console.log("writing new data");
-    const token = localStorage.getItem("token");
+    const token = this.state.token;
     const [streamers, servers] = await Promise.all([
       axios.get(`https://api.twitch.tv/helix/search/channels?query=${this.searchquery}&first=100&live_only=true`, {
         headers: { 'client-id': Buffer.from(this.clientidbase64, 'base64').toString('ascii'), 'Authorization': 'Bearer ' + token }
@@ -87,11 +95,10 @@ class Streamers extends React.PureComponent {
   }
 
   async getStreamData() {
-    const token = localStorage.getItem("token");
+    const token = this.state.token;
     let idstring = "";
 
     this.state.streamers.map(item => {
-      console.log(item.title, item.game_id, item.is_live)
       if (item.title.match(/luckyv|lucky v/gi) && item.game_id == this.neededgameid && item.is_live === true) {
         idstring = idstring + "user_id=" + item.id + "&";
       }
@@ -126,13 +133,9 @@ class Streamers extends React.PureComponent {
     } 
   }
 
-  logout() {
-    localStorage.removeItem("token");
-  }
-
   async componentDidMount() {
     this.interval = setInterval(this.getData.bind(this), 300000); // refresh data every 5 minutes (300000)
-    if (localStorage.getItem("token") !== undefined && localStorage.getItem("token") != null) {
+    if (this.state.token !== "" || this.state.token == "undefined") {
       this.getData();
     }
   }
@@ -165,7 +168,7 @@ class Streamers extends React.PureComponent {
           <div>alt:V Version: {active ? info.version:""}</div>
           <div>Spieler Online: {info ? info.players:""}/{info ? info.maxPlayers:""}</div>
           <div>Zuletzt aktualisiert: {`${last_update} Uhr`}</div>
-          {localStorage.getItem("token") === null ? <a href={this.twitchloginurl}><button>Login to Twitch</button></a>:<a href={this.logout}><button>Logout</button></a>}
+          {this.state.token == "" || this.state.token == "undefined" ? <a href={this.twitchloginurl}><button>Login to Twitch</button></a>:<a href="/logout"><button>Logout</button></a>}
           <div class="shareicon">
             <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu" rel="noreferrer" target="_blank"><i class="fa fa-linkedin"></i></a>
             <a href="https://twitter.com/intent/tweet?text=Schaue hier: https://luckyv.nickwasused.eu wer auf https://luckyv.de Online ist! %23LuckyV" rel="noreferrer" target="_blank"><i class="fa fa-twitter"></i></a>
@@ -203,4 +206,4 @@ class Streamers extends React.PureComponent {
       </div>
       )
     }
-  } export default React.memo(Streamers);
+  } export default withCookies(React.memo(Streamers));

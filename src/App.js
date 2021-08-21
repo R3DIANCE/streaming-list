@@ -6,6 +6,7 @@ import {
 import React, { Suspense, lazy } from "react";
 
 const Login = lazy(() => import('./components/login'));
+const Logout = lazy(() => import('./components/logout'));
 const Streamers = lazy(() => import('./components/streamers'));
 const Streamerdetails = lazy(() => import('./components/streamer'));
 
@@ -19,6 +20,7 @@ function App() {
             <Route exact path="/" component={Streamers}></Route>
             <Route exact path="/streamer/:twitchname/:id" component={Streamerdetails}></Route>
             <Route exact path="/login" component={Login}></Route>
+            <Route exact path="/logout" component={Logout}></Route>
           </Switch>
         </Suspense>
       </Router>

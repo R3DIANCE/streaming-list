@@ -1,12 +1,18 @@
 import React from 'react';
 import axios from 'axios';
-import {NavLink} from 'react-router-dom';
 import Bound from 'bounds.js';
 import moment from 'moment';
+import {NavLink} from 'react-router-dom';
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
 
 class Streamerdetails extends React.PureComponent {
-    constructor() {
-		super();
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired
+  };
+
+  constructor(props) {
+		super(props);
 
     this.clientidbase64 = "bWxrOHNmb2wydGYwY2Zkc2ZqazMxcGVwZDR5aDZp";
 
@@ -21,7 +27,8 @@ class Streamerdetails extends React.PureComponent {
 
     state = {
       channel: [],
-      vods: []
+      vods: [],
+      token: this.props.cookies.get("token") || ""
     }
 
     async componentDidUpdate() {
@@ -34,7 +41,7 @@ class Streamerdetails extends React.PureComponent {
     async writenewdata() {
       console.log("writing new data");
       const { twitchname, id } = this.props.match.params;
-      const token = localStorage.getItem("token");
+      const token = this.state.token;
 
       const [channel, vods] = await Promise.all([
         axios.get(`https://api.twitch.tv/helix/channels?broadcaster_id=${id}`, {
@@ -88,7 +95,9 @@ class Streamerdetails extends React.PureComponent {
     }
 
     async componentDidMount() {
-      this.getData();
+      if (this.state.token !== "" || this.state.token == "undefined") {
+        this.getData();
+      }
     }
 
     render() {
@@ -172,4 +181,4 @@ class Streamerdetails extends React.PureComponent {
         </div>
       )
     }
-  } export default React.memo(Streamerdetails);
+  } export default withCookies(React.memo(Streamerdetails));

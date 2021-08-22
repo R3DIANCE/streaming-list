@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import Bound from 'bounds.js';
 import moment from 'moment';
+import config from '../config.json';
+import parse from "html-react-parser";
 import {NavLink} from 'react-router-dom';
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
@@ -13,9 +15,6 @@ class Streamerdetails extends React.PureComponent {
 
   constructor(props) {
 		super(props);
-
-    this.clientidbase64 = "bWxrOHNmb2wydGYwY2Zkc2ZqazMxcGVwZDR5aDZp";
-
 		this.boundary = Bound();
         this.whenImageEnters = (image) => {
 			return () => {
@@ -45,10 +44,10 @@ class Streamerdetails extends React.PureComponent {
 
       const [channel, vods] = await Promise.all([
         axios.get(`https://api.twitch.tv/helix/channels?broadcaster_id=${id}`, {
-          headers: { 'Client-ID': Buffer.from(this.clientidbase64, 'base64').toString('ascii'), 'Authorization': 'Bearer ' + token }
+          headers: { 'Client-ID': config.twitch.clientid, 'Authorization': 'Bearer ' + token }
         }),
         axios.get(`https://api.twitch.tv/helix/videos?user_id=${id}`, {
-          headers: { 'Client-ID': Buffer.from(this.clientidbase64, 'base64').toString('ascii'), 'Authorization': 'Bearer ' + token }
+          headers: { 'Client-ID': config.twitch.clientid, 'Authorization': 'Bearer ' + token }
         })
       ]);
 
@@ -61,7 +60,7 @@ class Streamerdetails extends React.PureComponent {
       });
 
       var d = new Date();
-      d.setHours(d.getHours(),d.getMinutes()+60,0,0);
+      d.setHours(d.getHours(),d.getMinutes()+config.time.stream_info_cache,0,0);
       localStorage.setItem('invaliddata:streamer:'+twitchname, d);
     }
 
@@ -109,7 +108,7 @@ class Streamerdetails extends React.PureComponent {
           <meta name="twitter:card" content="photo" />
           <meta name="twitter:title" content={twitchname} />
           <meta name="twitter:description" content={`Schaue dir ${twitchname} auf Twitch an!`} />
-          <meta name="twitter:url" content={`https://luckyv.nickwasused.eu/streamer/${twitchname}`} />
+          <meta name="twitter:url" content={`https://${window.location.href}/streamer/${twitchname}`} />
             <NavLink 
                 exact to="/" 
                 activeClassName="selected">
@@ -119,9 +118,9 @@ class Streamerdetails extends React.PureComponent {
             <div class="A"><a href={`https://twitch.tv/${twitchname}`} rel="noreferrer" target="_blank"><table class="profileheader"><tr><td><h1>{twitchname}</h1></td><td></td></tr></table></a></div>
               <div class="B">
                   <div class="shareicon">
-                    <a href={`https://www.linkedin.com/shareArticle?mini=true&url=https://luckyv.nickwasused.eu/streamer/${twitchname}/${id}`} rel="noreferrer" target="_blank"><i class="fa fa-linkedin"></i></a>
-                    <a href={`https://twitter.com/intent/tweet?text=Schaue dir jetzt ${twitchname} live auf %23LuckyV an. https://luckyv.nickwasused.eu/streamer/${twitchname}/${id}`} rel="noreferrer" target="_blank"><i class="fa fa-twitter"></i></a>
-                    <a href={`https://reddit.com/submit?url=https://luckyv.nickwasused.eu&title=Schaue dir jetzt ${twitchname} live auf https://luckyv.de an. https://luckyv.nickwasused.eu/streamer/${twitchname}/${id}`} rel="noreferrer" target="_blank"><i class="fa fa-reddit"></i></a>
+                    <a href={`https://www.linkedin.com/shareArticle?mini=true&url=${window.location.href}`} rel="noreferrer" target="_blank"><i class="fa fa-linkedin"></i></a>
+                    <a href={`https://twitter.com/intent/tweet?text=Schaue dir jetzt ${twitchname} live auf %23${config.target.name} an. ${window.location.href}`} rel="noreferrer" target="_blank"><i class="fa fa-twitter"></i></a>
+                    <a href={`https://reddit.com/submit?url=${window.location.href}&title=Schaue dir jetzt ${twitchname} live auf ${config.target.website} an. ${window.location.href}`} rel="noreferrer" target="_blank"><i class="fa fa-reddit"></i></a>
                   </div><br />
                   <table>
                     <tr>
@@ -176,7 +175,7 @@ class Streamerdetails extends React.PureComponent {
             })
           }
           </ul>
-          <div class="note">Nickwasused {(new Date().getFullYear())} | We &#128155; LuckyV<br /><a href="#top">Nach oben</a></div>
+          <div class="note">{config.website.author} {(new Date().getFullYear())} | {parse(config.website.footer_text)}<br /><a href="#top">Nach oben</a></div>
         </div>
       )
     }

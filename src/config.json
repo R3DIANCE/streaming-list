@@ -1,0 +1,32 @@
+{
+    "website": {
+        "url": "https://luckyv.nickwasused.eu",
+        "title": "Nickwasused`s Streamer Liste",
+        "footer_text": "We &#128155; LuckyV",
+        "author": "Nickwasused"
+    },
+    "target": {
+        "website": "https://luckyv.de",
+        "name": "LuckyV"
+    },
+    "search": {
+        "term": "luckyv",
+        "regex": "luckyv|lucky v",
+        "game_id": "32982",
+        "language": "de"
+    },
+    "altv": {
+        "longid": "bb7228a0d366fc575a5682a99359424f",
+        "intid": "998"
+    },
+    "twitch": {
+        "logindevurl": "https://id.twitch.tv/oauth2/authorize?client_id=mlk8sfol2tf0cfdsfjk31pepd4yh6i&redirect_uri=http://localhost:3000/login&response_type=token",
+        "loginurl": "https://id.twitch.tv/oauth2/authorize?client_id=mlk8sfol2tf0cfdsfjk31pepd4yh6i&redirect_uri=https://luckyv.nickwasused.eu/login&response_type=token",
+        "clientid": "mlk8sfol2tf0cfdsfjk31pepd4yh6i"
+    },
+    "time": {
+        "refresh_data": 5,
+        "streams_data_cache": 2.5,
+        "stream_info_cache": 60
+    }
+}

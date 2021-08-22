@@ -79,7 +79,7 @@ class Streamers extends React.PureComponent {
     localStorage.setItem("streams", JSON.stringify(streams.data.data));
 
     let date = new Date();
-    date.setHours(date.getHours(),date.getMinutes()+2.5,0,0);
+    date.setHours(date.getHours(),date.getMinutes()+config.time.streams_data_cache,0,0);
     localStorage.setItem("lastupdate", date);
     this.setState({
       streamers: streamers.data.data,
@@ -119,7 +119,7 @@ class Streamers extends React.PureComponent {
   }
 
   async componentDidMount() {
-    this.interval = setInterval(this.getData.bind(this), config.time.refresh_data/1000/60);
+    this.interval = setInterval(this.getData.bind(this), (config.time.refresh_data*1000)*60);
     if (this.state.token !== "" || this.state.token == "undefined") {
       this.getData();
     }

@@ -200,7 +200,7 @@ class Streamers extends React.PureComponent {
         <div class="head">
           {loggedin ? <Header streamers={filteredstreamers.length} info={info} loggedin={loggedin} />:null}
           {loggedin ? null:<Infotext />}
-          {loggedin ? <a href="/logout"><button>Ausloggen</button></a>:<a href={config.twitch.loginurl}><button>Einloggen mit Twitch</button></a>}
+          {loggedin ? <a href="/logout"><button>Ausloggen</button></a>:<a href={config.twitch.loginurl}><button>Einloggen mit Twitch</button></a>}<br />
           {loggedin ? <input type="text" placeholder="Streamer, Streamtitel ..." value={this.state.inputValue} onChange={this.FilterOnChange}/>:null}
         </div>
         <ul class="cards">

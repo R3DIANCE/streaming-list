@@ -348,4 +348,9 @@ button:hover {
   text-align: justify;
 }
 
+.settingsicon {
+  padding: 0.5%;
+  font-size: 2rem;
+}
+
 @import url("font-awesome.css");

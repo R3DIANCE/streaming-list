@@ -3,6 +3,7 @@ import axios from 'axios';
 import Bound from 'bounds.js';
 import moment from 'moment';
 import parse from "html-react-parser";
+import {getsetting} from "./settings";
 import {NavLink} from 'react-router-dom';
 import { config } from '../config';
 import { instanceOf } from 'prop-types';
@@ -33,6 +34,21 @@ class Streamers extends React.PureComponent {
     inputValue: '',
     lastupdate: ''
   }
+
+  getsetting(setting) {
+    if (!localStorage.getItem(setting)) {
+        localStorage.setItem(setting, true)
+    }
+    return localStorage.getItem(setting)
+  }
+
+  getboolean(string) {
+    if (string === "true") {
+        return true
+    } else {
+        return false
+    }
+  } 
 
   FilterOnChange = (event) => {
     this.setState({
@@ -150,25 +166,47 @@ class Streamers extends React.PureComponent {
       )
     }
 
+    function Shareicons() {
+      return (
+        <div class="shareicon">
+          <a href={`https://www.linkedin.com/shareArticle?mini=true&url=${window.location.href}`} rel="noreferrer" target="_blank"><i class="fa fa-linkedin"></i></a>
+          <a href={`https://twitter.com/intent/tweet?text=Schaue hier: ${window.location.href} wer auf ${config.target.website} Online ist! %23${config.target.name}`} rel="noreferrer" target="_blank"><i class="fa fa-twitter"></i></a>
+          <a href={`https://reddit.com/submit?url=${window.location.href}&title=Schaue wer auf ${config.target.website} Online ist!`} rel="noreferrer" target="_blank"><i class="fa fa-reddit"></i></a>
+        </div>
+      )
+    }
+
     function Header(props) {
       const streamers = props.streamers;
       const info = props.info;
-      const loggedin = props.loggedin;
+      const shareicons = props.shareicons;
 
       return (
         <div>
           <a name="#top"></a>
-          <h1>Streamer Online: { streamers }</h1>
+          <table>
+            <tr>
+              <td><NavLink exact to="/settings" activeClassName="selected"><div class="settingsicon"><i class="fa fa-cog"></i></div></NavLink></td>
+              <td><h1>Streamer Online: { streamers }</h1></td>
+            </tr>
+          </table>
           <a href={info ? `https://${info.website}`:``} rel="noreferrer" target="_blank"><h2>{info ? info.name:``}</h2></a>
-          <a href={`https://altstats.net/server/${config.altv.intid}`} rel="noreferrer" target="_blank"><div>Gameserver: {active ? 'Online':'Offline'}</div></a>
-          <div>alt:V Version: {active ? info.version:""}</div>
-          <div>Spieler Online: {info ? info.players:""}/{info ? info.maxPlayers:""}</div>
-          <div>Zuletzt aktualisiert: {`${last_update} Uhr`}</div>
-          <div class="shareicon">
-            <a href={`https://www.linkedin.com/shareArticle?mini=true&url=${window.location.href}`} rel="noreferrer" target="_blank"><i class="fa fa-linkedin"></i></a>
-            <a href={`https://twitter.com/intent/tweet?text=Schaue hier: ${window.location.href} wer auf ${config.target.website} Online ist! %23${config.target.name}`} rel="noreferrer" target="_blank"><i class="fa fa-twitter"></i></a>
-            <a href={`https://reddit.com/submit?url=${window.location.href}&title=Schaue wer auf ${config.target.website} Online ist!`} rel="noreferrer" target="_blank"><i class="fa fa-reddit"></i></a>
-          </div><br />
+          <table>
+            <tr>
+              <td><a href={`https://altv.mp`} rel="noreferrer" target="_blank">alt:V Version:</a></td><td>{active ? info.version:""}</td>
+            </tr>
+            <tr>
+              <td><a href={`https://altstats.net/server/${config.altv.intid}`} rel="noreferrer" target="_blank">Gameserver:</a></td><td>{active ? 'Online':'Offline'}</td>
+            </tr>
+            <tr>
+              <td>Spieler Online:</td><td>{info ? info.players:""}/{info ? info.maxPlayers:""}</td>
+            </tr>
+            <tr>
+              <td>Zuletzt aktualisiert:</td><td>{`${last_update} Uhr`}</td>
+            </tr>
+          </table>
+          <div> </div>
+          {shareicons ? <Shareicons />:null}
         </div>
       )
     }
@@ -194,14 +232,12 @@ class Streamers extends React.PureComponent {
       loggedin = true
     }
 
-    console.log(loggedin);
-
     return (
       <div>
         <div class="head">
-          {loggedin ? <Header streamers={filteredstreamers.length} info={info} loggedin={loggedin} />:null}
+          {loggedin ? <Header streamers={filteredstreamers.length} info={info} loggedin={loggedin} shareicons={this.getboolean(this.getsetting("shareicons"))} />:null}
           {loggedin ? null:<Infotext />}
-          {loggedin ? <NavLink exact to="/logout" activeClassName="selected"><button>Ausloggen</button></NavLink>:<a href={config.twitch.loginurl}><button>Einloggen mit Twitch</button></a>}<br />
+          {loggedin ? null:<a href={config.twitch.loginurl}><button>Einloggen mit Twitch</button></a>}<br />
           {loggedin ? <input type="text" placeholder="Streamer, Streamtitel ..." value={this.state.inputValue} onChange={this.FilterOnChange}/>:null}
         </div>
         <ul class="cards">

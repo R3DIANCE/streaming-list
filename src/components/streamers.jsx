@@ -139,7 +139,12 @@ class Streamers extends React.PureComponent {
             Ab dem genannten Datum braucht man ein sogenanntes Token um die API zu nutzen, deswegen loggst du dich ein einziges mal ein.
             Beim einloggen wird das Token auf deinem Endgerät als Cookie gespeichert.
           </p>
-          <p></p>
+          <p>Beim Ausloggen wird das Token auf deinem Endgerät gelöscht.</p>
+          <p><a href="https://github.com/Nickwasused/luckyV-streamer-liste" rel="noreferrer" target="_blank">Der Code dieser Seite ist Open-Source. </a></p>
+          <p>
+            <a href="https://discuss.dev.twitch.tv/t/legacy-twitch-api-v5-shutdown-details-and-timeline/32649" rel="noreferrer" target="_blank">https://discuss.dev.twitch.tv/t/legacy-twitch-api-v5-shutdown-details-and-timeline/32649</a><br />
+            <a href="https://blog.twitch.tv/en/2021/07/15/legacy-twitch-api-v5-shutdown-details-and-timeline/" rel="noreferrer" target="_blank">https://blog.twitch.tv/en/2021/07/15/legacy-twitch-api-v5-shutdown-details-and-timeline/</a>
+          </p>
         </div>
       )
     }

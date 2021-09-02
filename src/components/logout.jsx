@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import config from '../config.json';
+import { config } from '../config';
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
 

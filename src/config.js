@@ -1,6 +1,6 @@
-{
+export const config = {
     "website": {
-        "url": "https://luckyv.nickwasused.eu",
+        "url": window.location.href,
         "title": "Nickwasused`s Streamer Liste",
         "footer_text": "We &#128155; LuckyV",
         "author": "Nickwasused"
@@ -20,13 +20,16 @@
         "intid": "998"
     },
     "twitch": {
-        "logindevurl": "https://id.twitch.tv/oauth2/authorize?client_id=mlk8sfol2tf0cfdsfjk31pepd4yh6i&redirect_uri=http://localhost:3000/login&response_type=token",
-        "loginurl": "https://id.twitch.tv/oauth2/authorize?client_id=mlk8sfol2tf0cfdsfjk31pepd4yh6i&redirect_uri=https://luckyv.nickwasused.eu/login&response_type=token",
-        "clientid": "mlk8sfol2tf0cfdsfjk31pepd4yh6i"
+        "loginurl": "https://id.twitch.tv/oauth2/authorize?client_id="+ process.env.REACT_APP_TWITCH_CLIENT_ID +"&redirect_uri="+ window.location.href +"/login&response_type=token",
+        "clientid": process.env.REACT_APP_TWITCH_CLIENT_ID
     },
     "time": {
         "refresh_data": 5,
         "streams_data_cache": 2.5,
         "stream_info_cache": 60
     }
+}
+
+export default {
+    config
 }

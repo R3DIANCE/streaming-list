@@ -2,8 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import Bound from 'bounds.js';
 import moment from 'moment';
-import config from '../config.json';
 import parse from "html-react-parser";
+import { config } from '../config';
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
 
@@ -140,6 +140,7 @@ class Streamers extends React.PureComponent {
     let {active, info} = this.state.server;
     let date = moment(this.state.lastupdate).toDate();
     date.setHours(date.getHours(),date.getMinutes()-config.time.streams_data_cache,0,0);
+    
     let datestring = moment(date).format('HH:mm');
     const last_update = datestring;
 

@@ -3,6 +3,7 @@ import axios from 'axios';
 import Bound from 'bounds.js';
 import moment from 'moment';
 import parse from "html-react-parser";
+import {NavLink} from 'react-router-dom';
 import { config } from '../config';
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
@@ -200,7 +201,7 @@ class Streamers extends React.PureComponent {
         <div class="head">
           {loggedin ? <Header streamers={filteredstreamers.length} info={info} loggedin={loggedin} />:null}
           {loggedin ? null:<Infotext />}
-          {loggedin ? <a href="/logout"><button>Ausloggen</button></a>:<a href={config.twitch.loginurl}><button>Einloggen mit Twitch</button></a>}<br />
+          {loggedin ? <NavLink exact to="/logout" activeClassName="selected"><button>Ausloggen</button></NavLink>:<a href={config.twitch.loginurl}><button>Einloggen mit Twitch</button></a>}<br />
           {loggedin ? <input type="text" placeholder="Streamer, Streamtitel ..." value={this.state.inputValue} onChange={this.FilterOnChange}/>:null}
         </div>
         <ul class="cards">
@@ -211,7 +212,7 @@ class Streamers extends React.PureComponent {
               
               return (
                 <li class="cards__item" key={id}>
-                  <a href={"/streamer/" + user_login + "/" + user_id} rel="noreferrer">
+                  <NavLink exact to={"/streamer/" + user_login + "/" + user_id} activeClassName="selected">
                   <div class="card">
                   <div class="card__image"><img width="640px" height="340px" src="/img/placeholder.webp" data-src={`${thumbnail_url.replace("{width}", "640").replace("{height}", "360")}?${date}`} alt={user_name} referrerPolicy="same-origin"></img>
                   <div class="text-block">{user_name} <i class="fa fa-twitch"></i></div></div>
@@ -223,13 +224,13 @@ class Streamers extends React.PureComponent {
 			                </p>
 		                  </div>
 	                  </div>
-                  </a>
+                  </NavLink>
                 </li>
               )
             })
           }
         </ul>
-        <div class="note">{config.website.author} {(new Date().getFullYear())} | {parse(config.website.footer_text)}<br /><a href="#top">Nach oben</a></div>
+        <div class="note">{config.website.author} {(new Date().getFullYear())} | {parse(config.website.footer_text)} <br /> <NavLink exact to="/privacy" activeClassName="selected"><a>Datenschutzbestimmungen</a></NavLink><br /><a href="#top">Nach oben</a></div>
       </div>
       )
     }

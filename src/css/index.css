@@ -342,4 +342,10 @@ button:hover {
   text-align: right;
 }
 
+.privacy {
+  width: 80%;
+  padding-left: 5%;
+  text-align: justify;
+}
+
 @import url("font-awesome.css");

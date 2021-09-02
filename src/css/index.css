@@ -241,6 +241,12 @@ img {
   text-align: center;
 }
 
+.infotext {
+  width : 35%;
+  text-align: justify;
+  margin: auto;
+}
+
 table {
   margin: 0 auto;
   width: 75%;

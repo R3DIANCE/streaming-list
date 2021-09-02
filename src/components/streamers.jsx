@@ -130,6 +130,43 @@ class Streamers extends React.PureComponent {
   }
 
   render() {
+    function Infotext() {
+      return (
+        <div class="infotext">
+          <p>Warum brauchen wir zugang zu deinem Account?</p>
+          <p>
+            Um Daten von Twitch abzufragen nutzt man eine sogenannte API. Diese ist bis zum 28.02.2022 Frei nutzbar. 
+            Ab dem genannten Datum braucht man ein sogenanntes Token um die API zu nutzen, deswegen loggst du dich ein einziges mal ein.
+            Beim einloggen wird das Token auf deinem Endgerät als Cookie gespeichert.
+          </p>
+          <p></p>
+        </div>
+      )
+    }
+
+    function Header(props) {
+      const streamers = props.streamers;
+      const info = props.info;
+      const loggedin = props.loggedin;
+
+      return (
+        <div>
+          <a name="#top"></a>
+          <h1>Streamer Online: { streamers }</h1>
+          <a href={info ? `https://${info.website}`:``} rel="noreferrer" target="_blank"><h2>{info ? info.name:``}</h2></a>
+          <a href={`https://altstats.net/server/${config.altv.intid}`} rel="noreferrer" target="_blank"><div>Gameserver: {active ? 'Online':'Offline'}</div></a>
+          <div>alt:V Version: {active ? info.version:""}</div>
+          <div>Spieler Online: {info ? info.players:""}/{info ? info.maxPlayers:""}</div>
+          <div>Zuletzt aktualisiert: {`${last_update} Uhr`}</div>
+          <div class="shareicon">
+            <a href={`https://www.linkedin.com/shareArticle?mini=true&url=${window.location.href}`} rel="noreferrer" target="_blank"><i class="fa fa-linkedin"></i></a>
+            <a href={`https://twitter.com/intent/tweet?text=Schaue hier: ${window.location.href} wer auf ${config.target.website} Online ist! %23${config.target.name}`} rel="noreferrer" target="_blank"><i class="fa fa-twitter"></i></a>
+            <a href={`https://reddit.com/submit?url=${window.location.href}&title=Schaue wer auf ${config.target.website} Online ist!`} rel="noreferrer" target="_blank"><i class="fa fa-reddit"></i></a>
+          </div><br />
+        </div>
+      )
+    }
+
     let filteredstreamers = this.state.streams.filter((stream) => {
       let {title, game_id, type, user_name} = stream;
       if (title.match(new RegExp(config.search.regex, "gi")) && game_id == config.search.game_id && type === "live") {
@@ -144,23 +181,22 @@ class Streamers extends React.PureComponent {
     let datestring = moment(date).format('HH:mm');
     const last_update = datestring;
 
+    let loggedin;
+    if (this.state.token == "" || this.state.token == "undefined") {
+      loggedin = false;
+    } else {
+      loggedin = true
+    }
+
+    console.log(loggedin);
+
     return (
       <div>
         <div class="head">
-          <a name="#top"></a>
-          <h1>Streamer Online: { filteredstreamers.length }</h1>
-          <a href={info ? `https://${info.website}`:``} rel="noreferrer" target="_blank"><h2>{info ? info.name:``}</h2></a>
-          <a href={`https://altstats.net/server/${config.altv.intid}`} rel="noreferrer" target="_blank"><div>Gameserver: {active ? 'Online':'Offline'}</div></a>
-          <div>alt:V Version: {active ? info.version:""}</div>
-          <div>Spieler Online: {info ? info.players:""}/{info ? info.maxPlayers:""}</div>
-          <div>Zuletzt aktualisiert: {`${last_update} Uhr`}</div>
-          {this.state.token == "" || this.state.token == "undefined" ? <a href={window.location.href == "http://localhost:3000" ? config.twitch.logindevurl:config.twitch.loginurl}><button>Login to Twitch</button></a>:<a href="/logout"><button>Logout</button></a>}
-          <div class="shareicon">
-            <a href={`https://www.linkedin.com/shareArticle?mini=true&url=${window.location.href}`} rel="noreferrer" target="_blank"><i class="fa fa-linkedin"></i></a>
-            <a href={`https://twitter.com/intent/tweet?text=Schaue hier: ${window.location.href} wer auf ${config.target.website} Online ist! %23${config.target.name}`} rel="noreferrer" target="_blank"><i class="fa fa-twitter"></i></a>
-            <a href={`https://reddit.com/submit?url=${window.location.href}&title=Schaue wer auf ${config.target.website} Online ist!`} rel="noreferrer" target="_blank"><i class="fa fa-reddit"></i></a>
-          </div><br />
-          <input type="text" placeholder="Streamer, Streamtitel ..." value={this.inputValue} onChange={this.FilterOnChange}/>
+          {loggedin ? <a href="/logout"><button>Ausloggen</button></a>:<a href={config.twitch.loginurl}><button>Einloggen mit Twitch</button></a>}
+          {loggedin ? <Header streamers={filteredstreamers.length} info={info} loggedin={loggedin} />:null}
+          {loggedin ? null:<Infotext />}
+          {loggedin ? <input type="text" placeholder="Streamer, Streamtitel ..." value={this.state.inputValue} onChange={this.FilterOnChange}/>:null}
         </div>
         <ul class="cards">
           {

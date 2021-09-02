@@ -10,3 +10,11 @@ After that, every request to the Twitch API needs an Auth token and client-id. (
 # Preview
 ![preview_1](https://user-images.githubusercontent.com/34883496/131840640-c2d33e5b-922c-48b7-9666-0f142898894d.png)
 ![preview_2](https://user-images.githubusercontent.com/34883496/131840706-e8356bda-c26c-4009-8811-0d3ee0e281e7.png)
+
+# Development
+
+You need to create a file called .env.local with the following content:
+
+```
+REACT_APP_TWITCH_CLIENT_ID=XXXXXXXXXXXXXXXXXXXXXX
+```

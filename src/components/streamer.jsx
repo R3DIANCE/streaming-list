@@ -3,6 +3,7 @@ import axios from 'axios';
 import Bound from 'bounds.js';
 import moment from 'moment';
 import parse from "html-react-parser";
+import {getsetting, getboolean} from '../settings.js';
 import { config } from '../config';
 import {NavLink} from 'react-router-dom';
 import { instanceOf } from 'prop-types';
@@ -30,12 +31,12 @@ class Streamerdetails extends React.PureComponent {
       token: this.props.cookies.get("token") || ""
     }
 
-    async componentDidUpdate() {
-        const images = document.querySelectorAll('img')
-        images.forEach(image => {
-          this.boundary.watch(image, this.whenImageEnters(image))
-        })
-    }
+  async componentDidUpdate() {
+    const images = document.querySelectorAll('img')
+    images.forEach(image => {
+      this.boundary.watch(image, this.whenImageEnters(image))
+    })
+  }
 
     async writenewdata() {
       console.log("writing new data");
@@ -99,8 +100,19 @@ class Streamerdetails extends React.PureComponent {
     }
 
     render() {
+      function Shareicons() {
+        return (
+          <div class="shareicon">
+            <a href={`https://www.linkedin.com/shareArticle?mini=true&url=${window.location.href}`} rel="noreferrer" target="_blank"><i class="fa fa-linkedin"></i></a>
+            <a href={`https://twitter.com/intent/tweet?text=Schaue dir jetzt ${twitchname} live auf %23${config.target.name} an. ${window.location.href}`} rel="noreferrer" target="_blank"><i class="fa fa-twitter"></i></a>
+            <a href={`https://reddit.com/submit?url=${window.location.href}&title=Schaue dir jetzt ${twitchname} live auf ${config.target.website} an. ${window.location.href}`} rel="noreferrer" target="_blank"><i class="fa fa-reddit"></i></a>
+          </div>
+        )
+      }
+
       const { twitchname, id } = this.props.match.params;
       let {broadcaster_id, broadcaster_language, game_name, title} = this.state.channel;
+      let shareicons = getboolean(getsetting("shareicons"));
 
       return (
         <div class="streamerdetails">
@@ -117,11 +129,7 @@ class Streamerdetails extends React.PureComponent {
             <div class="streamergrid">
             <div class="A"><a href={`https://twitch.tv/${twitchname}`} rel="noreferrer" target="_blank"><table class="profileheader"><tr><td><h1>{twitchname}</h1></td><td></td></tr></table></a></div>
               <div class="B">
-                  <div class="shareicon">
-                    <a href={`https://www.linkedin.com/shareArticle?mini=true&url=${window.location.href}`} rel="noreferrer" target="_blank"><i class="fa fa-linkedin"></i></a>
-                    <a href={`https://twitter.com/intent/tweet?text=Schaue dir jetzt ${twitchname} live auf %23${config.target.name} an. ${window.location.href}`} rel="noreferrer" target="_blank"><i class="fa fa-twitter"></i></a>
-                    <a href={`https://reddit.com/submit?url=${window.location.href}&title=Schaue dir jetzt ${twitchname} live auf ${config.target.website} an. ${window.location.href}`} rel="noreferrer" target="_blank"><i class="fa fa-reddit"></i></a>
-                  </div><br />
+                {shareicons ? <Shareicons />:null}
                   <table>
                     <tr>
                       <td>Streamtitel</td><td>{title}</td>

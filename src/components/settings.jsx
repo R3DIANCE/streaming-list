@@ -1,5 +1,6 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
+import {togglesetting, getsetting, getboolean} from '../settings.js';
 
 class Settings extends React.PureComponent {
     constructor(props) {
@@ -10,30 +11,9 @@ class Settings extends React.PureComponent {
         this.setState({ time: Date.now() });
     }
 
-    setsetting(setting, state) {
-        localStorage.setItem(setting, state)
-    }
-
-    getsetting(setting) {
-        if (!localStorage.getItem(setting)) {
-            localStorage.setItem(setting, true)
-        }
-        return localStorage.getItem(setting)
-    }
-
-    getboolean(string) {
-        if (string === "true") {
-            return true
-        } else {
-            return false
-        }
-    }
-
-    togglesetting(setting) {
-        localStorage.setItem(setting, !this.getboolean(this.getsetting(setting)))
-        console.log(localStorage.getItem(setting))
+    toggle(setting) {
+        togglesetting(setting)
         this.refreshcomponent()
-        return
     }
 
     render() {
@@ -52,10 +32,10 @@ class Settings extends React.PureComponent {
                             Buttons zum teilen anzeigen
                         </td>
                         <td>
-                            {this.getboolean(this.getsetting("shareicons")) ? "eingeschaltet":"ausgeschaltet"}
+                            {getboolean(getsetting("shareicons")) ? "eingeschaltet":"ausgeschaltet"}
                         </td>
                         <td>
-                            <button onClick={() => this.togglesetting("shareicons")}>{this.getboolean(this.getsetting("shareicons")) ? "Ausschalten":"Einschalten"}</button>
+                            <button onClick={() => this.toggle("shareicons")}>{getboolean(getsetting("shareicons")) ? "Ausschalten":"Einschalten"}</button>
                         </td>
                     </tr>
                 </table>

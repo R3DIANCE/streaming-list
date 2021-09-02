@@ -3,7 +3,7 @@ import axios from 'axios';
 import Bound from 'bounds.js';
 import moment from 'moment';
 import parse from "html-react-parser";
-import {getsetting} from "./settings";
+import {getsetting, getboolean} from '../settings.js';
 import {NavLink} from 'react-router-dom';
 import { config } from '../config';
 import { instanceOf } from 'prop-types';
@@ -34,21 +34,6 @@ class Streamers extends React.PureComponent {
     inputValue: '',
     lastupdate: ''
   }
-
-  getsetting(setting) {
-    if (!localStorage.getItem(setting)) {
-        localStorage.setItem(setting, true)
-    }
-    return localStorage.getItem(setting)
-  }
-
-  getboolean(string) {
-    if (string === "true") {
-        return true
-    } else {
-        return false
-    }
-  } 
 
   FilterOnChange = (event) => {
     this.setState({
@@ -235,7 +220,7 @@ class Streamers extends React.PureComponent {
     return (
       <div>
         <div class="head">
-          {loggedin ? <Header streamers={filteredstreamers.length} info={info} loggedin={loggedin} shareicons={this.getboolean(this.getsetting("shareicons"))} />:null}
+          {loggedin ? <Header streamers={filteredstreamers.length} info={info} loggedin={loggedin} shareicons={getboolean(getsetting("shareicons"))} />:null}
           {loggedin ? null:<Infotext />}
           {loggedin ? null:<a href={config.twitch.loginurl}><button>Einloggen mit Twitch</button></a>}<br />
           {loggedin ? <input type="text" placeholder="Streamer, Streamtitel ..." value={this.state.inputValue} onChange={this.FilterOnChange}/>:null}

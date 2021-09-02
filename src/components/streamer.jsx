@@ -3,9 +3,9 @@ import axios from 'axios';
 import Bound from 'bounds.js';
 import moment from 'moment';
 import parse from "html-react-parser";
-import {getsetting, getboolean} from '../settings.js';
+import { getsetting, getboolean } from '../settings.js';
 import { config } from '../config';
-import {NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
 

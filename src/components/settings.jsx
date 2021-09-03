@@ -1,14 +1,11 @@
 import React from "react";
 import button from "../css/button.module.css";
+import NumericInput from 'react-numeric-input';
+import { config } from "../config";
 import { NavLink } from "react-router-dom";
-import { togglesetting, getsetting, getboolean, getsettingordefault } from "../js/settings.js";
+import { togglesetting, setnumbersetting, getboolean, getsettingordefault } from "../js/settings.js";
 
 class Settings extends React.PureComponent {
-    state = {
-        minviewers: 0,
-        maxviewers: 100
-    };
-
     refreshcomponent() {
         this.setState({ time: Date.now() });
     }
@@ -18,11 +15,16 @@ class Settings extends React.PureComponent {
         this.refreshcomponent();
     }
 
-    handleInput = event => {
-        this.setState({ name: event.target.value });  
-    };
-    
+    handleminviewers(num) {
+        setnumbersetting("minviewers", num);
+        return num
+    }
 
+    handlemaxviewers(num) {
+        setnumbersetting("maxviewers", num);
+        return num
+    }
+    
     render() {
         return (
             <div>
@@ -41,15 +43,33 @@ class Settings extends React.PureComponent {
                     <tr>
                         <td>Buttons zum teilen anzeigen (Share-Icons)</td>
                         <td>
-                            {!!getboolean(getsettingordefault("shareicons", true))
+                            {!!getboolean(getsettingordefault("shareicons", config.settings.shareicons))
                                 ? "eingeschaltet"
                                 : "ausgeschaltet"}
                         </td>
                         <td>
                             <label className={button.switch}>
-                                <input type="checkbox" checked={getboolean(getsettingordefault("shareicons", true))} />
+                                <input type="checkbox" checked={getboolean(getsettingordefault("shareicons", config.settings.shareicons))} />
                                 <span onClick={() => this.toggle("shareicons")} className={button.slider}></span>
                             </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Minimale Zuschauer Anzahl</td>
+                        <td>
+                            {getsettingordefault("minviewers", config.settings.minviewers)}
+                        </td>
+                        <td>
+                            <NumericInput precision={0} value={getsettingordefault("minviewers", config.settings.minviewers)} step={1} format={this.handleminviewers}/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Maximale Zuschauer Anzahl</td>
+                        <td>
+                            {getsettingordefault("maxviewers", config.settings.maxviewers)}
+                        </td>
+                        <td>
+                            <NumericInput precision={0} value={getsettingordefault("maxviewers", config.settings.maxviewers)} step={1} format={this.handlemaxviewers}/>
                         </td>
                     </tr>
                 </table>

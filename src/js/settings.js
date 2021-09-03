@@ -13,7 +13,6 @@ export function getboolean(string) {
     } else {
         return false
     }
-    
 }
 
 export function togglesetting(setting) {
@@ -26,8 +25,14 @@ export function getsettingordefault(setting, defaultvalue) {
         setsetting(setting, defaultvalue);
         return defaultvalue
     } else {
-        return getsetting(setting)
+        const num = getsetting(setting);
+        console.log(num)
+        return num
     }
+}
+
+export function setnumbersetting(setting, value) {
+    setsetting(setting, value);
 }
 
 const exports = {

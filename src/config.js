@@ -27,6 +27,11 @@ export const config = {
         "refresh_data": 5,
         "streams_data_cache": 2.5,
         "stream_info_cache": 60
+    },
+    "settings": {
+        "shareicons": true,
+        "minviewers": 0,
+        "maxviewers": 50000
     }
 }
 

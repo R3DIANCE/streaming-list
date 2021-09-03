@@ -309,11 +309,13 @@ class Streamers extends React.PureComponent {
         }
 
         let filteredstreamers = this.state.streams.filter((stream) => {
-            let { title, game_id, type, user_name } = stream;
+            let { title, game_id, type, user_name, viewer_count } = stream;
             if (
                 title.match(new RegExp(config.search.regex, "gi")) &&
                 game_id === config.search.game_id &&
-                type === "live"
+                type === "live" &&
+                viewer_count < getsettingordefault("maxviewers", "50000") &&
+                viewer_count > getsettingordefault("minviewers", "0")
             ) {
                 return (
                     user_name
@@ -374,7 +376,7 @@ class Streamers extends React.PureComponent {
                             value={this.state.inputValue}
                             onChange={this.FilterOnChange}
                         />
-                    ) : null}
+                    ) : null}<br />
                 </div>
                 <ul className={streamer.cards}>
                     {filteredstreamers.map((stream) => {

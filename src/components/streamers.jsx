@@ -5,7 +5,7 @@ import parse from "html-react-parser";
 import button from "../css/button.module.css";
 import streamer from "../css/streamer.module.css";
 import { get } from "axios";
-import { getsetting, getboolean } from "../js/settings.js";
+import { getboolean, getsettingordefault } from "../js/settings.js";
 import { NavLink } from "react-router-dom";
 import { config } from "../config";
 import { instanceOf } from "prop-types";
@@ -355,7 +355,7 @@ class Streamers extends React.PureComponent {
                             streamers={filteredstreamers.length}
                             info={info}
                             loggedin={loggedin}
-                            shareicons={getboolean(getsetting("shareicons"))}
+                            shareicons={getboolean(getsettingordefault("shareicons", "true"))}
                         />
                     ) : null}
                     {loggedin ? null : <Infotext />}

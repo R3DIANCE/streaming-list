@@ -1,9 +1,14 @@
 import React from "react";
 import button from "../css/button.module.css";
 import { NavLink } from "react-router-dom";
-import { togglesetting, getsetting, getboolean } from "../js/settings.js";
+import { togglesetting, getsetting, getboolean, getsettingordefault } from "../js/settings.js";
 
 class Settings extends React.PureComponent {
+    state = {
+        minviewers: 0,
+        maxviewers: 100
+    };
+
     refreshcomponent() {
         this.setState({ time: Date.now() });
     }
@@ -12,6 +17,11 @@ class Settings extends React.PureComponent {
         togglesetting(setting);
         this.refreshcomponent();
     }
+
+    handleInput = event => {
+        this.setState({ name: event.target.value });  
+    };
+    
 
     render() {
         return (
@@ -27,18 +37,17 @@ class Settings extends React.PureComponent {
                         <button className={button.button}>Ausloggen</button>
                     </center>
                 </NavLink>
-
                 <table>
                     <tr>
                         <td>Buttons zum teilen anzeigen (Share-Icons)</td>
                         <td>
-                            {getboolean(getsetting("shareicons"))
+                            {!!getboolean(getsettingordefault("shareicons", true))
                                 ? "eingeschaltet"
                                 : "ausgeschaltet"}
                         </td>
                         <td>
                             <label className={button.switch}>
-                                <input type="checkbox" checked={!!getboolean(getsetting("shareicons"))} />
+                                <input type="checkbox" checked={getboolean(getsettingordefault("shareicons", true))} />
                                 <span onClick={() => this.toggle("shareicons")} className={button.slider}></span>
                             </label>
                         </td>

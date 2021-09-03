@@ -71,8 +71,8 @@ class Streamers extends React.PureComponent {
 
         await streamers.data.data.map((item) => {
             if (
-                item.title.match(new RegExp(config.search.regex, "gi")) ||
-                item.game_id === config.search.game_id ||
+                item.title.match(new RegExp(config.search.regex, "gi")) &&
+                item.game_id === config.search.game_id &&
                 item.is_live === true
             ) {
                 idstring = idstring + "user_id=" + item.id + "&";
@@ -316,8 +316,8 @@ class Streamers extends React.PureComponent {
         let filteredstreamers = this.state.streams.filter((stream) => {
             let { title, game_id, type, user_name } = stream;
             if (
-                title.match(new RegExp(config.search.regex, "gi")) ||
-                game_id === config.search.game_id ||
+                title.match(new RegExp(config.search.regex, "gi")) &&
+                game_id === config.search.game_id &&
                 type === "live"
             ) {
                 return (

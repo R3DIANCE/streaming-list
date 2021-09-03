@@ -65,9 +65,10 @@ class Streamers extends React.PureComponent {
     ]);
 
     await streamers.data.data.map(item => {
-      if (item.title.match(new RegExp(config.search.regex, "gi")) && item.game_id == config.search.game_id && item.is_live === true) {
+      if (item.title.match(new RegExp(config.search.regex, "gi")) || item.game_id === config.search.game_id || item.is_live === true) {
         idstring = idstring + "user_id=" + item.id + "&";
       }
+      return null
     });
 
     const [streams] = await Promise.all([
@@ -122,7 +123,7 @@ class Streamers extends React.PureComponent {
 
   async componentDidMount() {
     this.interval = setInterval(this.getData.bind(this), (config.time.refresh_data*1000)*60);
-    if (this.state.token !== "" || this.state.token == "undefined") {
+    if (this.state.token !== "" || this.state.token === "undefined") {
       this.getData();
     }
   }
@@ -168,7 +169,7 @@ class Streamers extends React.PureComponent {
 
       return (
         <div>
-          <a name="#top"></a>
+          <a class="anchor" href="/#" name="#top">Top</a>
           <table>
             <tr>
               <td><NavLink exact to="/settings" activeClassName="selected"><div class="settingsicon"><i class="fa fa-cog"></i></div></NavLink></td>
@@ -198,8 +199,10 @@ class Streamers extends React.PureComponent {
 
     let filteredstreamers = this.state.streams.filter((stream) => {
       let {title, game_id, type, user_name} = stream;
-      if (title.match(new RegExp(config.search.regex, "gi")) && game_id == config.search.game_id && type === "live") {
+      if (title.match(new RegExp(config.search.regex, "gi")) || game_id === config.search.game_id || type === "live") {
         return user_name.toLowerCase().includes(this.state.inputValue.toLocaleLowerCase()) || title.toLowerCase().includes(this.state.inputValue.toLocaleLowerCase())
+      } else {
+        return null
       }
     })
     
@@ -211,7 +214,7 @@ class Streamers extends React.PureComponent {
     const last_update = datestring;
 
     let loggedin;
-    if (this.state.token == "" || this.state.token == "undefined") {
+    if (this.state.token === "" || this.state.token === "undefined") {
       loggedin = false;
     } else {
       loggedin = true

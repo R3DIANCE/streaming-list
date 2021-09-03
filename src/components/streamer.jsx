@@ -94,7 +94,7 @@ class Streamerdetails extends React.PureComponent {
     }
 
     async componentDidMount() {
-      if (this.state.token !== "" || this.state.token == "undefined") {
+      if (this.state.token !== "" || this.state.token === "undefined") {
         this.getData();
       }
     }
@@ -110,13 +110,13 @@ class Streamerdetails extends React.PureComponent {
         )
       }
 
-      const { twitchname, id } = this.props.match.params;
+      const { twitchname } = this.props.match.params;
       let {broadcaster_id, broadcaster_language, game_name, title} = this.state.channel;
       let shareicons = getboolean(getsetting("shareicons"));
 
       return (
         <div class="streamerdetails">
-          <a name="#top"></a>
+          <a class="anchor" href="/#" name="#top">Top</a>
           <meta name="twitter:card" content="photo" />
           <meta name="twitter:title" content={twitchname} />
           <meta name="twitter:description" content={`Schaue dir ${twitchname} auf Twitch an!`} />
@@ -147,7 +147,7 @@ class Streamerdetails extends React.PureComponent {
                   <a href={`https://twitch.tv/${twitchname}`} rel="noreferrer" target="_blank">
                   <div class="bigcard">
                     <div class="card__image">
-                      <img width="640px" height="340px" src="/img/placeholder.webp" data-src={`https://static-cdn.jtvnw.net/previews-ttv/live_user_${twitchname}-640x360.jpg?${new Date()}`} referrerPolicy="same-origin"></img>
+                      <img width="640px" height="340px" src="/img/placeholder.webp" data-src={`https://static-cdn.jtvnw.net/previews-ttv/live_user_${twitchname}-640x360.jpg?${new Date()}`} alt={twitchname} referrerPolicy="same-origin"></img>
                       <div class="text-block"><i class="fa fa-circle"></i>Live</div>
                     </div>
                     <div class="card__content">
@@ -179,6 +179,8 @@ class Streamerdetails extends React.PureComponent {
                     </a>
                   </li>
                 )
+              } else {
+                return null
               }
             })
           }

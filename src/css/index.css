@@ -352,4 +352,11 @@ button:hover {
   font-size: 2rem;
 }
 
+.anchor {
+  visibility: hidden;
+  display: block;
+  width: 0px;
+  height: 0px;
+}
+
 @import url("font-awesome.css");

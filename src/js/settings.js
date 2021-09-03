@@ -26,7 +26,6 @@ export function getsettingordefault(setting, defaultvalue) {
         return defaultvalue
     } else {
         const num = getsetting(setting);
-        console.log(num)
         return num
     }
 }

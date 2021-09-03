@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import { get } from 'axios';
 import { config } from '../config';
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
@@ -19,7 +19,7 @@ class Logout extends React.PureComponent {
   componentDidMount() {
     const { cookies } = this.props;
     cookies.remove("token", { path: "/" });
-    axios.get(`https://id.twitch.tv/oauth2/revoke?client_id=${config.twitch.clientid}&token=${this.state.token}`, {
+    get(`https://id.twitch.tv/oauth2/revoke?client_id=${config.twitch.clientid}&token=${this.state.token}`, {
         headers: { 'client-id': config.twitch.clientid, 'Authorization': 'Bearer ' + this.state.token }
     })
   }

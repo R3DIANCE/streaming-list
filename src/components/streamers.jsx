@@ -1,9 +1,9 @@
 import React from 'react';
-import axios from 'axios';
 import Bound from 'bounds.js';
 import moment from 'moment';
 import parse from "html-react-parser";
-import { getsetting, getboolean } from '../settings.js';
+import { get } from 'axios';
+import { getsetting, getboolean } from '../js/settings.js';
 import { NavLink } from 'react-router-dom';
 import { config } from '../config';
 import { instanceOf } from 'prop-types';
@@ -56,10 +56,10 @@ class Streamers extends React.PureComponent {
     let idstring = "";
 
     const [streamers, servers] = await Promise.all([
-      axios.get(`https://api.twitch.tv/helix/search/channels?query=${config.search.term}&first=100&live_only=true`, {
+      get(`https://api.twitch.tv/helix/search/channels?query=${config.search.term}&first=100&live_only=true`, {
         headers: { 'client-id': config.twitch.clientid, 'Authorization': 'Bearer ' + token }
       }),
-      axios.get(`https://api.altv.mp/server/${config.altv.longid}`, {
+      get(`https://api.altv.mp/server/${config.altv.longid}`, {
         headers: { 'accept': 'application/json' }
       })
     ]);
@@ -71,7 +71,7 @@ class Streamers extends React.PureComponent {
     });
 
     const [streams] = await Promise.all([
-      axios.get(`https://api.twitch.tv/helix/streams?first=100&game_id=${config.search.game_id}&language=${config.search.language}&${idstring}`, {
+      get(`https://api.twitch.tv/helix/streams?first=100&game_id=${config.search.game_id}&language=${config.search.language}&${idstring}`, {
         headers: { 'client-id': config.twitch.clientid, 'Authorization': 'Bearer ' + token }
       })
     ]);

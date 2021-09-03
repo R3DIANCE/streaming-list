@@ -1,9 +1,9 @@
 import React from 'react';
-import axios from 'axios';
 import Bound from 'bounds.js';
 import moment from 'moment';
 import parse from "html-react-parser";
-import { getsetting, getboolean } from '../settings.js';
+import { get } from 'axios';
+import { getsetting, getboolean } from '../js/settings.js';
 import { config } from '../config';
 import { NavLink } from 'react-router-dom';
 import { instanceOf } from 'prop-types';
@@ -44,10 +44,10 @@ class Streamerdetails extends React.PureComponent {
       const token = this.state.token;
 
       const [channel, vods] = await Promise.all([
-        axios.get(`https://api.twitch.tv/helix/channels?broadcaster_id=${id}`, {
+        get(`https://api.twitch.tv/helix/channels?broadcaster_id=${id}`, {
           headers: { 'Client-ID': config.twitch.clientid, 'Authorization': 'Bearer ' + token }
         }),
-        axios.get(`https://api.twitch.tv/helix/videos?user_id=${id}`, {
+        get(`https://api.twitch.tv/helix/videos?user_id=${id}`, {
           headers: { 'Client-ID': config.twitch.clientid, 'Authorization': 'Bearer ' + token }
         })
       ]);

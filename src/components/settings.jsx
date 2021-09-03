@@ -1,12 +1,8 @@
 import React from 'react';
-import {NavLink} from 'react-router-dom';
-import {togglesetting, getsetting, getboolean} from '../settings.js';
+import { NavLink } from 'react-router-dom';
+import { togglesetting, getsetting, getboolean } from '../js/settings.js';
 
 class Settings extends React.PureComponent {
-    constructor(props) {
-        super(props);
-    }
-
     refreshcomponent() {
         this.setState({ time: Date.now() });
     }

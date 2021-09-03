@@ -3,7 +3,7 @@ export function setsetting(setting, state) {
 }
 
 export function getsetting(setting) {
-    if (!localStorage.getItem(setting)) {
+    if (localStorage.getItem(setting) === null) {
         localStorage.setItem(setting, true)
     }
     return localStorage.getItem(setting)
@@ -19,14 +19,15 @@ export function getboolean(string) {
 }
 
 export function togglesetting(setting) {
-    console.log(localStorage.getItem(setting))
     setsetting(setting, !getboolean(getsetting(setting)))
     return
 }
 
-export default {
+const exports = {
     setsetting,
     getsetting,
     getboolean,
     togglesetting
 }
+
+export default exports

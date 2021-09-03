@@ -17,7 +17,7 @@ class Login extends React.PureComponent {
 
   componentDidMount() {
     const { cookies } = this.props;
-    if (this.state.token == "" || this.state.token == "undefined" && !((this.state.token + '').match(/[a-z0-9]{30}/gm))) {
+    if (this.state.token === "" || this.state.token === "undefined" || !((this.state.token + '').match(/[a-z0-9]{30}/gm))) {
       const token = this.props.location.hash.replace("#access_token=", "").replace("&scope=", "").replace("&token_type=bearer", "");
       cookies.remove("token", { path: "/" });
       // 2678400 = 31 days

@@ -1,6 +1,6 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { togglesetting, getsetting, getboolean } from '../js/settings.js';
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { togglesetting, getsetting, getboolean } from "../js/settings.js";
 
 class Settings extends React.PureComponent {
     refreshcomponent() {
@@ -8,34 +8,47 @@ class Settings extends React.PureComponent {
     }
 
     toggle(setting) {
-        togglesetting(setting)
-        this.refreshcomponent()
+        togglesetting(setting);
+        this.refreshcomponent();
     }
 
     render() {
         return (
             <div>
-                <NavLink 
-                    exact to="/" 
-                    activeClassName="selected">
-                    <center><button>Zurück</button></center>
-                </NavLink><br/>
-                <NavLink exact to="/logout" activeClassName="selected"><center><button>Ausloggen</button></center></NavLink>
+                <NavLink exact to="/" activeClassName="selected">
+                    <center>
+                        <button>Zurück</button>
+                    </center>
+                </NavLink>
+                <br />
+                <NavLink exact to="/logout" activeClassName="selected">
+                    <center>
+                        <button>Ausloggen</button>
+                    </center>
+                </NavLink>
 
                 <table>
                     <tr>
+                        <td>Buttons zum teilen anzeigen</td>
                         <td>
-                            Buttons zum teilen anzeigen
+                            {getboolean(getsetting("shareicons"))
+                                ? "eingeschaltet"
+                                : "ausgeschaltet"}
                         </td>
                         <td>
-                            {getboolean(getsetting("shareicons")) ? "eingeschaltet":"ausgeschaltet"}
-                        </td>
-                        <td>
-                            <button onClick={() => this.toggle("shareicons")}>{getboolean(getsetting("shareicons")) ? "Ausschalten":"Einschalten"}</button>
+                            <label class="switch">
+                                <span class="slider round"></span>
+                            </label>
+                            <button onClick={() => this.toggle("shareicons")}>
+                                {getboolean(getsetting("shareicons"))
+                                    ? "Ausschalten"
+                                    : "Einschalten"}
+                            </button>
                         </td>
                     </tr>
                 </table>
             </div>
-        )
+        );
     }
-} export default React.memo(Settings);
+}
+export default React.memo(Settings);

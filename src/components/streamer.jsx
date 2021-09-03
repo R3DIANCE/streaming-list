@@ -2,6 +2,8 @@ import React from "react";
 import Bound from "bounds.js";
 import moment from "moment";
 import parse from "html-react-parser";
+import button from "../css/button.module.css";
+import streamer from "../css/streamer.module.css";
 import { get } from "axios";
 import { getsetting, getboolean } from "../js/settings.js";
 import { config } from "../config";
@@ -133,7 +135,7 @@ class Streamerdetails extends React.PureComponent {
     render() {
         function Shareicons() {
             return (
-                <div class="shareicon">
+                <div className={streamer.shareicon}>
                     <a
                         href={`https://www.linkedin.com/shareArticle?mini=true&url=${window.location.href}`}
                         rel="noreferrer"
@@ -165,7 +167,7 @@ class Streamerdetails extends React.PureComponent {
         let shareicons = getboolean(getsetting("shareicons"));
 
         return (
-            <div class="streamerdetails">
+            <div className={streamer.streamerdetails}>
                 <a class="anchor" href="/#" name="#top">
                     Top
                 </a>
@@ -180,17 +182,17 @@ class Streamerdetails extends React.PureComponent {
                     content={`https://${window.location.href}/streamer/${twitchname}`}
                 />
                 <NavLink exact to="/" activeClassName="selected">
-                    <button>Zurück</button>
+                    <button className={button.button}>Zurück</button>
                 </NavLink>
                 <br />
-                <div class="streamergrid">
-                    <div class="A">
+                <div className={streamer.streamergrid}>
+                    <div className={streamer.A}>
                         <a
                             href={`https://twitch.tv/${twitchname}`}
                             rel="noreferrer"
                             target="_blank"
                         >
-                            <table class="profileheader">
+                            <table className={streamer.profileheader}>
                                 <tr>
                                     <td>
                                         <h1>{twitchname}</h1>
@@ -200,7 +202,7 @@ class Streamerdetails extends React.PureComponent {
                             </table>
                         </a>
                     </div>
-                    <div class="B">
+                    <div className={streamer.B}>
                         {shareicons ? <Shareicons /> : null}
                         <table>
                             <tr>
@@ -217,15 +219,15 @@ class Streamerdetails extends React.PureComponent {
                             </tr>
                         </table>
                     </div>
-                    <div class="C">
-                        <li class="cards__item" key={broadcaster_id}>
+                    <div className={streamer.C}>
+                        <li className={streamer.cards__item} key={broadcaster_id}>
                             <a
                                 href={`https://twitch.tv/${twitchname}`}
                                 rel="noreferrer"
                                 target="_blank"
                             >
-                                <div class="bigcard">
-                                    <div class="card__image">
+                                <div className={streamer.bigcard}>
+                                    <div className={streamer.card__image}>
                                         <img
                                             width="640px"
                                             height="340px"
@@ -234,19 +236,19 @@ class Streamerdetails extends React.PureComponent {
                                             alt={twitchname}
                                             referrerPolicy="same-origin"
                                         ></img>
-                                        <div class="text-block">
+                                        <div className={streamer.textblock}>
                                             <i class="fa fa-circle"></i>Live
                                         </div>
                                     </div>
-                                    <div class="card__content">
-                                        <p class="card__text">{title}</p>
+                                    <div className={streamer.card__content}>
+                                        <p className={streamer.card__text}>{title}</p>
                                     </div>
                                 </div>
                             </a>
                         </li>
                     </div>
                 </div>
-                <ul class="cards">
+                <ul className={streamer.cards}>
                     {this.state.vods.map((vod) => {
                         const {
                             id,
@@ -260,14 +262,14 @@ class Streamerdetails extends React.PureComponent {
                         } = vod;
                         if ((type === "archive") | (type === "recorded")) {
                             return (
-                                <li class="cards__item" key={id}>
+                                <li className={streamer.cards__item} key={id}>
                                     <a
                                         href={url}
                                         rel="noreferrer"
                                         target="_blank"
                                     >
-                                        <div class="card">
-                                            <div class="card__image">
+                                        <div className={streamer.card}>
+                                            <div className={streamer.card__image}>
                                                 <img
                                                     width="640px"
                                                     height="340px"
@@ -288,14 +290,14 @@ class Streamerdetails extends React.PureComponent {
                                                     alt={display_name}
                                                     referrerPolicy="same-origin"
                                                 ></img>
-                                                <div class="text-block">
+                                                <div className={streamer.textblock}>
                                                     Aufrufe: {view_count}
                                                     <br />
                                                     Länge: {duration}
                                                 </div>
                                             </div>
-                                            <div class="card__content">
-                                                <p class="card__text">
+                                            <div className={streamer.card__content}>
+                                                <p className={streamer.card__text}>
                                                     {title}
                                                     <br />
                                                 </p>

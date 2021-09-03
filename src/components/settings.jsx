@@ -1,4 +1,5 @@
 import React from "react";
+import button from "../css/button.module.css";
 import { NavLink } from "react-router-dom";
 import { togglesetting, getsetting, getboolean } from "../js/settings.js";
 
@@ -17,33 +18,29 @@ class Settings extends React.PureComponent {
             <div>
                 <NavLink exact to="/" activeClassName="selected">
                     <center>
-                        <button>Zurück</button>
+                        <button className={button.button}>Zurück</button>
                     </center>
                 </NavLink>
                 <br />
                 <NavLink exact to="/logout" activeClassName="selected">
                     <center>
-                        <button>Ausloggen</button>
+                        <button className={button.button}>Ausloggen</button>
                     </center>
                 </NavLink>
 
                 <table>
                     <tr>
-                        <td>Buttons zum teilen anzeigen</td>
+                        <td>Buttons zum teilen anzeigen (Share-Icons)</td>
                         <td>
                             {getboolean(getsetting("shareicons"))
                                 ? "eingeschaltet"
                                 : "ausgeschaltet"}
                         </td>
                         <td>
-                            <label class="switch">
-                                <span class="slider round"></span>
+                            <label className={button.switch}>
+                                <input type="checkbox" checked={!!getboolean(getsetting("shareicons"))} />
+                                <span onClick={() => this.toggle("shareicons")} className={button.slider}></span>
                             </label>
-                            <button onClick={() => this.toggle("shareicons")}>
-                                {getboolean(getsetting("shareicons"))
-                                    ? "Ausschalten"
-                                    : "Einschalten"}
-                            </button>
                         </td>
                     </tr>
                 </table>

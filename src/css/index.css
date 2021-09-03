@@ -1,312 +1,78 @@
 @charset "utf-8";
 
 html {
-	font-size : 16px;
-	font-family: 
-    system-ui,
-    "Segoe UI",
-    "Ubuntu",
-    "Roboto", "Noto Sans", "Droid Sans",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  word-wrap : break-word;
-	background-color: #343a40;
-	color: white;
+    font-size: 16px;
+    font-family: system-ui, "Segoe UI", "Ubuntu", "Roboto", "Noto Sans",
+        "Droid Sans", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    word-wrap: break-word;
+    background-color: #343a40;
+    color: white;
 }
 
 *,
 *::before,
-*::after { 
-  box-sizing: border-box;
+*::after {
+    box-sizing: border-box;
 }
 
 @font-face {
-  font-family: "Courgette";
-  src: url("../fonts/Courgette-Regular.woff2") format('woff2'),
-       url("../fonts/Courgette-Regular.ttf") format('truetype');
+    font-family: "Courgette";
+    src: url("../fonts/Courgette-Regular.woff2") format("woff2"),
+        url("../fonts/Courgette-Regular.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: "fontawesome";
-  src: url("../fonts/fontawesome-webfont.woff2");
+    font-family: "fontawesome";
+    src: url("../fonts/fontawesome-webfont.woff2");
 }
 
 h1,
 h2,
 h3 {
-  font-family: "Courgette";
+    font-family: "Courgette";
 }
 
 body {
-  margin: 0;
+    margin: 0;
 }
 
 a {
-	color: white;
-	text-decoration: none;
-}
-
-.shareicon {
-  display: block;
-  margin: 0px;
-  padding-top: 1%;
-  position: relative;
-  height: auto;
-  width: 100%;
-  overflow-y: hidden;
-  overflow-x: auto;
-  word-wrap: normal;
-  white-space: nowrap;
-}
-
-.shareicon .fa {
-  display: inline;
-  margin: 0px;
-  padding: 1%;
-  vertical-align: middle;
-  font-size: 5em;
+    color: white;
+    text-decoration: none;
 }
 
 .fa-circle {
-  color: red;
+    color: red;
 }
 
 .fa-circle:hover {
-  color: red;
+    color: red;
 }
 
 a:hover {
-  color: #fcd401;
+    color: #fcd401;
 }
 
 .head {
-	text-align: center;
-}
-
-input[type=text] {
-  width: 80%;
-  padding: 0.75%;
-  margin-top: 0.75%;
-  background: #333;
-  border-color: #1a1a1a;
-  border-radius: 4px;
-  color: #dadada;
-}
-
-input[type=text]:focus {
-  border-color: #fcd401;
-  border-radius: 5px;
-}
-
-.cards {
-  display: flex;
-  flex-wrap: wrap;
-  list-style: none;
-  margin: 0;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0;
-  max-width: 80%;
-}
-
-.cards__item {
-  display: flex;
-  padding: 1rem;
-}
-
-@media(max-width: 896px) {
-  .cards {
-    max-width: 90%;
-  }
-  table {
-    width: 90%;
-  }
-}
-
-@media(max-width: 641px) {
-  .cards {
-    max-width: 95%;
-  }
-  input[type=text] {
-    width: 85%;
-  }
-  .shareicon img {
-    width: 15%;
-  }
-  table {
-    width: 95%;
-  }
-}
-
-@media(min-width: 40rem) {
-  .cards__item {
-    width: 50%;
-  }
-}
-
-@media(min-width: 56rem) {
-  .cards__item {
-    width: 33.3333%;
-  }
-}
-
-.bigcard {
-  background-color: #fcd401;
-  color: black;
-  border-radius: 0px 0px 1rem 1rem;
-  box-shadow: 0 20px 40px -14px rgba(0,0,0,0.25);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  transition: all .3s linear;
-  width: 40vw;
-  margin: 0 auto;
-}
-
-
-.card {
-  background-color: #fcd401;
-  color: black;
-  border-radius: 0px 0px 0.5rem 0.5rem;
-  box-shadow: 0 20px 40px -14px rgba(0,0,0,0.25);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  transition: all .3s linear;
-}
-
-.bigcard:hover,
-.card:hover {
-  color: white;
-  background-color: black;
-}
-
-.card__content {
-  display: flex;
-  flex-grow: 1;
-  flex-direction: column;
-  padding: 1rem;
-}
-
-.card__image {
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  filter: contrast(70%);
-  overflow: hidden;
-  position: relative;
-  transition: filter 0.5s cubic-bezier(.43,.41,.22,.91);;
-}
-
-.text-block {
-  position: absolute;
-  bottom: 5%;
-  right: 5%;
-  background-color: black;
-  color: white;
-  padding-left: 5%;
-  padding-right: 5%;
-  font-size: 1.5em;
+    text-align: center;
 }
 
 img {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 .twitchproicon {
-  width: 5vw;
-}
-
-.profileheader {
-  margin-bottom: 2%;
-}
-
-.card__title {
-  font-size: 1.25rem;
-  font-weight: 300;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-.card__text {
-  flex: 1 1 auto;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  margin-bottom: 1.25rem;
-}
-
-.streamerdetails {
-  text-align: center;
-}
-
-.infotext {
-  width : 35%;
-  text-align: justify;
-  margin: auto;
-}
-
-.infotext a {
-  text-decoration: underline;
-  text-decoration-color: blue;
+    width: 5vw;
 }
 
 table {
-  margin: 0 auto;
-  width: 75%;
-  border-collapse: collapse;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-}
-
-.streamergrid {
-  display               : grid;
-  grid-auto-flow        : column;
-  grid-template-rows    : auto;
-  grid-template-columns : 50% 50%;
-  grid-template-areas   : "A A"
-                          "B C";
-  width: 100%;
-}
-
-@media(max-width: 641px) {
-  .streamergrid {
-    grid-template-areas   : "A"
-                            "B"
-                            "C";
-  }
-  .A,
-  .B,
-  .C {
-    width: 200%;
-  }
-  .C {
     margin: 0 auto;
-  }
-  .C .cards__item {
-    width: 100%;
-  }
-  .bigcard {
-    width: 100%;
-  }
-  .shareicon .fa {
-    font-size: 3.5em;
-  }
-  .twitchproicon {
-    width: 15vw;
-  }
-}
-
-.A {
-  grid-area: A;
-}
-
-.B {
-  grid-area: B;
-}
-
-.C {
-  grid-area: C;
+    width: 75%;
+    border-collapse: collapse;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
 th,
@@ -315,48 +81,24 @@ td {
 }
 
 tr:nth-of-type(even) {
-  background-color: gray;
-}
-
-button {
-  border: none;
-  color: black;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  background-color: #fcd401;
-  transition: all .2s linear;
-}
-
-button:hover {
-  color: white;
-  background-color: black;
-}
-
-.note {
-  padding: 0.5%;
-  text-align: right;
+    background-color: gray;
 }
 
 .privacy {
-  padding: 2.5%;
-  text-align: justify;
+    padding: 2.5%;
+    text-align: justify;
 }
 
 .settingsicon {
-  padding: 0.5%;
-  font-size: 2rem;
+    padding: 0.5%;
+    font-size: 2rem;
 }
 
 .anchor {
-  visibility: hidden;
-  display: block;
-  width: 0px;
-  height: 0px;
+    visibility: hidden;
+    display: block;
+    width: 0px;
+    height: 0px;
 }
 
 @import url("font-awesome.css");

@@ -2,6 +2,8 @@ import React from "react";
 import Bound from "bounds.js";
 import moment from "moment";
 import parse from "html-react-parser";
+import button from "../css/button.module.css";
+import streamer from "../css/streamer.module.css";
 import { get } from "axios";
 import { getsetting, getboolean } from "../js/settings.js";
 import { NavLink } from "react-router-dom";
@@ -163,7 +165,7 @@ class Streamers extends React.PureComponent {
     render() {
         function Infotext() {
             return (
-                <div class="infotext">
+                <div className={streamer.infotext}>
                     <p>Warum brauchen wir zugang zu deinem Account?</p>
                     <p>
                         Um Daten von Twitch abzufragen nutzt man eine sogenannte
@@ -209,7 +211,7 @@ class Streamers extends React.PureComponent {
 
         function Shareicons() {
             return (
-                <div class="shareicon">
+                <div className={streamer.shareicon}>
                     <a
                         href={`https://www.linkedin.com/shareArticle?mini=true&url=${window.location.href}`}
                         rel="noreferrer"
@@ -366,7 +368,7 @@ class Streamers extends React.PureComponent {
                     {loggedin ? null : <Infotext />}
                     {loggedin ? null : (
                         <a href={config.twitch.loginurl}>
-                            <button>Einloggen mit Twitch</button>
+                            <button className={button.button}>Einloggen mit Twitch</button>
                         </a>
                     )}
                     <br />
@@ -379,7 +381,7 @@ class Streamers extends React.PureComponent {
                         />
                     ) : null}
                 </div>
-                <ul class="cards">
+                <ul className={streamer.cards}>
                     {filteredstreamers.map((stream) => {
                         const {
                             id,
@@ -394,7 +396,7 @@ class Streamers extends React.PureComponent {
                         const date = new Date().getTime();
 
                         return (
-                            <li class="cards__item" key={id}>
+                            <li className={streamer.cards__item} key={id}>
                                 <NavLink
                                     exact
                                     to={
@@ -405,8 +407,8 @@ class Streamers extends React.PureComponent {
                                     }
                                     activeClassName="selected"
                                 >
-                                    <div class="card">
-                                        <div class="card__image">
+                                    <div className={streamer.card}>
+                                        <div className={streamer.card__image}>
                                             <img
                                                 width="640px"
                                                 height="340px"
@@ -420,13 +422,13 @@ class Streamers extends React.PureComponent {
                                                 alt={user_name}
                                                 referrerPolicy="same-origin"
                                             ></img>
-                                            <div class="text-block">
+                                            <div className={streamer.textblock}>
                                                 {user_name}{" "}
                                                 <i class="fa fa-twitch"></i>
                                             </div>
                                         </div>
-                                        <div class="card__content">
-                                            <p class="card__text">
+                                        <div className={streamer.card__content}>
+                                            <p className={streamer.card__text}>
                                                 {title}
                                                 <br />
                                                 Zuschauer: {viewer_count}
@@ -444,7 +446,7 @@ class Streamers extends React.PureComponent {
                         );
                     })}
                 </ul>
-                <div class="note">
+                <div className={streamer.note}>
                     {config.website.author} {new Date().getFullYear()} |{" "}
                     {parse(config.website.footer_text)} <br />{" "}
                     <NavLink exact to="/privacy" activeClassName="selected">

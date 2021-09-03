@@ -246,19 +246,13 @@ class Streamers extends React.PureComponent {
                     <a class="anchor" href="/#" name="#top">
                         Top
                     </a>
+                    <NavLink exact to="/settings" activeClassName="selected">
+                        <div class="settingsicon">
+                            <i class="fa fa-cog"></i>
+                        </div>
+                    </NavLink>
                     <table>
                         <tr>
-                            <td>
-                                <NavLink
-                                    exact
-                                    to="/settings"
-                                    activeClassName="selected"
-                                >
-                                    <div class="settingsicon">
-                                        <i class="fa fa-cog"></i>
-                                    </div>
-                                </NavLink>
-                            </td>
                             <td>
                                 <h1>Streamer Online: {streamers}</h1>
                             </td>
@@ -343,7 +337,7 @@ class Streamers extends React.PureComponent {
             0
         );
 
-        let datestring = `${date.getHours()}:${date.getMinutes()}`
+        let datestring = `${date.getHours()}:${date.getMinutes()}`;
         const last_update = datestring;
 
         let loggedin;
@@ -367,7 +361,9 @@ class Streamers extends React.PureComponent {
                     {loggedin ? null : <Infotext />}
                     {loggedin ? null : (
                         <a href={config.twitch.loginurl}>
-                            <button className={button.button}>Einloggen mit Twitch</button>
+                            <button className={button.button}>
+                                Einloggen mit Twitch
+                            </button>
                         </a>
                     )}
                     <br />

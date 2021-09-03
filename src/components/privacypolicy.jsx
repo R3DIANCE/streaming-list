@@ -1,4 +1,5 @@
 import React from 'react';
+import button from "../css/button.module.css";
 import { NavLink } from 'react-router-dom';
 
 class Privacy extends React.PureComponent {
@@ -8,7 +9,7 @@ class Privacy extends React.PureComponent {
             <NavLink 
                 exact to="/" 
                 activeClassName="selected">
-                <center><button>Zurück</button></center>
+                <center><button className={button.button}>Zurück</button></center>
             </NavLink><br/>
             <div class="privacy">
                 <h1>Datenschutzbestimmungen für Nickwasused</h1>

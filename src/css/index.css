@@ -90,7 +90,10 @@ tr:nth-of-type(even) {
 }
 
 .settingsicon {
-    padding: 0.5%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 1.5%;
     font-size: 2rem;
 }
 

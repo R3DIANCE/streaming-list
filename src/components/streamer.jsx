@@ -194,7 +194,6 @@ class Streamerdetails extends React.PureComponent {
                                     <td>
                                         <h1>{twitchname}</h1>
                                     </td>
-                                    <td></td>
                                 </tr>
                             </table>
                         </a>
@@ -308,9 +307,12 @@ class Streamerdetails extends React.PureComponent {
                         }
                     })}
                 </ul>
-                <div class="note">
+                <div className={streamer.note}>
                     {config.website.author} {new Date().getFullYear()} |{" "}
-                    {parse(config.website.footer_text)}
+                    {parse(config.website.footer_text)} <br />{" "}
+                    <NavLink exact to="/privacy" activeClassName="selected">
+                        <a>Datenschutzbestimmungen</a>
+                    </NavLink>
                     <br />
                     <a href="#top">Nach oben</a>
                 </div>

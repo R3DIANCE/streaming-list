@@ -137,6 +137,12 @@ input[type="text"]:focus {
     margin-bottom: 2%;
 }
 
+.profileheader td {
+    display: block;
+    width: 99.9%;
+    clear: both;
+}
+
 .card__title {
     font-size: 1.25rem;
     font-weight: 300;

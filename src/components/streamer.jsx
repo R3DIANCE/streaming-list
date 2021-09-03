@@ -1,6 +1,6 @@
 import React from "react";
 import Bound from "bounds.js";
-import moment from "moment";
+import { isafternow } from "../js/time.js";
 import parse from "html-react-parser";
 import button from "../css/button.module.css";
 import streamer from "../css/streamer.module.css";
@@ -110,11 +110,8 @@ class Streamerdetails extends React.PureComponent {
         ) {
             this.writenewdata();
         } else {
-            const dateLimit = moment(
-                localStorage.getItem("invaliddata:streamer:" + twitchname)
-            );
-            const now = moment();
-            if (dateLimit.isValid() && now.isAfter(dateLimit)) {
+            const dateLimit = localStorage.getItem("invaliddata:streamer:" + twitchname);
+            if (dateLimit !== null && isafternow(dateLimit)) {
                 console.log("data is invalid");
                 localStorage.removeItem("streamer:channel:" + twitchname);
                 localStorage.removeItem("streamer:vods:" + twitchname);

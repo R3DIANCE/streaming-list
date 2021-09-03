@@ -1,6 +1,6 @@
 import React from "react";
 import Bound from "bounds.js";
-import moment from "moment";
+import { isafternow } from "../js/time.js";
 import parse from "html-react-parser";
 import button from "../css/button.module.css";
 import streamer from "../css/streamer.module.css";
@@ -133,9 +133,8 @@ class Streamers extends React.PureComponent {
         ) {
             this.writenewdata();
         } else {
-            const dateLimit = moment(localStorage.getItem("lastupdate"));
-            const now = moment();
-            if (dateLimit.isValid() && now.isAfter(dateLimit)) {
+            const dateLimit = localStorage.getItem("lastupdate");
+            if (dateLimit !== null && isafternow(dateLimit)) {
                 console.log("data is invalid");
                 localStorage.removeItem("streamers");
                 localStorage.removeItem("server");
@@ -336,7 +335,7 @@ class Streamers extends React.PureComponent {
         });
 
         let { active, info } = this.state.server;
-        let date = moment(this.state.lastupdate).toDate();
+        let date = new Date(this.state.lastupdate);
         date.setHours(
             date.getHours(),
             date.getMinutes() - config.time.streams_data_cache,
@@ -344,7 +343,7 @@ class Streamers extends React.PureComponent {
             0
         );
 
-        let datestring = moment(date).format("HH:mm");
+        let datestring = `${date.getHours()}:${date.getMinutes()}`
         const last_update = datestring;
 
         let loggedin;

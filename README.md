@@ -8,8 +8,10 @@ Access to a Twitch account is required as a precaution for the V5 API shut down 
 After that, every request to the Twitch API needs an Auth token and client-id. (https://discuss.dev.twitch.tv/t/legacy-twitch-api-v5-shutdown-details-and-timeline/32649 and https://blog.twitch.tv/en/2021/07/15/legacy-twitch-api-v5-shutdown-details-and-timeline/)
 
 # Preview
-![preview_1](https://user-images.githubusercontent.com/34883496/131840640-c2d33e5b-922c-48b7-9666-0f142898894d.png)
-![preview_2](https://user-images.githubusercontent.com/34883496/131840706-e8356bda-c26c-4009-8811-0d3ee0e281e7.png)
+![preview1](https://user-images.githubusercontent.com/34883496/132042537-7a4a0eb1-2be8-4025-8dd1-921f54041c01.png)
+![preview2](https://user-images.githubusercontent.com/34883496/132042543-f542743c-e43f-40c0-9e2c-62d7fdc37f68.png)
+![preview3](https://user-images.githubusercontent.com/34883496/132042552-e92cd0d7-f7fa-49b9-8aff-2a1b736b0270.png)
+
 
 # Development
 

@@ -8,7 +8,7 @@ export function getsetting(setting) {
 
 export function getboolean(string) {
     console.log(string)
-    if (string == "true") {
+    if (string === "true") {
         return true
     } else {
         return false

@@ -15,7 +15,6 @@ class Stats extends React.PureComponent {
         }
 
         function timesince(start) {
-            
             const launch_date = to_universal_time(new Date(start));
             const now = to_universal_time(new Date());
             const diffTime = Math.abs(now - launch_date);
@@ -29,11 +28,15 @@ class Stats extends React.PureComponent {
 
             if (launch_hours_missing <= 0) {
                 launch_days = launch_days -1
-                launch_hours_missing = 24;
                 if (launch_hours_missing == 24) {
                     launch_hours_missing = 0;
+                } else if (launch_hours_missing <= 0) {
+                    launch_hours_missing = launch_hours_missing * -1;
+                    launch_hours_missing = 24 - launch_hours_missing;
+                    launch_hours_missing = Math.floor(((launch_hours_missing * 60) - ((diffminutesmissing - (diffhoursmissing * 60)) * -1)) / 60);
                 }
             }
+
             
             let daytext;
             let hourtext;
@@ -71,7 +74,6 @@ class Stats extends React.PureComponent {
             );
         }
         
-
         return (
             <div class="head">
                 <NavLink exact to="/" activeClassName="selected">

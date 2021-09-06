@@ -9,25 +9,68 @@ class Stats extends React.PureComponent {
         super(props);
     }
 
-    if_positive(a) {
-        // Check the number is negative
-        if (a < 0) {
-            const ret = 24 - (a * -1);
-            return ret
-        }
-        // Return the positive number
-        return a;
-    }
-
     render() {
-        const launch_date = new Date(config.website.server_launch);
-        const now = new Date();
-        const diffTime = Math.abs(now - launch_date);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        const diffhoursmissing = Math.ceil(diffTime / (1000 * 60 * 60));
+        function to_universal_time(time) {
+            return new Date(time.toISOString());
+        }
 
-        const launch_days = diffDays;
-        const launch_hours_missing = this.if_positive(diffhoursmissing - ((diffDays) * 24));
+        function timesince(start) {
+            
+            const launch_date = to_universal_time(new Date(start));
+            const now = to_universal_time(new Date());
+            const diffTime = Math.abs(now - launch_date);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const diffhoursmissing = Math.ceil(diffTime / (1000 * 60 * 60));
+            const diffminutesmissing = Math.ceil(diffTime / (1000 * 60));
+
+            let launch_days = diffDays;
+            let launch_hours_missing = diffhoursmissing - ((diffDays) * 24);
+            let launch_minutes_missing = 60 - ((diffminutesmissing - (diffhoursmissing * 60)) * -1);
+
+            if (launch_hours_missing <= 0) {
+                launch_days = launch_days -1
+                launch_hours_missing = 24;
+                if (launch_hours_missing == 24) {
+                    launch_hours_missing = 0;
+                }
+            }
+            
+            let daytext;
+            let hourtext;
+            let minutestext;
+
+            if (launch_days >= 1 || launch_days == 0) {
+                daytext = `${launch_days} Tagen`;
+            } else {
+                daytext = `einem Tag`
+            }
+
+            if (launch_hours_missing > 1 || launch_hours_missing == 0) {
+                hourtext = `${launch_hours_missing} Stunden`
+            } else (
+                hourtext = `einer Stunde`
+            )
+
+            if (launch_minutes_missing >= 1 || launch_minutes_missing == 0) {
+                minutestext = `${launch_minutes_missing} Minuten`
+            } else (
+                minutestext = `einer Minute`
+            )
+            return { daytext, hourtext, minutestext }
+        }
+
+        function Time(props) {
+            const text = props.text;
+            const time = props.time;
+            const { daytext, hourtext, minutestext } = timesince(time);
+            return (
+                <tr>
+                    <td><p>{text}:</p></td>
+                    <td><p>{daytext}, {hourtext} und {minutestext}</p></td>
+                </tr>
+            );
+        }
+        
 
         return (
             <div class="head">
@@ -35,11 +78,14 @@ class Stats extends React.PureComponent {
                     <button className={button.button}>Zurück</button>
                 </NavLink>
                 <table>
-                    <tr>
-                        <td>
-                            <h1>Server Released seit: {launch_days} Tagen und {launch_hours_missing} Stunden</h1>
-                        </td>
-                    </tr>
+                    <Time text="Zeit seit dem ersten Stresstest" time="Sun Mar 29 2020 19:30:00" />
+                    <Time text="Zeit seit dem zweiten Stresstest" time="Sun Apr 19 2020 19:00:00" />
+                    <Time text="Euren Charakter könnt ihr erstellen seit" time="Fri May 8 2020 18:00:00" />
+                    <Time text="Server Released seit" time={config.website.server_launch} />
+                    <Time text="Zeit seit dem Venture Release" time="Sun Aug 09 2020 18:00:00" />
+                    <Time text="Zeit seit dem ersten State Prison Event" time="Sat Sep 26 2020 19:00:00" />
+                    <Time text="Zeit seit dem Projekt split" time="Thu Mar 12 2021 16:00:00" />
+                    <Time text="Zeit seit dem LuckyV Merch Shop" time="Fri Sep 3 2021 18:00:00" />
                 </table>
             </div>
         );

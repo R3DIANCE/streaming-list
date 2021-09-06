@@ -28,6 +28,11 @@ html {
     src: url("../fonts/fontawesome-webfont.woff2");
 }
 
+p {
+    font-family: "Courgette";
+    font-size: 1.5rem;
+}
+
 h1,
 h2,
 h3 {

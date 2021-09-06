@@ -4,7 +4,7 @@ export const config = {
         "title": "Nickwasused`s Streamer Liste",
         "footer_text": "We &#128155; LuckyV",
         "author": "Nickwasused",
-        "server_launch": "Fri May 22 2020 16:00:00 GMT+0000"
+        "server_launch": "Fri May 22 2020 18:00:00"
     },
     "target": {
         "website": "https://luckyv.de",

@@ -258,13 +258,9 @@ class Streamers extends React.PureComponent {
                             </td>
                         </tr>
                     </table>
-                    <a
-                        href={info ? `https://${info.website}` : ``}
-                        rel="noreferrer"
-                        target="_blank"
-                    >
+                    <NavLink exact to="/stats" activeClassName="selected">
                         <h2>{info ? info.name : ``}</h2>
-                    </a>
+                    </NavLink>
                     <table>
                         <tr>
                             <td>

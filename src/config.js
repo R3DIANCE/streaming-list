@@ -3,7 +3,8 @@ export const config = {
         "url": window.location.href,
         "title": "Nickwasused`s Streamer Liste",
         "footer_text": "We &#128155; LuckyV",
-        "author": "Nickwasused"
+        "author": "Nickwasused",
+        "server_launch": "Fri May 22 2020 16:00:00 GMT+0000"
     },
     "target": {
         "website": "https://luckyv.de",

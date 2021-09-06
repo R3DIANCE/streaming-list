@@ -11,6 +11,7 @@ const Streamers = lazy(() => import('./components/streamers'));
 const Streamerdetails = lazy(() => import('./components/streamer'));
 const Privacy = lazy(() => import('./components/privacypolicy'));
 const Settings = lazy(() => import('./components/settings'));
+const Stats = lazy(() => import('./components/stats'));
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route exact path="/logout" component={Logout}></Route>
             <Route exact path="/privacy" component={Privacy}></Route>
             <Route exact path="/settings" component={Settings}></Route>
+            <Route exact path="/stats" component={Stats}></Route>
           </Switch>
         </Suspense>
       </Router>

@@ -3,8 +3,7 @@ export const config = {
         "url": window.location.href,
         "title": "Nickwasused`s Streamer Liste",
         "footer_text": "We &#128155; LuckyV",
-        "author": "Nickwasused",
-        "server_launch": "Fri May 22 2020 18:00:00"
+        "author": "Nickwasused"
     },
     "target": {
         "website": "https://luckyv.de",
@@ -27,13 +26,48 @@ export const config = {
     "time": {
         "refresh_data": 5,
         "streams_data_cache": 2.5,
-        "stream_info_cache": 60
+        "stream_info_cache": 60,
+        "refresh_dates": 1
     },
     "settings": {
         "shareicons": true,
         "minviewers": 0,
         "maxviewers": 50000
-    }
+    },
+    "dates": [
+        { 
+            "description": "Zeit seit dem ersten Stresstest",
+            "date": "Sun Mar 29 2020 19:30:00"
+        },
+        { 
+            "description": "Zeit seit dem zweiten Stresstest",
+            "date": "Sun Apr 19 2020 19:00:00"
+        },
+        { 
+            "description": "Euren Charakter könnt ihr erstellen seit",
+            "date": "Fri May 8 2020 18:00:00"
+        },
+        { 
+            "description": "Server Released seit",
+            "date": "Fri May 22 2020 18:00:00"
+        },
+        { 
+            "description": "Zeit seit dem Venture Release",
+            "date": "Sun Aug 09 2020 18:00:00"
+        },
+        { 
+            "description": "Zeit seit dem ersten State Prison Event",
+            "date": "Sat Sep 26 2020 19:00:00"
+        },
+        { 
+            "description": "Zeit seit dem Projekt split",
+            "date": "Thu Mar 12 2021 16:00:00"
+        },
+        { 
+            "description": "Zeit seit dem LuckyV Merch Shop",
+            "date": "Fri Sep 3 2021 18:00:00"
+        }
+    ]
 }
 
 export default config;

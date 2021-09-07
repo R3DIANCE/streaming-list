@@ -251,16 +251,16 @@ class Streamers extends React.PureComponent {
                             <i class="fa fa-cog"></i>
                         </div>
                     </NavLink>
-                    <table>
+                    <table className={streamer.maintable}>
                         <tr>
                             <td>
                                 <h1>Streamer Online: {streamers}</h1>
+                                <NavLink exact to="/stats" activeClassName="selected">
+                                    <h2>Statistiken und Daten</h2>
+                                </NavLink>
                             </td>
                         </tr>
                     </table>
-                    <NavLink exact to="/stats" activeClassName="selected">
-                        <h2>{info ? info.name : ``}</h2>
-                    </NavLink>
                     <table>
                         <tr>
                             <td>
@@ -319,6 +319,8 @@ class Streamers extends React.PureComponent {
                         .includes(this.state.inputValue.toLocaleLowerCase()) ||
                     title
                         .toLowerCase()
+                        .includes(this.state.inputValue.toLocaleLowerCase()) ||
+                    viewer_count.toString()
                         .includes(this.state.inputValue.toLocaleLowerCase())
                 );
             } else {
@@ -366,12 +368,15 @@ class Streamers extends React.PureComponent {
                     )}
                     <br />
                     {loggedin ? (
-                        <input
-                            type="text"
-                            placeholder="Streamer, Streamtitel ..."
-                            value={this.state.inputValue}
-                            onChange={this.FilterOnChange}
-                        />
+                        <div className={streamer.searchcombo}>
+                            <input
+                                type="text"
+                                placeholder="Streamer, Streamtitel, Zuschaueranzahl ..."
+                                value={this.state.inputValue}
+                                onChange={this.FilterOnChange}
+                            />
+                            <span classname={streamer.searchcombobutton}><i class="fa fa-search"></i></span>
+                        </div>
                     ) : null}<br />
                 </div>
                 <ul className={streamer.cards}>

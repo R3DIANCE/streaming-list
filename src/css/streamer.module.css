@@ -19,19 +19,35 @@
     font-size: 5em;
 }
 
-input[type="text"] {
+.searchcombo {
     width: 80%;
-    padding: 0.75%;
-    margin-top: 0.75%;
-    background: #333;
+    margin-left: 10%;
+    margin-right: 10%;
+    background-color: #333;
+    padding: 0.1%;
+    border: 1px solid black;
     border-color: #1a1a1a;
     border-radius: 4px;
-    color: #dadada;
 }
 
-input[type="text"]:focus {
-    border-color: #fcd401;
-    border-radius: 5px;
+.searchcombo input[type="text"] {
+    width: 95%;
+    padding: 0.75%;
+    background: #333;
+    border: 0px;
+    color: #dadada;
+    font-size: 2rem;
+    margin: 1px;
+}
+
+.searchcombo input[type="text"]:focus {
+    outline: none !important;
+}
+
+.searchcombo i {
+    font-size: 2rem;
+    padding: 0.5%;
+    background-color: #333;
 }
 
 .cards {
@@ -48,6 +64,20 @@ input[type="text"]:focus {
 .cards__item {
     display: flex;
     padding: 1rem;
+}
+
+.maintable {
+    margin-bottom: 1%;
+    margin-top: 1%;
+}
+
+.maintable h1 {
+    margin-bottom: 0px;
+    font-size: 3.5rem;
+}
+
+.maintable h2 {
+    font-size: 2rem;
 }
 
 @media (max-width: 896px) {

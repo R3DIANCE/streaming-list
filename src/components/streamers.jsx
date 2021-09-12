@@ -34,6 +34,7 @@ class Streamers extends React.PureComponent {
         token: this.props.cookies.get("token") || "",
         inputValue: "",
         lastupdate: "",
+        viewers: 0
     };
 
     FilterOnChange = (event) => {
@@ -110,7 +111,7 @@ class Streamers extends React.PureComponent {
             streamers: streamers.data.data,
             server: servers.data,
             streams: streams.data.data,
-            lastupdate: date,
+            lastupdate: date
         });
     }
 
@@ -240,6 +241,7 @@ class Streamers extends React.PureComponent {
             const streamers = props.streamers;
             const info = props.info;
             const shareicons = props.shareicons;
+            const viewers = props.viewers;
 
             return (
                 <div>
@@ -294,6 +296,12 @@ class Streamers extends React.PureComponent {
                             </td>
                         </tr>
                         <tr>
+                            <td>Zuschauer insgesamt:</td>
+                            <td>
+                                {viewers}
+                            </td>
+                        </tr>
+                        <tr>
                             <td>Zuletzt aktualisiert:</td>
                             <td>{`${last_update} Uhr`}</td>
                         </tr>
@@ -303,6 +311,26 @@ class Streamers extends React.PureComponent {
                 </div>
             );
         }
+
+        let viewers = 0;
+        this.state.streams.map((stream) => {
+            let { title, game_id, type, viewer_count } = stream;
+            if (
+                title.match(new RegExp(config.search.regex, "gi")) &&
+                game_id === config.search.game_id &&
+                type === "live"
+            ) {
+                return (
+                    viewers = viewers + viewer_count
+                );
+            } else {
+                return null;
+            }
+        })
+
+        this.setState({
+            viewers: viewers
+        });
 
         let filteredstreamers = this.state.streams.filter((stream) => {
             let { title, game_id, type, user_name, viewer_count } = stream;
@@ -356,6 +384,7 @@ class Streamers extends React.PureComponent {
                             info={info}
                             loggedin={loggedin}
                             shareicons={getboolean(getsettingordefault("shareicons", "true"))}
+                            viewers={this.state.viewers}
                         />
                     ) : null}
                     {loggedin ? null : <Infotext />}

@@ -11,7 +11,7 @@ export const config = {
     },
     "search": {
         "term": "luckyv",
-        "regex": "luckyv|lucky v",
+        "regex": "luckyv|lucky v|lucky-v",
         "game_id": "32982",
         "language": "de"
     },

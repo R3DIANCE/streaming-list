@@ -51,53 +51,131 @@ class Streamers extends React.PureComponent {
         document.title = config.website.title;
     }
 
+    async getstreamers() {
+        const token = this.state.token;
+        let streamers = [];
+        let temppagination = "";
+        let requeststring = "";
+
+        for (let i = 0; i < 10; i++) {
+            if (temppagination !== "") {
+                requeststring = `https://api.twitch.tv/helix/search/channels?query=${config.search.term}&first=100&language=de&live_only=true&after=${temppagination}`
+            } else {
+                requeststring = `https://api.twitch.tv/helix/search/channels?query=${config.search.term}&first=100&language=de&live_only=true`
+            }
+            let temprequest = await Promise.all([
+                get(
+                    requeststring,
+                    {
+                        headers: {
+                            "client-id": config.twitch.clientid,
+                            Authorization: "Bearer " + token,
+                        },
+                    }
+                ).then(response => {
+                    if (response.data.data.length >= 100) {
+                        temppagination = response.data.pagination.cursor;
+                        response.data.data.map((streamer) => {
+                            return streamers.push(streamer);
+                        })
+                        return false;
+                    } else {
+                        response.data.data.map((streamer) => {
+                            return streamers.push(streamer);
+                        })
+                        return true;
+                    }
+                })
+            ]);
+            if (temprequest[0] === true) {
+                break;
+            }
+        }
+        return streamers;
+    }
+
+    idhandler(ids) {
+        let idcount = 0;
+        let idcountreal = 0;
+        let idstrings = [];
+        let tempidstring = "";
+
+        for (const value of ids) {
+            if (idcount >= 99) {
+                tempidstring = tempidstring + "user_id=" + value;
+                idstrings.push(tempidstring);
+                tempidstring = "";
+                idcount = 0;
+            } else if (idcountreal + 1 >= ids.length) {
+                tempidstring = tempidstring + "user_id=" + value;
+                idstrings.push(tempidstring);
+            } else {
+                tempidstring = tempidstring + "user_id=" + value + "&";
+                idcount++;
+            }
+            idcountreal++;
+        }
+        return idstrings;
+    }
+
+    async getstreams(idstrings) {
+        const token = this.state.token;
+        let streams = [];
+
+        // every idstring has 99 ids = 99 * 10 = 990 max streams supported
+        for (let i = 0; i < 10; i++) {
+            if (idstrings[i] === undefined) {
+                break;
+            }
+            let requeststring = `https://api.twitch.tv/helix/streams?first=100&game_id=${config.search.game_id}&language=${config.search.language}&${idstrings[i]}`;
+            let temprequest = await Promise.all([
+                get(
+                    requeststring,
+                    {
+                        headers: {
+                            "client-id": config.twitch.clientid,
+                            Authorization: "Bearer " + token,
+                        },
+                    }
+                ).then(response => {
+                    response.data.data.map((stream) => {
+                        return streams.push(stream);
+                    })
+                })
+            ]);
+        }
+        return streams;
+    }
+
     async writenewdata() {
         console.log("writing new data");
-        const token = this.state.token;
 
-        let idstring = "";
-
-        const [streamers, servers] = await Promise.all([
-            get(
-                `https://api.twitch.tv/helix/search/channels?query=${config.search.term}&first=100&live_only=true`,
-                {
-                    headers: {
-                        "client-id": config.twitch.clientid,
-                        Authorization: "Bearer " + token,
-                    },
-                }
-            ),
+        const [servers] = await Promise.all([
             get(`https://api.altv.mp/server/${config.altv.longid}`, {
                 headers: { accept: "application/json" },
-            }),
+            })
         ]);
 
-        await streamers.data.data.map((item) => {
+        let streamers = await this.getstreamers();
+        let ids = [];
+        streamers.map((item) => {
             if (
                 item.title.match(new RegExp(config.search.regex, "gi")) &&
                 item.game_id === config.search.game_id &&
                 item.is_live === true
             ) {
-                idstring = idstring + "user_id=" + item.id + "&";
+                return ids.push(item.id);
+            } else {
+                return null;
             }
-            return null;
         });
 
-        const [streams] = await Promise.all([
-            get(
-                `https://api.twitch.tv/helix/streams?first=100&game_id=${config.search.game_id}&language=${config.search.language}&${idstring}`,
-                {
-                    headers: {
-                        "client-id": config.twitch.clientid,
-                        Authorization: "Bearer " + token,
-                    },
-                }
-            ),
-        ]);
-
-        localStorage.setItem("streamers", JSON.stringify(streamers.data.data));
+        let idstrings = this.idhandler(ids);
+        let streams = await this.getstreams(idstrings);
+        
+        localStorage.setItem("streamers", JSON.stringify(streamers));
         localStorage.setItem("server", JSON.stringify(servers.data));
-        localStorage.setItem("streams", JSON.stringify(streams.data.data));
+        localStorage.setItem("streams", JSON.stringify(streams));
 
         let date = new Date();
         date.setHours(
@@ -108,9 +186,9 @@ class Streamers extends React.PureComponent {
         );
         localStorage.setItem("lastupdate", date);
         this.setState({
-            streamers: streamers.data.data,
+            streamers: streamers,
             server: servers.data,
-            streams: streams.data.data,
+            streams: streams,
             lastupdate: date
         });
     }

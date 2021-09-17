@@ -44,11 +44,14 @@ class Stats extends React.PureComponent {
         let hourtext;
         let minutestext;
 
+        /*
         if (launch_days >= 1 || launch_days === 0) {
             daytext = `${launch_days} Tagen`;
         } else {
             daytext = `einem Tag`
         }
+        */
+        daytext = `Tagen`
 
         if (launch_hours_missing > 1 || launch_hours_missing === 0) {
             hourtext = `${launch_hours_missing} Stunden`

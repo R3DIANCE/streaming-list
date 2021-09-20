@@ -20,7 +20,7 @@ export const config = {
         "intid": "998"
     },
     "twitch": {
-        "loginurl": "https://id.twitch.tv/oauth2/authorize?client_id="+ process.env.REACT_APP_TWITCH_CLIENT_ID +"&redirect_uri=https://www.luckyv.nickwasused.eu/#/login&response_type=token",
+        "loginurl": "https://id.twitch.tv/oauth2/authorize?client_id="+ process.env.REACT_APP_TWITCH_CLIENT_ID +"&response_type=token&redirect_uri="+ window.location.href +"login",
         "clientid": process.env.REACT_APP_TWITCH_CLIENT_ID
     },
     "time": {

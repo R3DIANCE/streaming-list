@@ -59,9 +59,9 @@ class Streamers extends React.PureComponent {
 
         for (let i = 0; i < 10; i++) {
             if (temppagination !== "") {
-                requeststring = `https://api.twitch.tv/helix/search/channels?query=${config.search.term}&first=100&language=de&live_only=true&after=${temppagination}`
+                requeststring = `https://api.twitch.tv/helix/search/channels?query=${encodeURIComponent(config.search.term)}&first=100&language=de&live_only=true&after=${encodeURIComponent(temppagination)}`
             } else {
-                requeststring = `https://api.twitch.tv/helix/search/channels?query=${config.search.term}&first=100&language=de&live_only=true`
+                requeststring = `https://api.twitch.tv/helix/search/channels?query=${encodeURIComponent(config.search.term)}&first=100&language=de&live_only=true`
             }
             let temprequest = await Promise.all([
                 get(
@@ -127,7 +127,7 @@ class Streamers extends React.PureComponent {
             if (idstrings[i] === undefined) {
                 break;
             }
-            let requeststring = `https://api.twitch.tv/helix/streams?first=100&game_id=${config.search.game_id}&language=${config.search.language}&${idstrings[i]}`;
+            let requeststring = `https://api.twitch.tv/helix/streams?first=100&game_id=${encodeURIComponent(config.search.game_id)}&language=${encodeURIComponent(config.search.language)}&${encodeURIComponent(idstrings[i])}`;
             let temprequest = await Promise.all([
                 get(
                     requeststring,
@@ -151,7 +151,7 @@ class Streamers extends React.PureComponent {
         console.log("writing new data");
 
         const [servers] = await Promise.all([
-            get(`https://api.altv.mp/server/${config.altv.longid}`, {
+            get(`https://api.altv.mp/server/${encodeURIComponent(config.altv.longid)}`, {
                 headers: { accept: "application/json" },
             })
         ]);

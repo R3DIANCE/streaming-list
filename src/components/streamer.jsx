@@ -46,13 +46,13 @@ class Streamerdetails extends React.PureComponent {
         const token = this.state.token;
 
         const [channel, vods] = await Promise.all([
-            get(`https://api.twitch.tv/helix/channels?broadcaster_id=${id}`, {
+            get(`https://api.twitch.tv/helix/channels?broadcaster_id=${encodeURIComponent(id)}`, {
                 headers: {
                     "Client-ID": config.twitch.clientid,
                     Authorization: "Bearer " + token,
                 },
             }),
-            get(`https://api.twitch.tv/helix/videos?user_id=${id}`, {
+            get(`https://api.twitch.tv/helix/videos?user_id=${encodeURIComponent(id)}`, {
                 headers: {
                     "Client-ID": config.twitch.clientid,
                     Authorization: "Bearer " + token,

@@ -4,6 +4,7 @@ import './css/index.css';
 import App from './App';
 import { CookiesProvider } from 'react-cookie';
 require('intersection-observer');
+require('react-css-modules');
 
 ReactDOM.render(
   <React.StrictMode>

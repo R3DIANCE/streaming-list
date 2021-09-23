@@ -127,7 +127,7 @@ class Streamers extends React.PureComponent {
             if (idstrings[i] === undefined) {
                 break;
             }
-            let requeststring = `https://api.twitch.tv/helix/streams?first=100&game_id=${encodeURIComponent(config.search.game_id)}&language=${encodeURIComponent(config.search.language)}&${encodeURIComponent(idstrings[i])}`;
+            let requeststring = `https://api.twitch.tv/helix/streams?first=100&game_id=${encodeURIComponent(config.search.game_id)}&language=${encodeURIComponent(config.search.language)}&${idstrings[i]}`;
             let temprequest = await Promise.all([
                 get(
                     requeststring,

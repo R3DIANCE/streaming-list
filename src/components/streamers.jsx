@@ -4,6 +4,7 @@ import { isafternow } from "../js/time.js";
 import parse from "html-react-parser";
 import button from "../css/button.module.css";
 import streamer from "../css/streamer.module.css";
+import moment from 'moment'
 import { get } from "axios";
 import { getboolean, getsettingordefault } from "../js/settings.js";
 import { NavLink } from "react-router-dom";
@@ -122,13 +123,13 @@ class Streamers extends React.PureComponent {
         const token = this.state.token;
         let streams = [];
 
-        // every idstring has 99 ids = 99 * 10 = 990 max streams supported
-        for (let i = 0; i < 10; i++) {
+        // every idstring has 99 ids. This loop runs 99 times. 99 * 99 ids = 9.801 Streams with 99 requests to the Twitch API
+        for (let i = 0; i < 100; i++) {
             if (idstrings[i] === undefined) {
                 break;
             }
             let requeststring = `https://api.twitch.tv/helix/streams?first=100&game_id=${encodeURIComponent(config.search.game_id)}&language=${encodeURIComponent(config.search.language)}&${idstrings[i]}`;
-            let temprequest = await Promise.all([
+            await Promise.all([
                 get(
                     requeststring,
                     {
@@ -453,6 +454,8 @@ class Streamers extends React.PureComponent {
             loggedin = true;
         }
 
+        let now = new Date();
+
         return (
             <div>
                 <div class="head">
@@ -498,7 +501,20 @@ class Streamers extends React.PureComponent {
                             viewer_count,
                             started_at,
                         } = stream;
-                        const date = new Date().getTime();
+
+
+                        // Stream runtime calculation
+                        const startDate = moment(started_at);
+                        const timeEnd = moment();
+                        const diff = timeEnd.diff(startDate);
+                        const diffDuration = moment.duration(diff);
+
+                        let hours = (diffDuration.hours());
+                        let minuets = (diffDuration.minutes());
+                        let seconds = (diffDuration.seconds());
+
+                        var tempdate = new Date();
+                        tempdate.setHours(hours, minuets, seconds); 
 
                         return (
                             <li className={streamer.cards__item} key={id}>
@@ -523,7 +539,7 @@ class Streamers extends React.PureComponent {
                                                     .replace(
                                                         "{height}",
                                                         "360"
-                                                    )}?${date}`}
+                                                    )}?${now.getTime()}`}
                                                 alt={user_name}
                                                 referrerPolicy="same-origin"
                                             ></img>
@@ -538,10 +554,8 @@ class Streamers extends React.PureComponent {
                                                 <br />
                                                 Zuschauer: {viewer_count}
                                                 <br />
-                                                Live seit:{" "}
-                                                {new Date(
-                                                    started_at
-                                                ).toTimeString()}
+                                                Live seit: {" "}
+                                                {tempdate.toLocaleTimeString()}
                                                 <br />
                                             </p>
                                         </div>

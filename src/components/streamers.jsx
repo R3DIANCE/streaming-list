@@ -417,8 +417,8 @@ class Streamers extends React.PureComponent {
                 title.match(new RegExp(config.search.regex, "gi")) &&
                 game_id === config.search.game_id &&
                 type === "live" &&
-                viewer_count < getsettingordefault("maxviewers", "50000") &&
-                viewer_count > getsettingordefault("minviewers", "0")
+                viewer_count <= getsettingordefault("maxviewers", "50000") &&
+                viewer_count >= getsettingordefault("minviewers", "0")
             ) {
                 return (
                     user_name

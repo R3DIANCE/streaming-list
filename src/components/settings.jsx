@@ -24,6 +24,10 @@ class Settings extends React.PureComponent {
         setnumbersetting("maxviewers", num);
         return num
     }
+
+    handleimageproxyurl = (event) => {
+        console.log(event.target.value)
+    };
     
     render() {
         return (
@@ -70,6 +74,33 @@ class Settings extends React.PureComponent {
                         </td>
                         <td>
                             <NumericInput precision={0} value={getsettingordefault("maxviewers", config.settings.maxviewers)} step={1} format={this.handlemaxviewers}/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Benutze ein Bild Proxy</td>
+                        <td>
+                            {!!getboolean(getsettingordefault("imageproxy", config.settings.imageproxy))
+                                ? "eingeschaltet"
+                                : "ausgeschaltet"}
+                        </td>
+                        <td>
+                            <label className={button.switch}>
+                                <input type="checkbox" checked={getboolean(getsettingordefault("imageproxy", config.settings.imageproxy))} />
+                                <span onClick={() => this.toggle("imageproxy")} className={button.slider}></span>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Bild Proxy Url</td>
+                        <td>
+                            {getsettingordefault("imageproxyurl", config.settings.imageproxyurl)}
+                        </td>
+                        <td>
+                            <input
+                                type="text"
+                                value={getsettingordefault("imageproxyurl", config.settings.imageproxyurl)}
+                                onChange={this.handleimageproxyurl}
+                            />
                         </td>
                     </tr>
                 </table>

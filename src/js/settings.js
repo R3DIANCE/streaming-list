@@ -24,8 +24,8 @@ export function getsettingordefault(setting, defaultvalue) {
         setsetting(setting, defaultvalue);
         return defaultvalue
     } else {
-        const num = getsetting(setting);
-        return num
+        const value = getsetting(setting);
+        return value
     }
 }
 

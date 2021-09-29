@@ -5,7 +5,7 @@ import parse from "html-react-parser";
 import button from "../css/button.module.css";
 import streamer from "../css/streamer.module.css";
 import { get } from "axios";
-import { getsetting, getboolean } from "../js/settings.js";
+import { getsetting, getboolean, getsettingordefault } from "../js/settings.js";
 import { config } from "../config";
 import { NavLink } from "react-router-dom";
 import { instanceOf } from "prop-types";
@@ -256,6 +256,16 @@ class Streamerdetails extends React.PureComponent {
                             view_count,
                             display_name,
                         } = vod;
+
+                        let preview_image = "";
+                        let prepend = "";
+
+                        if (getboolean(getsettingordefault("imageproxy", config.settings.imageproxy))) {
+                            prepend = getsettingordefault("imageproxyurl", config.settings.imageproxyurl)
+                        }
+
+                        thumbnail_url ? preview_image = prepend + thumbnail_url.replace("%{width}", "640").replace("%{height}", "360") : preview_image = "/img/placeholder.webp";
+
                         if ((type === "archive") | (type === "recorded")) {
                             return (
                                 <li className={streamer.cards__item} key={id}>
@@ -270,19 +280,7 @@ class Streamerdetails extends React.PureComponent {
                                                     width="640px"
                                                     height="340px"
                                                     src="/img/placeholder.webp"
-                                                    data-src={
-                                                        thumbnail_url
-                                                            ? thumbnail_url
-                                                                  .replace(
-                                                                      "%{width}",
-                                                                      "640"
-                                                                  )
-                                                                  .replace(
-                                                                      "%{height}",
-                                                                      "340"
-                                                                  )
-                                                            : "/img/placeholder.webp"
-                                                    }
+                                                    data-src={preview_image}
                                                     alt={display_name}
                                                     referrerPolicy="same-origin"
                                                 ></img>

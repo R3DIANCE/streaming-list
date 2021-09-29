@@ -514,7 +514,16 @@ class Streamers extends React.PureComponent {
                         let seconds = (diffDuration.seconds());
 
                         var tempdate = new Date();
-                        tempdate.setHours(hours, minuets, seconds); 
+                        tempdate.setHours(hours, minuets, seconds);
+
+                        let preview_image = "";
+                        let prepend = "";
+
+                        if (getboolean(getsettingordefault("imageproxy", config.settings.imageproxy))) {
+                            prepend = getsettingordefault("imageproxyurl", config.settings.imageproxyurl)
+                        }
+
+                        preview_image = prepend + thumbnail_url.replace("{width}", "640").replace("{height}", "360");
 
                         return (
                             <li className={streamer.cards__item} key={id}>
@@ -534,12 +543,7 @@ class Streamers extends React.PureComponent {
                                                 width="640px"
                                                 height="340px"
                                                 src="/img/placeholder.webp"
-                                                data-src={`${thumbnail_url
-                                                    .replace("{width}", "640")
-                                                    .replace(
-                                                        "{height}",
-                                                        "360"
-                                                    )}?${now.getTime()}`}
+                                                data-src={`${preview_image}?${now.getTime()}`}
                                                 alt={user_name}
                                                 referrerPolicy="same-origin"
                                             ></img>

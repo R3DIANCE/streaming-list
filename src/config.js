@@ -32,7 +32,9 @@ export const config = {
     "settings": {
         "shareicons": true,
         "minviewers": 0,
-        "maxviewers": 50000
+        "maxviewers": 50000,
+        "imageproxy": true,
+        "imageproxyurl": "https://external-content.duckduckgo.com/iu/?u="
     },
     "dates": [
         { 

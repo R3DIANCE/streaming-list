@@ -213,6 +213,14 @@
     width: 100%;
 }
 
+@media (max-width: 1200px) {
+    .infotext {
+        width: 70%;
+        text-align: justify;
+        margin: auto;
+    }
+}
+
 @media (max-width: 641px) {
     .streamergrid {
         grid-template-areas:
@@ -239,6 +247,11 @@
     }
     .twitchproicon {
         width: 15vw;
+    }
+    .infotext {
+        width: 85%;
+        text-align: justify;
+        margin: auto;
     }
 }
 

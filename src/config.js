@@ -34,7 +34,7 @@ export const config = {
         "minviewers": 0,
         "maxviewers": 50000,
         "imageproxy": true,
-        "imageproxyurl": "https://external-content.duckduckgo.com/iu/?u="
+        "imageproxyurl": "https://image-proxy.nickwasused.eu/api/getimage?imageurl="
     },
     "dates": [
         { 

@@ -1,4 +1,4 @@
-# LuckyV Streaming List
+# Streaming List (LuckyV)
 
 - React
 - Twitch Helix API

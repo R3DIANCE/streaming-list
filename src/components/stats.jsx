@@ -46,7 +46,7 @@ class Stats extends React.PureComponent {
 
         
         if (launch_days >= 1 || launch_days === 0) {
-            daytext = `${launch_days} Tagen`;
+            daytext = `${launch_days} Tage`;
         } else {
             daytext = `einem Tag`
         }
@@ -54,13 +54,13 @@ class Stats extends React.PureComponent {
         if (launch_hours_missing > 1 || launch_hours_missing === 0) {
             hourtext = `${launch_hours_missing} Stunden`
         } else (
-            hourtext = `einer Stunde`
+            hourtext = `eine Stunde`
         )
 
         if (launch_minutes_missing >= 1 || launch_minutes_missing === 0) {
             minutestext = `${launch_minutes_missing} Minuten`
         } else (
-            minutestext = `einer Minute`
+            minutestext = `eine Minute`
         )
         return { daytext, hourtext, minutestext }
     }

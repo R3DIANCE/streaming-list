@@ -46,11 +46,11 @@ export const config = {
             "date": "Sun Apr 19 2020 19:00:00"
         },
         { 
-            "description": "Euren Charakter könnt ihr erstellen seit",
+            "description": "Zeit seit dem ihr euren Charakter erstellen könnt",
             "date": "Fri May 8 2020 18:00:00"
         },
         { 
-            "description": "Server Released seit",
+            "description": "Zeit seit dem Server Release",
             "date": "Fri May 22 2020 18:00:00"
         },
         { 

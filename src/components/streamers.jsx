@@ -152,7 +152,7 @@ class Streamers extends React.PureComponent {
         console.log("writing new data");
 
         const [servers] = await Promise.all([
-            get(`https://altv-cache.nickwasused.eu/api/getserverbyid?serverid=${encodeURIComponent(config.altv.longid)}`, {
+            get(`https://altv-cache.nickwasused.com/api/getserverbyid?serverid=${encodeURIComponent(config.altv.longid)}`, {
                 headers: { accept: "application/json" },
             })
         ]);

@@ -68,6 +68,10 @@ export const config = {
         { 
             "description": "Zeit seit dem LuckyV Merch Shop",
             "date": "Fri Sep 3 2021 18:00:00"
+        },
+        { 
+            "description": "Zeit seit dem LuckyV Patreon release",
+            "date": "Sat Dec 4 2021 18:00:00"
         }
     ]
 }

@@ -53,45 +53,17 @@ class Streamers extends React.PureComponent {
     }
 
     async getstreamers() {
-        const token = this.state.token;
         let streamers = [];
-        let temppagination = "";
-        let requeststring = "";
 
-        for (let i = 0; i < 10; i++) {
-            if (temppagination !== "") {
-                requeststring = `https://api.twitch.tv/helix/search/channels?query=${encodeURIComponent(config.search.term)}&first=100&language=de&live_only=true&after=${encodeURIComponent(temppagination)}`
-            } else {
-                requeststring = `https://api.twitch.tv/helix/search/channels?query=${encodeURIComponent(config.search.term)}&first=100&language=de&live_only=true`
-            }
-            let temprequest = await Promise.all([
-                get(
-                    requeststring,
-                    {
-                        headers: {
-                            "client-id": config.twitch.clientid,
-                            Authorization: "Bearer " + token,
-                        },
-                    }
-                ).then(response => {
-                    if (response.data.data.length >= 100) {
-                        temppagination = response.data.pagination.cursor;
-                        response.data.data.map((streamer) => {
-                            return streamers.push(streamer);
-                        })
-                        return false;
-                    } else {
-                        response.data.data.map((streamer) => {
-                            return streamers.push(streamer);
-                        })
-                        return true;
-                    }
+        await Promise.all([
+            get(
+                `https://twitch-search-server.fly.dev/search?title=${encodeURIComponent(config.search.term)}`
+            ).then(response => {
+                response.data.map((streamer) => {
+                    return streamers.push(streamer);
                 })
-            ]);
-            if (temprequest[0] === true) {
-                break;
-            }
-        }
+            })
+        ]);
         return streamers;
     }
 
@@ -160,12 +132,13 @@ class Streamers extends React.PureComponent {
         let streamers = await this.getstreamers();
         let ids = [];
         streamers.map((item) => {
+            console.log(item);
             if (
                 item.title.match(new RegExp(config.search.regex, "gi")) &&
                 item.game_id === config.search.game_id &&
-                item.is_live === true
+                item.type === "live"
             ) {
-                return ids.push(item.id);
+                return ids.push(item.user_id);
             } else {
                 return null;
             }

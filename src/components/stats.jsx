@@ -100,7 +100,7 @@ class Stats extends React.PureComponent {
                 </NavLink>
                 <table>
                     {
-                        this.state.dates.map((historiceventobject) => {
+                        this.state.dates.reverse().map((historiceventobject) => {
                             return (
                             <tr>
                                 <td><p>{historiceventobject.text}:</p></td>

@@ -132,7 +132,6 @@ class Streamers extends React.PureComponent {
         let streamers = await this.getstreamers();
         let ids = [];
         streamers.map((item) => {
-            console.log(item);
             if (
                 item.title.match(new RegExp(config.search.regex, "gi")) &&
                 item.game_id === config.search.game_id &&

@@ -4,7 +4,8 @@
 - Twitch Helix API
 
 # Broken
-The page is currently broken because of this: https://discuss.dev.twitch.tv/t/search-by-title-not-possible/33868
+The page is currently broken because of this: https://discuss.dev.twitch.tv/t/search-by-title-not-possible/33868  
+But it is possible to use it with a custom [Search Server](https://github.com/Nickwasused/twitch-search-server).
 
 # Login Requirement
 Access to a Twitch account is required as a precaution for the V5 API shut down on February 28, 2022.

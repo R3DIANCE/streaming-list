@@ -59,7 +59,7 @@ class Streamers extends React.PureComponent {
             get(
                 `https://twitch-search-server.fly.dev/search?title=${encodeURIComponent(config.search.term)}`
             ).then(response => {
-                response.data.map((streamer) => {
+                response.data.data.map((streamer) => {
                     return streamers.push(streamer);
                 })
             })

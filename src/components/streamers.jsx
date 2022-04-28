@@ -545,7 +545,7 @@ class Streamers extends React.PureComponent {
                     {config.website.author} {new Date().getFullYear()} |{" "}
                     {parse(config.website.footer_text)} <br />{" "}
                     <NavLink exact to="/privacy" activeClassName="selected">
-                        <a>Datenschutzbestimmungen</a>
+                        <a href="#privacy">Datenschutzbestimmungen</a>
                     </NavLink>
                     <br />
                     <a href="#top">Nach oben</a>

@@ -1,6 +1,6 @@
 <template>
     <ul class="cards">
-        <Streamer :stream=stream  :key="stream.user_id" v-for="stream in streamers" />
+        <Streamer :stream=stream :key="stream['user_id']" v-for="stream in this.streamers" />
     </ul>
 </template>
 
@@ -8,7 +8,7 @@
     import Streamer from './Streamer.vue';
 
     export default {
-        name: "Streamers",
+        name: "Streamerlist",
         props: {},
         components: {
             Streamer

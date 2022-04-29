@@ -85,7 +85,6 @@
                 console.log("fetching new data: alt:V");
                 await this.fetch_altv();
             }
-            
         },
         methods: {
             async fetch_altv(data) {

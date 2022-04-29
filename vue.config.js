@@ -1,3 +1,1 @@
-module.exports = {
-    integrity: true
-}
+module.exports = {}

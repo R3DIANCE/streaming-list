@@ -33,11 +33,13 @@
                 // get new data
                 console.log("fetching new data: twitch");
                 let twitch_data = await this.fetch_twitch();
-                localStorage.setItem("streamers", JSON.stringify(twitch_data));
-                let invalid_date = new Date();
-                invalid_date.setMinutes(invalid_date.getMinutes() + 5);
-                localStorage.setItem("streamers:invalidate", invalid_date);
-                this.streamers = twitch_data;
+                if (twitch_data != undefined) {
+                    localStorage.setItem("streamers", JSON.stringify(twitch_data));
+                    let invalid_date = new Date();
+                    invalid_date.setMinutes(invalid_date.getMinutes() + 5);
+                    localStorage.setItem("streamers:invalidate", invalid_date);
+                    this.streamers = twitch_data;
+                }
             }
             
             let viewers = 0;

@@ -59,11 +59,15 @@
         },
         methods: {
             async fetch_twitch() {
-                const response = await fetch(import.meta.env.VITE_TWITCH_SEARCH_SERVER);
-                const api_data = await response.json();
-
-                if (api_data["status"] == "done") {
-                    return api_data["data"]
+                try {
+                    const response = await fetch(import.meta.env.VITE_TWITCH_SEARCH_SERVER);
+                    const api_data = await response.json();
+                    if (api_data["status"] == "done") {
+                        return api_data["data"]
+                    }
+                } catch (Exception) {
+                    console.error(Exception);
+                    return [];
                 }
             },
             set_total_views(viewers) {

@@ -90,11 +90,17 @@
             async fetch_altv(data) {
                 let api_data = [];
                 if (!data) {
-                    const response = await fetch(`https://api.altv.mp/server/${import.meta.env.VITE_ALTV_SERVER_ID}`);
-                    api_data = await response.json();
-                    if (api_data == undefined) {
-                        api_data = JSON.parse(localStorage.getItem("altv"));
+                    try {
+                        const response = await fetch(`https://api.altv.mp/server/${import.meta.env.VITE_ALTV_SERVER_ID}`);
+                        api_data = await response.json();
+                        if (api_data == undefined) {
+                            api_data = JSON.parse(localStorage.getItem("altv"));
+                        }
+                    } catch (Exception) {
+                        console.error(Exception);
+                        api_data = [];
                     }
+                    
                 } else {
                     api_data = JSON.parse(localStorage.getItem("altv"));
                 }

@@ -57,8 +57,6 @@
                 const response = await fetch(import.meta.env.VITE_TWITCH_SEARCH_SERVER);
                 const api_data = await response.json();
 
-                this.imgcachekey = Math.random().toString().substr(2, 8);
-
                 if (api_data["status"] == "done") {
                     return api_data["data"]
                 }
@@ -68,14 +66,20 @@
             },
             set_streamers(streamers) {
                 this.$emit("streamers", streamers);
+            },
+            observe() {
+                this.$emit("observe");
             }
         },
         mounted: function () {
             if (this.timer == null) {
                 this.timer = setInterval(() => {
-                    this.fetch_twitch()
+                    this.fetch_twitch();
+                    this.imgcachekey = Math.random().toString().substr(2, 8);
+                    this.observe();
                 }, 300000)
             }
+            this.observe();
         },
         beforeDestroy() {
             clearInterval(this.timer)

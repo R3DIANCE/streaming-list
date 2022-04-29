@@ -51,46 +51,5 @@
 </script>
 
 <style scoped>
-    .cards {
-        display: flex;
-        flex-wrap: wrap;
-        list-style: none;
-        margin: 0;
-        margin-left: auto;
-        margin-right: auto;
-        padding: 0;
-        max-width: 80%;
-    }
-
-    .maintable {
-        margin-bottom: 1%;
-        margin-top: 1%;
-    }
-
-    .maintable h1 {
-        margin-bottom: 0px;
-        font-size: 3.5rem;
-    }
-
-    .maintable h2 {
-        font-size: 2rem;
-    }
-
-    @media (max-width: 896px) {
-        .cards {
-            max-width: 90%;
-        }
-        table {
-            width: 90%;
-        }
-    }
-
-    @media (max-width: 641px) {
-        .cards {
-            max-width: 95%;
-        }
-        table {
-            width: 95%;
-        }
-    }
+    @import '../assets/streamers.css';
 </style>

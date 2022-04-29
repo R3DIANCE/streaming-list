@@ -94,18 +94,5 @@
 </script>
 
 <style scoped>
-    .maintable {
-        margin-bottom: 1%;
-        margin-top: 1%;
-    }
-
-    .maintable h1 {
-        margin-bottom: 0px;
-        font-size: 3.5rem;
-        text-align: center;
-    }
-
-    .maintable h2 {
-        font-size: 2rem;
-    }
+    @import '../assets/header.css';
 </style>

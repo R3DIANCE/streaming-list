@@ -92,6 +92,9 @@
                 if (!data) {
                     const response = await fetch(`https://api.altv.mp/server/${import.meta.env.VITE_ALTV_SERVER_ID}`);
                     api_data = await response.json();
+                    if (api_data == undefined) {
+                        api_data = JSON.parse(localStorage.getItem("altv"));
+                    }
                 } else {
                     api_data = JSON.parse(localStorage.getItem("altv"));
                 }

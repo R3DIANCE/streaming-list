@@ -51,6 +51,11 @@
             });
             this.set_total_views(viewers);
             this.set_streamers(streamers);
+
+            // next tick or the images don´t load
+            this.$nextTick(() => {
+                this.observe();
+            });
         },
         methods: {
             async fetch_twitch() {
@@ -69,17 +74,19 @@
             },
             observe() {
                 this.$emit("observe");
+            },
+            async updatedata() {
+                await this.fetch_twitch();
+                this.imgcachekey = Math.random().toString().substr(2, 8);
+                this.observe();
             }
         },
         mounted: function () {
             if (this.timer == null) {
                 this.timer = setInterval(() => {
-                    this.fetch_twitch();
-                    this.imgcachekey = Math.random().toString().substr(2, 8);
-                    this.observe();
+                    this.updatedata();
                 }, 300000)
             }
-            this.observe();
         },
         beforeDestroy() {
             clearInterval(this.timer)

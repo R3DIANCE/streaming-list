@@ -1,6 +1,6 @@
 <template>
     <ul class="cards">
-        <Streamer :stream=stream :key="stream['user_id']" v-for="stream in this.streamers" />
+        <Streamer :stream=stream :cachekey="this.imgcachekey" :key="stream['user_id']" v-for="stream in this.streamers" />
     </ul>
 </template>
 
@@ -18,7 +18,8 @@
                 streamers: [],
                 views: 0,
                 search_server: "",
-                timer: null
+                timer: null,
+                imgcachekey: Math.random().toString().substr(2, 8)
             }
         },
         async created() {
@@ -59,6 +60,7 @@
                 if (api_data["status"] == "done") {
                     return api_data["data"]
                 }
+                this.imgcachekey = Math.random().toString().substr(2, 8);
             },
             set_total_views(viewers) {
                 this.$emit("total-viewers", viewers);

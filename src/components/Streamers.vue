@@ -16,7 +16,8 @@
         data() {
             return {
                 "streamers": [],
-                "views": 0
+                "views": 0,
+                "search_server": ""
             }
         },
         async created() {
@@ -33,7 +34,7 @@
         },
         methods: {
             async fetch_twitch() {
-                const response = await fetch("https://twitch-search-server.fly.dev/search?title=luckyv");
+                const response = await fetch(import.meta.env.VITE_TWITCH_SEARCH_SERVER);
                 const api_data = await response.json();
 
                 if (api_data["status"] == "done") {

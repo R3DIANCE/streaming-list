@@ -48,7 +48,7 @@
         </tr>
         <tr>
             <td>Zuletzt aktualisiert:</td>
-            <td>{{lastupdate}} Uhr</td>
+            <td>{{lastupdate}}</td>
         </tr>
     </table>
 </template>
@@ -69,7 +69,7 @@
                 "players": 0,
                 "maxplayers": 0,
                 "version": 0,
-                "lastupdate": "Never"
+                "lastupdate": "Nie"
             }
         },
         async created() {
@@ -77,10 +77,10 @@
         },
         methods: {
             async fetch_altv() {
-                const response = await fetch("https://api.altv.mp/server/bb7228a0d366fc575a5682a99359424f");
+                const response = await fetch(`https://api.altv.mp/server/${import.meta.env.VITE_ALTV_SERVER_ID}`);
                 const api_data = await response.json();
 
-                this.lastupdate = moment().format("H:m");
+                this.lastupdate = `${moment().format("H:m")} Uhr`;
 
                 if (api_data["active"]) {
                     this.active = api_data["active"];

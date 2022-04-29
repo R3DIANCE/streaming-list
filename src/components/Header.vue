@@ -65,21 +65,38 @@
         components: {},
         data() {
             return {
-                "active": false,
-                "players": 0,
-                "maxplayers": 0,
-                "version": 0,
-                "lastupdate": "Nie"
+                active: false,
+                players: 0,
+                maxplayers: 0,
+                version: 0,
+                lastupdate: "Nie",
+                timer: null
             }
         },
         async created() {
-            await this.fetch_altv();
+            let invalid_date = new Date(localStorage.getItem("altv:invalidate"))
+            let now = new Date();
+            if (localStorage.getItem("altv") && now < invalid_date) {
+                // use old data
+                console.log("using cached data: alt:V");
+                await this.fetch_altv(localStorage.getItem("altv"));
+            } else {
+                // fetch new data
+                console.log("fetching new data: alt:V");
+                await this.fetch_altv();
+            }
+            
         },
         methods: {
-            async fetch_altv() {
-                const response = await fetch(`https://api.altv.mp/server/${import.meta.env.VITE_ALTV_SERVER_ID}`);
-                const api_data = await response.json();
-
+            async fetch_altv(data) {
+                let api_data = [];
+                if (!data) {
+                    const response = await fetch(`https://api.altv.mp/server/${import.meta.env.VITE_ALTV_SERVER_ID}`);
+                    api_data = await response.json();
+                } else {
+                    api_data = JSON.parse(localStorage.getItem("altv"));
+                }
+                
                 this.lastupdate = `${moment().format("H:m")} Uhr`;
 
                 if (api_data["active"]) {
@@ -87,8 +104,22 @@
                     this.players = api_data["info"]["players"];
                     this.maxplayers = api_data["info"]["maxPlayers"];
                     this.version = api_data["info"]["version"];
+                    let invalid_date = new Date();
+                    invalid_date.setMinutes(invalid_date.getMinutes() + 5);
+                    localStorage.setItem("altv:invalidate", invalid_date);
+                    localStorage.setItem("altv", JSON.stringify(api_data));
                 }
             }
+        },
+        mounted: function () {
+            if (this.timer == null) {
+                this.timer = setInterval(() => {
+                    this.fetch_altv()
+                }, 300000)
+            }
+        },
+        beforeDestroy() {
+            clearInterval(this.timer)
         }
     }
 </script>

@@ -1,6 +1,5 @@
 <script setup>
 import { RouterView } from "vue-router";
-console.log(import.meta.env.VITE_TWITCH_SEARCH_SERVER);
 </script>
 
 <template>

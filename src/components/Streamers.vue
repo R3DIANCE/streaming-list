@@ -1,6 +1,6 @@
 <template>
     <ul class="cards">
-        <Streamer :stream=stream :cachekey="this.imgcachekey" :key="stream['user_id']" v-for="stream in this.streamers" />
+        <Streamer :stream=stream :cachekey=imgcachekey :key="stream['user_id']" v-for="stream in this.streamers" />
     </ul>
 </template>
 
@@ -57,10 +57,11 @@
                 const response = await fetch(import.meta.env.VITE_TWITCH_SEARCH_SERVER);
                 const api_data = await response.json();
 
+                this.imgcachekey = Math.random().toString().substr(2, 8);
+
                 if (api_data["status"] == "done") {
                     return api_data["data"]
                 }
-                this.imgcachekey = Math.random().toString().substr(2, 8);
             },
             set_total_views(viewers) {
                 this.$emit("total-viewers", viewers);

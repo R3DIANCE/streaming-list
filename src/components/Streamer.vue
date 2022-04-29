@@ -6,7 +6,7 @@
                     <img
                         width="640px"
                         height="340px"
-                        :src="stream['thumbnail_url'].replace('{width}', '640').replace('{height}', '360') + '?' + cachekey"
+                        :src="stream['thumbnail_url'].replace('{width}', '640').replace('{height}', '360') + '?key=' + this.cachekey"
                         :alt="stream['user_name']"
                         referrerPolicy="same-origin"
                     />
@@ -38,11 +38,11 @@
         name: "Streamer",
         props: {
             stream: Object,
-            cachekey: Number
+            cachekey: String
         },
         data() {
             return {
-                "time": ""
+                time: ""
             }
         },
         created() {

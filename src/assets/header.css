@@ -5,7 +5,7 @@ table {
 .maintable {
     margin-bottom: 1%;
     margin-top: 1%;
-    width: 95%;
+    width: 80%;
 }
 
 .maintable h1 {
@@ -19,6 +19,7 @@ table {
 }
 
 @media (max-width: 896px) {
+    .maintable,
     table {
         width: 95%;
     }

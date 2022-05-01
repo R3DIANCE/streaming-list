@@ -113,7 +113,7 @@
                     this.maxplayers = api_data["info"]["maxPlayers"];
                     this.version = api_data["info"]["version"];
                     let invalid_date = new Date();
-                    invalid_date.setMinutes(invalid_date.getMinutes() + 5);
+                    invalid_date.setMinutes(invalid_date.getMinutes() + 2);
                     localStorage.setItem("altv:invalidate", invalid_date);
                     localStorage.setItem("altv", JSON.stringify(api_data));
                 }
@@ -123,7 +123,7 @@
             if (this.timer == null) {
                 this.timer = setInterval(() => {
                     this.fetch_altv()
-                }, 300000)
+                }, 120000)
             }
         },
         beforeDestroy() {

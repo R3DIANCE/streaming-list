@@ -20,13 +20,19 @@
                 </div>
                 <div class="cardcontent">
                     <p class="cardtext">
-                        {{stream["title"]}}
-                        <br />
-                        Zuschauer: {{stream["viewer_count"]}}
-                        <br />
-                        Live seit:
-                        {{time}}
-                        <br />
+                        <table class="streamertable">
+                            <th>
+                                {{stream["title"]}}
+                            </th>
+                            <tr>
+                                <td>Zuschauer:</td>
+                                <td>{{stream["viewer_count"]}}</td>
+                            </tr>
+                            <tr>
+                                <td>Live seit:</td>
+                                <td>{{time}}</td>
+                            </tr>
+                        </table>
                     </p>
                 </div>
             </div>

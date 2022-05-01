@@ -1,7 +1,4 @@
 <template>
-    <a class="anchor" href="/#" name="#top">
-        Top
-    </a>
     <table class="maintable">
         <tr>
             <td>
@@ -9,7 +6,7 @@
             </td>
         </tr>
     </table>
-    <table>
+    <table class="infotable">
         <tr>
             <td>
                 <a
@@ -32,7 +29,7 @@
                     Gameserver:
                 </a>
             </td>
-            <td>{{active}}</td>
+            <td>{{active ? "Online":"Offline"}}</td>
         </tr>
         <tr>
             <td>Spieler Online:</td>

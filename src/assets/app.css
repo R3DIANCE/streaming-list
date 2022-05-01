@@ -65,7 +65,8 @@ img {
     height: 100%;
 }
 
-table {
+.infotable,
+.maintable {
     margin: 0 auto;
     border-collapse: collapse;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
@@ -76,13 +77,6 @@ td {
     padding: 12px 15px;
 }
 
-tr:nth-of-type(even) {
+.infotable tr:nth-of-type(even) {
     background-color: gray;
-}
-
-.anchor {
-    visibility: hidden;
-    display: block;
-    width: 0px;
-    height: 0px;
 }

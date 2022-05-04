@@ -2,7 +2,7 @@
   "name": "streaming-list",
   "version": "0.0.0",
   "scripts": {
-    "build": "vite build",
+    "build": "vite build && workbox generateSW workbox-config.js",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "dev": "vite",
     "preview": "vite preview --port 5050",

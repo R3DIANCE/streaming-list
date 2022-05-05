@@ -9,7 +9,7 @@
                         class="lozad"
                         src="../assets/placeholder.jpg"
                         :data-loaded="this.cachekey"
-                        :data-src="stream['thumbnail_url'].replace('{width}', '640').replace('{height}', '360') + '?key=' + this.cachekey"
+                        :data-src="this.stream['thumbnail_url'].replace('{width}', '640').replace('{height}', '360') + '?key=' + this.cachekey"
                         :alt="stream['user_name']"
                         referrerPolicy="same-origin"
                     />

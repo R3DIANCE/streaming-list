@@ -1,6 +1,16 @@
 .cards_item {
     display: flex;
+    flex-direction: column;
     padding: 1rem;
+}
+
+.cards_item a {
+    display: flex;
+    flex-grow: 1;
+}
+
+.card_item {
+    font-size: 1.2em;
 }
 
 .card {

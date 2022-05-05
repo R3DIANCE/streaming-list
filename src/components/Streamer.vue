@@ -20,10 +20,8 @@
                 </div>
                 <div class="cardcontent">
                     <p class="cardtext">
+                        <p class="card_item">{{stream["title"]}}</p>
                         <table class="streamertable">
-                            <th>
-                                {{stream["title"]}}
-                            </th>
                             <tr>
                                 <td>Zuschauer:</td>
                                 <td>{{stream["viewer_count"]}}</td>

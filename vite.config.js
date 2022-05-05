@@ -12,7 +12,8 @@ export default defineConfig({
     },
   },
   build: {
-    manifest: true,
-    minify: true
+    manifest: false,
+    minify: true,
+    ssrManifest: true
   }
 });

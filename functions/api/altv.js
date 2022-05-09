@@ -1,4 +1,4 @@
-export async function onRequestGet({ params }) {
+export async function onRequestGet({ params, env }) {
     const init = {
         cf: {
           cacheTtl: 120,

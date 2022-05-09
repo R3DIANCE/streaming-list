@@ -1,5 +1,5 @@
 export async function onRequestGet({ params }) {
-    const res = await fetch(`https://twitch-search-server.nickwasused.com/search?title=luckyv,lucky v`);
+    const res = await fetch(`https://api.altv.mp/server/bb7228a0d366fc575a5682a99359424f`);
     const data = await res.json();
     const info = JSON.stringify(data);
     return new Response(info, {

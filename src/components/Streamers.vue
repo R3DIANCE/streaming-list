@@ -92,7 +92,7 @@
                 }, 300000)
             }
         },
-        beforeDestroy() {
+        unmounted() {
             clearInterval(this.timer)
         }
     }

@@ -1,5 +1,11 @@
 export async function onRequestGet({ params }) {
-    const res = await fetch(`https://api.altv.mp/server/bb7228a0d366fc575a5682a99359424f`);
+    const init = {
+        cf: {
+          cacheTtl: 120,
+          cacheEverything: true,
+        },
+    };
+    const res = await fetch(`https://api.altv.mp/server/${env.ALTV_SERVER_ID}`, init);
     const data = await res.json();
     const info = JSON.stringify(data);
     return new Response(info, {

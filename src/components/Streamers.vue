@@ -60,7 +60,7 @@
         methods: {
             async fetch_twitch() {
                 try {
-                    const response = await fetch(import.meta.env.VITE_TWITCH_SEARCH_SERVER);
+                    const response = await fetch("/api/streamers");
                     const api_data = await response.json();
                     if (api_data["status"] == "done") {
                         return api_data["data"]

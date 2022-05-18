@@ -11,7 +11,7 @@
             <td>
                 <a
                     href="https://altv.mp"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     target="_blank"
                 >
                     alt:V Version:
@@ -23,7 +23,7 @@
             <td>
                 <a
                     href="https://altstats.net/server/"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     target="_blank"
                 >
                     Gameserver:

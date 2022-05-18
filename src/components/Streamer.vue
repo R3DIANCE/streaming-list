@@ -1,6 +1,6 @@
 <template>
     <li class="cards_item">
-        <a :href="'https://twitch.tv/' + stream['user_name']" target="_blank">
+        <a :href="'https://twitch.tv/' + stream['user_name']" target="_blank" rel="noopener noreferrer">
             <div class="card">
                 <div class="cardimage">
                     <img

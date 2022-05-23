@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 export default async function handler(request, response) {
   let data = {};
   try {
-    const res = await fetch(`https://api.altv.mp/server/${process.env.ALTV_SERVER_ID}`, {
+    const res = await fetch(`https://api.altv.mp/server/${process.env.VITE_ALTV_SERVER_ID}`, {
       headers: { 'User-Agent': 'AltPublicAgent' },
     });
     data = await res.json();

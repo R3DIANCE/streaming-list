@@ -59,8 +59,9 @@
         },
         methods: {
             async fetch_twitch() {
+                let url = import.meta.env.VERCEL_ENV == "production" ? "/api/streamers":import.meta.env.VITE_SEARCH_SERVER;
                 try {
-                    const response = await fetch("/api/streamers");
+                    const response = await fetch(url);
                     const api_data = await response.json();
                     if (api_data["status"] == "done") {
                         return api_data["data"]

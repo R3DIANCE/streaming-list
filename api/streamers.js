@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 export default async function handler(request, response) {
   let data = [];
   try {
-    const res = await fetch(process.env.SEARCH_SERVER, {
+    const res = await fetch(process.env.VITE_SEARCH_SERVER, {
       headers: { 'User-Agent': 'Vercel' },
     });
     console.log(res);

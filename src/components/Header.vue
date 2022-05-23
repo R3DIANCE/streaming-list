@@ -85,10 +85,11 @@
         },
         methods: {
             async fetch_altv(data) {
+                let url = import.meta.env.VERCEL_ENV == "production" ? "/api/altv":`https://api.altv.mp/server/${import.meta.env.VITE_ALTV_SERVER_ID}`;
                 let api_data = [];
                 if (!data) {
                     try {
-                        const response = await fetch(`/api/altv`);
+                        const response = await fetch(url);
                         api_data = await response.json();
                         if (api_data == undefined) {
                             api_data = JSON.parse(localStorage.getItem("altv"));

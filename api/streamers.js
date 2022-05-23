@@ -10,8 +10,6 @@ export default async function handler(request, response) {
     data = await res.json();
   } catch (e) {
     console.error(e);
-  } finally {
-    data = []
   }
   
   response.setHeader('Access-Control-Allow-Origin', process.env.VERCEL_URL);

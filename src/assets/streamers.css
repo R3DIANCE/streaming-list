@@ -21,3 +21,29 @@
         max-width: 95%;
     }
 }
+
+.searchcombo {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 1%;
+    background-color: #333;
+    padding: 0.1%;
+    border: 1px solid black;
+    border-color: #1a1a1a;
+    border-radius: 4px;
+}
+
+.searchcombo input[type="text"] {
+    width: 95%;
+    padding: 0.75%;
+    background: #333;
+    border: 0px;
+    color: #dadada;
+    font-size: 2rem;
+    margin: 1px;
+}
+
+.searchcombo input[type="text"]:focus {
+    outline: none !important;
+}

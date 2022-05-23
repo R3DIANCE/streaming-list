@@ -43,6 +43,7 @@
     
     export default {
         name: "Streamer",
+        emits: ["observe"],
         props: {
             stream: Object,
             cachekey: String
@@ -54,6 +55,9 @@
         },
         created() {
             this.time = this.calculate_time(this.stream["started_at"]);
+        },
+        mounted: function () {
+            this.observe();
         },
         methods: {
             calculate_time(time) {
@@ -70,6 +74,9 @@
                 var tempdate = new Date();
                 tempdate.setHours(hours, minuets, seconds);
                 return tempdate.toLocaleTimeString();
+            },
+            observe() {
+                this.$emit("observe");
             }
         }
     }

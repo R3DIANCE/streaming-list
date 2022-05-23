@@ -1,6 +1,10 @@
 <template>
+    <div class="searchcombo">
+        <input type="text" v-model="searchword" placeholder="Suche ..." />
+    </div>
+    
     <ul class="cards">
-        <Streamer :stream=stream :cachekey=imgcachekey :key="stream['user_id']" v-for="stream in this.streamers" />
+        <Streamer @observe="this.observe" :stream=stream :cachekey=imgcachekey :key="stream['user_id']" v-for="(stream) of filterstreamers" />
     </ul>
 </template>
 
@@ -9,6 +13,7 @@
 
     export default {
         name: "Streamerlist",
+        emits: ["observe", "streamers", "total-viewers"],
         props: {},
         components: {
             Streamer
@@ -19,8 +24,21 @@
                 views: 0,
                 search_server: "",
                 timer: null,
-                imgcachekey: Math.random().toString().substr(2, 8)
+                imgcachekey: Math.random().toString().substr(2, 8),
+                searchword: ""
             }
+        },
+        computed: {
+            filterstreamers() {
+                const { streamers, searchword } = this;
+                return streamers.filter((stream) => {
+                    let search_value = searchword.toLowerCase();
+                    if (stream.title.toLowerCase().includes(search_value) ||
+                        stream.user_login.includes(search_value)) {
+                        return stream;
+                    }
+                });
+            },
         },
         async created() {
             let invalid_date = new Date(localStorage.getItem("streamers:invalidate"))
@@ -51,11 +69,6 @@
             });
             this.set_total_views(viewers);
             this.set_streamers(streamers);
-
-            // next tick or the images don´t load
-            this.$nextTick(() => {
-                this.observe();
-            });
         },
         methods: {
             async fetch_twitch() {

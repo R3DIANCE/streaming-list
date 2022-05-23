@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 
 export default async function handler(request, response) {
-  const res = await fetch(`https://api.altv.mp/server/${env.ALTV_SERVER_ID}`);
+  const res = await fetch(`https://api.altv.mp/server/${process.env.ALTV_SERVER_ID}`);
   const data = await res.json();
   const info = JSON.stringify(data);
   return new Response(info, {

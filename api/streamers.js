@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 
 export default async function handler(request, response) {
-  const res = await fetch(env.SEARCH_SERVER);
+  const res = await fetch(process.env.SEARCH_SERVER);
   const data = await res.json();
   const info = JSON.stringify(data);
   return new Response(info, {

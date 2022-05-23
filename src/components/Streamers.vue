@@ -96,7 +96,10 @@
             async updatedata() {
                 await this.fetch_twitch();
                 this.imgcachekey = Math.random().toString().substr(2, 8);
-                this.observe();
+                // next tick or the images don´t load
+                this.$nextTick(() => {
+                    this.observe();
+                });
             }
         },
         mounted: function () {

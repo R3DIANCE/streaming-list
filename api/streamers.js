@@ -1,10 +1,17 @@
 import fetch from 'node-fetch';
 
 export default async function handler(request, response) {
-  const res = await fetch(process.env.SEARCH_SERVER, {
-    headers: { 'User-Agent': 'Vercel' },
-  });
-  const data = await res.json();
+  try {
+    const res = await fetch(process.env.SEARCH_SERVER, {
+      headers: { 'User-Agent': 'Vercel' },
+    });
+    const data = await res.json();
+  } catch (e) {
+    console.error(e);
+  } finally {
+    data = []
+  }
+  
   response.setHeader('Access-Control-Allow-Origin', process.env.VERCEL_URL);
   response.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS');
   response.setHeader('Content-Type', 'application/json');

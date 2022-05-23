@@ -6,6 +6,7 @@ export default async function handler(request, response) {
     const res = await fetch(process.env.SEARCH_SERVER, {
       headers: { 'User-Agent': 'Vercel' },
     });
+    console.log(res);
     data = await res.json();
   } catch (e) {
     console.error(e);

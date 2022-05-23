@@ -1,11 +1,12 @@
 import fetch from 'node-fetch';
 
 export default async function handler(request, response) {
+  let data = [];
   try {
     const res = await fetch(process.env.SEARCH_SERVER, {
       headers: { 'User-Agent': 'Vercel' },
     });
-    const data = await res.json();
+    data = await res.json();
   } catch (e) {
     console.error(e);
   } finally {

@@ -2,22 +2,7 @@
     <li class="cards_item">
         <a :href="'https://twitch.tv/' + stream['user_name']" target="_blank" rel="noopener noreferrer">
             <div class="card">
-                <div class="cardimage">
-                    <img
-                        width="640px"
-                        height="340px"
-                        class="lozad"
-                        src="../assets/placeholder.jpg"
-                        :data-loaded="this.cachekey"
-                        :data-src="'https://external-content.duckduckgo.com/iu/?u=' + this.stream['thumbnail_url'].replace('{width}', '640').replace('{height}', '360') + '?key=' + this.cachekey"
-                        :alt="stream['user_name']"
-                        referrerPolicy="same-origin"
-                    />
-                    <div class="textblock">
-                        {{stream["user_name"]}}
-                        <i class="fa fa-twitch"></i>
-                    </div>
-                </div>
+                <Image :stream="this.stream" :cachekey="this.cachekey" />
                 <div class="cardcontent">
                     <p class="cardtext">
                         <p class="card_item">{{stream["title"]}}</p>
@@ -40,10 +25,13 @@
 
 <script>
     import moment from 'moment';
+    import Image from './Image.vue';
     
     export default {
         name: "Streamer",
-        emits: ["observe"],
+        components: {
+            Image
+        },
         props: {
             stream: Object,
             cachekey: String
@@ -55,9 +43,6 @@
         },
         created() {
             this.time = this.calculate_time(this.stream["started_at"]);
-        },
-        mounted: function () {
-            this.observe();
         },
         methods: {
             calculate_time(time) {
@@ -74,9 +59,6 @@
                 var tempdate = new Date();
                 tempdate.setHours(hours, minuets, seconds);
                 return tempdate.toLocaleTimeString();
-            },
-            observe() {
-                this.$emit("observe");
             }
         }
     }

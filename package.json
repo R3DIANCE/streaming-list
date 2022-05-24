@@ -10,7 +10,6 @@
     "pwa": "npm run build && npx http-server dist"
   },
   "dependencies": {
-    "lozad": "^1.16.0",
     "moment": "^2.29.3",
     "vue": "^3.2.33",
     "vue-router": "^4.0.14",

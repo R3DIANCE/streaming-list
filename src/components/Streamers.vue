@@ -4,7 +4,7 @@
     </div>
     
     <ul class="cards">
-        <Streamer @observe="this.observe" :stream=stream :cachekey=imgcachekey :key="stream['user_id']" v-for="(stream) of filterstreamers" />
+        <Streamer :stream=stream :cachekey=imgcachekey :key="stream['user_id']" v-for="(stream) of filterstreamers" />
     </ul>
 </template>
 
@@ -13,7 +13,7 @@
 
     export default {
         name: "Streamerlist",
-        emits: ["observe", "streamers", "total-viewers"],
+        emits: ["streamers", "total-viewers"],
         props: {},
         components: {
             Streamer
@@ -90,16 +90,9 @@
             set_streamers(streamers) {
                 this.$emit("streamers", streamers);
             },
-            observe() {
-                this.$emit("observe");
-            },
             async updatedata() {
                 await this.fetch_twitch();
                 this.imgcachekey = Math.random().toString().substr(2, 8);
-                // next tick or the images don´t load
-                this.$nextTick(() => {
-                    this.observe();
-                });
             }
         },
         mounted: function () {

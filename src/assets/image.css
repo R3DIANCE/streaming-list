@@ -1,0 +1,20 @@
+.cardimage {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: contrast(70%);
+    overflow: hidden;
+    position: relative;
+    transition: filter 0.5s cubic-bezier(0.43, 0.41, 0.22, 0.91);
+}
+
+.textblock {
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+    background-color: black;
+    color: white;
+    padding-left: 5%;
+    padding-right: 5%;
+    font-size: 1.5em;
+}

@@ -52,6 +52,8 @@
 
 <script>
     import moment from 'moment';
+    // https://pieroxy.net/blog/pages/lz-string/demo.html
+    import { compressToUTF16, decompressFromUTF16 } from 'lz-string';
 
     export default {
         name: "Header",
@@ -92,7 +94,7 @@
                         const response = await fetch(url);
                         api_data = await response.json();
                         if (api_data == undefined) {
-                            api_data = JSON.parse(localStorage.getItem("altv"));
+                            api_data = JSON.parse(decompressFromUTF16(localStorage.getItem("altv")));
                         }
                     } catch (Exception) {
                         console.error(Exception);
@@ -100,7 +102,7 @@
                     }
                     
                 } else {
-                    api_data = JSON.parse(localStorage.getItem("altv"));
+                    api_data = JSON.parse(decompressFromUTF16(localStorage.getItem("altv")));
                 }
                 
                 this.lastupdate = `${moment().format("H:m")} Uhr`;
@@ -113,7 +115,7 @@
                     let invalid_date = new Date();
                     invalid_date.setMinutes(invalid_date.getMinutes() + 2);
                     localStorage.setItem("altv:invalidate", invalid_date);
-                    localStorage.setItem("altv", JSON.stringify(api_data));
+                    localStorage.setItem("altv", compressToUTF16(JSON.stringify(api_data)));
                 }
             }
         },

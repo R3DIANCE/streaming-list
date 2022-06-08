@@ -6,6 +6,7 @@
     <ul class="cards">
         <Streamer :stream=stream :cachekey=imgcachekey :key="stream['user_id']" v-for="(stream) of filterstreamers" />
     </ul>
+    <a href="#top" class="top">⬆️Nach Oben⬆️</a>
 </template>
 
 <script>

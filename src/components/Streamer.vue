@@ -7,11 +7,11 @@
                     <p class="cardtext">
                         <p class="card_item">{{stream["title"]}}</p>
                         <table class="streamertable">
-                            <tr>
+                            <tr :title="stream['user_name'] + ' hat gerade ' + stream['viewer_count'] + ' Zuschauer:innen.'">
                                 <td>Zuschauer:</td>
                                 <td>{{stream["viewer_count"]}}</td>
                             </tr>
-                            <tr>
+                            <tr :title="stream['user_name'] + ' ist live seit ' + new Date(stream['started_at']).toLocaleTimeString() + ' Uhr und damit ' + time + ' Stunden.'">
                                 <td>Live seit:</td>
                                 <td>{{time}}</td>
                             </tr>

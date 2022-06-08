@@ -47,3 +47,10 @@
 .searchcombo input[type="text"]:focus {
     outline: none !important;
 }
+
+.top {
+    padding: 2%;
+    text-align: center;
+    display: inline-block;
+    width: 100%;
+}

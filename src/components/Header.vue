@@ -2,7 +2,7 @@
     <table class="maintable">
         <tr>
             <td>
-                <h1>Streamer Online: {{online_count}}</h1>
+                <h1 :title="'Es sind gerade ' + online_count + ' Streamer:innen live.'">Streamer:innen Online: {{online_count}}</h1>
             </td>
         </tr>
     </table>
@@ -17,7 +17,7 @@
                     alt:V Version:
                 </a>
             </td>
-            <td>{{version}}</td>
+            <td :title="version == cdn_data['version'] ? 'Der Server benutzt die aktuellste alt:V Version. ✔️':'Der Server benötigt ein alt:V Update. (' + cdn_data['version'] + ')'">{{version == cdn_data["version"] ? `${version} ✔️`:`${version} ⬆️`}}</td>
         </tr>
         <tr>
             <td>
@@ -26,26 +26,22 @@
                     rel="noopener noreferrer"
                     target="_blank"
                 >
-                    Gameserver:
+                    Gameserver Status:
                 </a>
             </td>
-            <td>{{active ? "Online":"Offline"}}</td>
+            <td :title="active ? 'Der Gameserver ist Online.':'Der Gameserver ist Offline.'">{{active ? "Online ✔️":"Offline ❌"}}</td>
         </tr>
         <tr>
-            <td>Spieler Online:</td>
-            <td>
-                {{players}}/{{maxplayers}}
-            </td>
+            <td>Spieler:innen Online:</td>
+            <td :title="active ? 'Aktuell spielen ' + players + ' Spieler:innen auf dem Server.':''">{{players}}/{{maxplayers}}</td>
         </tr>
         <tr>
-            <td>Zuschauer insgesamt:</td>
-            <td>
-                {{viewers}}
-            </td>
+            <td>Zuschauer:innen insgesamt:</td>
+            <td :title="'Insgesamt schauen ' + viewers + ' Zuschauen:innen, Streamer:innen von LuckyV zu.'">{{viewers}}</td>
         </tr>
         <tr>
             <td>Zuletzt aktualisiert:</td>
-            <td>{{lastupdate}}</td>
+            <td title="Die Daten auf dieser Website wurden zuletzt um diese Uhrzeit aktualisiert.">{{lastupdate}}</td>
         </tr>
     </table>
 </template>
@@ -69,13 +65,13 @@
                 maxplayers: 0,
                 version: 0,
                 lastupdate: "Nie",
+                cdn_data: {},
                 timer: null
             }
         },
         async created() {
-            let invalid_date = new Date(localStorage.getItem("altv:invalidate"))
             let now = new Date();
-            if (localStorage.getItem("altv") && now < invalid_date) {
+            if (localStorage.getItem("altv") && now < new Date(localStorage.getItem("altv:invalidate"))) {
                 // use old data
                 console.log("using cached data: alt:V");
                 await this.fetch_altv(localStorage.getItem("altv"));
@@ -84,8 +80,42 @@
                 console.log("fetching new data: alt:V");
                 await this.fetch_altv();
             }
+            if (localStorage.getItem("altv_server") && now < new Date(localStorage.getItem("altv_server:invalidate"))) {
+                // use old data
+                console.log("using cached data: alt:V Server");
+                await this.fetch_altv_server(localStorage.getItem("altv_server"));
+            } else {
+                // fetch new data
+                console.log("fetching new data: alt:V Server");
+                await this.fetch_altv_server();
+            }
         },
         methods: {
+            async fetch_altv_server(data) {
+                const data_url = `https://cdn.altv.mp/server/release/x64_linux/update.json`;
+                let cdn_data = {};
+                if (!data) {
+                    try {
+                        const response = await fetch(data_url);
+                        cdn_data = await response.json();
+                        if (cdn_data == undefined) {
+                            cdn_data = JSON.parse(decompressFromUTF16(localStorage.getItem("altv_server")));
+                        }
+                    } catch (Exception) {
+                        console.error(Exception);
+                        cdn_data = [];
+                    } 
+                } else {
+                    cdn_data = JSON.parse(decompressFromUTF16(localStorage.getItem("altv_server")));
+                }
+
+                this.cdn_data = cdn_data;
+
+                let invalid_date = new Date();
+                invalid_date.setMinutes(invalid_date.getMinutes() + 2);
+                localStorage.setItem("altv_server:invalidate", invalid_date);
+                localStorage.setItem("altv_server", compressToUTF16(JSON.stringify(cdn_data)));
+            },
             async fetch_altv(data) {
                 let url = import.meta.env.VERCEL_ENV == "production" ? "/api/altv":`https://api.altv.mp/server/${import.meta.env.VITE_ALTV_SERVER_ID}`;
                 let api_data = [];
@@ -99,8 +129,7 @@
                     } catch (Exception) {
                         console.error(Exception);
                         api_data = [];
-                    }
-                    
+                    } 
                 } else {
                     api_data = JSON.parse(decompressFromUTF16(localStorage.getItem("altv")));
                 }
@@ -122,7 +151,8 @@
         mounted: function () {
             if (this.timer == null) {
                 this.timer = setInterval(() => {
-                    this.fetch_altv()
+                    this.fetch_altv();
+                    this.fetch_altv_server();
                 }, 120000)
             }
         },

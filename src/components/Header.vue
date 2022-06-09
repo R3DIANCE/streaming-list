@@ -7,7 +7,7 @@
         </tr>
     </table>
     <table class="infotable">
-        <tr>
+        <tr :title="version == cdn_data['version'] ? 'Der Server benutzt die aktuellste alt:V Version. ✔️':'Der Server benötigt ein alt:V Update. (' + cdn_data['version'] + ')'">
             <td>
                 <a
                     href="https://altv.mp"
@@ -17,9 +17,9 @@
                     alt:V Version:
                 </a>
             </td>
-            <td :title="version == cdn_data['version'] ? 'Der Server benutzt die aktuellste alt:V Version. ✔️':'Der Server benötigt ein alt:V Update. (' + cdn_data['version'] + ')'">{{version == cdn_data["version"] ? `${version} ✔️`:`${version} ⬆️`}}</td>
+            <td>{{version == cdn_data["version"] ? `${version} ✔️`:`${version} ⬆️`}}</td>
         </tr>
-        <tr>
+        <tr :title="active ? 'Der Gameserver ist Online.':'Der Gameserver ist Offline.'">
             <td>
                 <a
                     href="https://altstats.net/server/"
@@ -29,19 +29,19 @@
                     Gameserver Status:
                 </a>
             </td>
-            <td :title="active ? 'Der Gameserver ist Online.':'Der Gameserver ist Offline.'">{{active ? "Online ✔️":"Offline ❌"}}</td>
+            <td>{{active ? "Online ✔️":"Offline ❌"}}</td>
         </tr>
-        <tr>
+        <tr :title="active ? 'Aktuell spielen ' + players + ' Spieler:innen auf dem Server.':''">
             <td>Spieler:innen Online:</td>
-            <td :title="active ? 'Aktuell spielen ' + players + ' Spieler:innen auf dem Server.':''">{{players}}/{{maxplayers}}</td>
+            <td>{{players}}/{{maxplayers}}</td>
         </tr>
-        <tr>
+        <tr :title="'Insgesamt schauen ' + viewers + ' Zuschauen:innen, Streamer:innen von LuckyV zu.'">
             <td>Zuschauer:innen insgesamt:</td>
-            <td :title="'Insgesamt schauen ' + viewers + ' Zuschauen:innen, Streamer:innen von LuckyV zu.'">{{viewers}}</td>
+            <td>{{viewers}}</td>
         </tr>
-        <tr>
+        <tr title="Die Daten auf dieser Website wurden zuletzt um diese Uhrzeit aktualisiert.">
             <td>Zuletzt aktualisiert:</td>
-            <td title="Die Daten auf dieser Website wurden zuletzt um diese Uhrzeit aktualisiert.">{{lastupdate}}</td>
+            <td>{{lastupdate}}</td>
         </tr>
     </table>
 </template>

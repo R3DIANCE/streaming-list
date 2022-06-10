@@ -16,7 +16,7 @@ app.directive("lazyload", LazyLoadDirective);
 
 const i18n = VueI18n.createI18n({
     defaultSFCLang: 'json',
-    locale: 'de',
+    locale: window.navigator.language,
     fallbackLocale: 'en',
     globalInjection: true,
     messages,

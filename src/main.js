@@ -15,6 +15,10 @@ const app = createApp(App);
 app.directive("lazyload", LazyLoadDirective);
 
 const i18n = VueI18n.createI18n({
+    silentFallbackWarn: true,
+    fallbackWarn: false,
+    missingWarn: false,
+    silentTranslationWarn: true,
     defaultSFCLang: 'json',
     locale: window.navigator.language,
     fallbackLocale: 'en',

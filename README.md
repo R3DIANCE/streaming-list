@@ -10,7 +10,7 @@
 - Automatic refresh (alt:V, Twitch)
 - Lazy loading images ([Intersection Observer](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API))
 - Fast Builds (20 seconds on Vercel)
-- Small Builds (1.54 MB, with Fonts)
+- Small Builds (0.5576 MB, with Font)
 - Caching with [lz-string](https://www.npmjs.com/package/lz-string)
 - Multi language support (Currently German and English) with Automatic detection.
 

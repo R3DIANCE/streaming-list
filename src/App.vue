@@ -8,5 +8,4 @@ import { RouterView } from "vue-router";
 
 <style>
     @import './assets/app.css';
-    @import './assets/font-awesome.css';
 </style>

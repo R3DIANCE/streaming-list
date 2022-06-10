@@ -1,0 +1,32 @@
+{
+    "header": {
+        "streamer_head": "Streamer:innen Online: {count}",
+        "altv_head_version": "alt:V Version:",
+        "game_server_head": "Gameserver Status:",
+        "players_online_head": "Spieler:innen Online:",
+        "viewers_head": "Zuschauer:innen insgesamt:",
+        "last_refresh_head": "Zuletzt aktualisiert:",
+        "tooltips": {
+            "streamer": "Es sind gerade {streamer_count} Streamer:innen live.",
+            "altv_version_1": "Der Server benutzt die aktuellste alt:V Version. ✔️",
+            "altv_version_2": "Der Server benötigt ein alt:V Update. ({version})'",
+            "gameserver_1": "Der Gameserver ist Online.",
+            "gameserver_2": "Der Gameserver ist Offline.",
+            "players": "Aktuell spielen {player} Spieler:innen auf dem Server.",
+            "viewer": "Insgesamt schauen {viewer} Zuschauer:innen Streamer:innen von LuckyV zu.",
+            "refresh": "Die Daten auf dieser Website wurden zuletzt um diese Uhrzeit aktualisiert."
+        }
+    },
+    "page": {
+        "search": "Suche...",
+        "up": "⬆️Nach Oben⬆️"
+    },
+    "streamer": {
+        "viewer_count": "Zuschauer:",
+        "live_since": "Live seit:",
+        "tooltips": {
+            "viewer": "{user} hat gerade {viewer} Zuschauer:innen.",
+            "live_since": "{user} ist live seit {time} Uhr und damit {total_time} Stunden."
+        }
+    }
+}

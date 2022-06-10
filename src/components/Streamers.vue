@@ -1,21 +1,29 @@
 <template>
     <div class="searchcombo">
-        <input type="text" v-model="searchword" placeholder="Suche ..." />
+        <input type="text" v-model="searchword" :placeholder="$t('page.search')" />
     </div>
     
     <ul class="cards">
         <Streamer :stream=stream :cachekey=imgcachekey :key="stream['user_id']" v-for="(stream) of filterstreamers" />
     </ul>
-    <a href="#top" class="top">⬆️Nach Oben⬆️</a>
+    <a href="#top" class="top"></a>
 </template>
 
 <script>
+    import { useI18n } from 'vue-i18n';
     import Streamer from './Streamer.vue';
     // https://pieroxy.net/blog/pages/lz-string/demo.html
     import { compressToUTF16, decompressFromUTF16 } from 'lz-string';
 
     export default {
         name: "Streamerlist",
+        setup() {
+            const { locale, t } = useI18n({
+                inheritLocale: true
+            })
+
+            return { locale, t }
+        },
         emits: ["streamers", "total-viewers"],
         props: {},
         components: {

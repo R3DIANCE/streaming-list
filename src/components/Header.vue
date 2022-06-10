@@ -2,57 +2,65 @@
     <table class="maintable">
         <tr>
             <td>
-                <h1 :title="'Es sind gerade ' + online_count + ' Streamer:innen live.'">Streamer:innen Online: {{online_count}}</h1>
+                <h1 :title="$t('header.tooltips.streamer', { streamer_count: online_count })">{{ $t("header.streamer_head", { count: online_count })}}</h1>
             </td>
         </tr>
     </table>
     <table class="infotable">
-        <tr :title="version == cdn_data['version'] ? 'Der Server benutzt die aktuellste alt:V Version. ✔️':'Der Server benötigt ein alt:V Update. (' + cdn_data['version'] + ')'">
+        <tr :title="version == cdn_data['version'] ? $t('header.tooltips.altv_version_1'):$t('header.tooltips.altv_version_2', { version: cdn_data['version'] })">
             <td>
                 <a
                     href="https://altv.mp"
                     rel="noopener noreferrer"
                     target="_blank"
                 >
-                    alt:V Version:
+                    {{ $t("header.altv_head_version") }}
                 </a>
             </td>
             <td>{{version == cdn_data["version"] ? `${version} ✔️`:`${version} ⬆️`}}</td>
         </tr>
-        <tr :title="active ? 'Der Gameserver ist Online.':'Der Gameserver ist Offline.'">
+        <tr :title="active ? $t('header.tooltips.gameserver_1'):$t('header.tooltips.gameserver_2')">
             <td>
                 <a
                     href="https://altstats.net/server/"
                     rel="noopener noreferrer"
                     target="_blank"
                 >
-                    Gameserver Status:
+                    {{ $t("header.game_server_head") }}
                 </a>
             </td>
             <td>{{active ? "Online ✔️":"Offline ❌"}}</td>
         </tr>
-        <tr :title="active ? 'Aktuell spielen ' + players + ' Spieler:innen auf dem Server.':''">
-            <td>Spieler:innen Online:</td>
+        <tr :title="active ? $t('header.tooltips.players', { player: players }):''">
+            <td>{{ $t("header.players_online_head") }}</td>
             <td>{{players}}/{{maxplayers}}</td>
         </tr>
-        <tr :title="'Insgesamt schauen ' + viewers + ' Zuschauen:innen, Streamer:innen von LuckyV zu.'">
-            <td>Zuschauer:innen insgesamt:</td>
+        <tr :title="$t('header.tooltips.viewer', { viewer: viewers })">
+            <td>{{ $t("header.viewers_head") }}</td>
             <td>{{viewers}}</td>
         </tr>
-        <tr title="Die Daten auf dieser Website wurden zuletzt um diese Uhrzeit aktualisiert.">
-            <td>Zuletzt aktualisiert:</td>
+        <tr :title="$t('header.tooltips.refresh')">
+            <td>{{ $t("header.last_refresh_head") }}</td>
             <td>{{lastupdate}}</td>
         </tr>
     </table>
 </template>
 
 <script>
+    import { useI18n } from 'vue-i18n';
     import moment from 'moment';
     // https://pieroxy.net/blog/pages/lz-string/demo.html
     import { compressToUTF16, decompressFromUTF16 } from 'lz-string';
 
     export default {
         name: "Header",
+        setup() {
+            const { locale, t } = useI18n({
+                inheritLocale: true
+            })
+
+            return { locale, t }
+        },
         props: {
             viewers: Number,
             online_count: Number

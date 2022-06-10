@@ -10,9 +10,11 @@
     "pwa": "npm run build && npx http-server dist"
   },
   "dependencies": {
+    "@intlify/vite-plugin-vue-i18n": "^3.4.0",
     "lz-string": "github:pieroxy/lz-string",
     "moment": "^2.29.3",
     "vue": "^3.2.33",
+    "vue-i18n": "^9.1.10",
     "vue-router": "^4.0.14",
     "workbox-cli": "^6.5.3"
   },

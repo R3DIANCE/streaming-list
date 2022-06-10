@@ -7,12 +7,12 @@
                     <p class="cardtext">
                         <p class="card_item">{{stream["title"]}}</p>
                         <table class="streamertable">
-                            <tr :title="stream['user_name'] + ' hat gerade ' + stream['viewer_count'] + ' Zuschauer:innen.'">
-                                <td>Zuschauer:</td>
+                            <tr :title="$t('streamer.tooltips.viewer', { user: stream['user_name'], viewer: stream['viewer_count'] })">
+                                <td>{{ $t("streamer.viewer_count") }}</td>
                                 <td>{{stream["viewer_count"]}}</td>
                             </tr>
-                            <tr :title="stream['user_name'] + ' ist live seit ' + new Date(stream['started_at']).toLocaleTimeString() + ' Uhr und damit ' + time + ' Stunden.'">
-                                <td>Live seit:</td>
+                            <tr :title="$t('streamer.tooltips.live_since', { user: stream['user_name'], time: new Date(stream['started_at']).toLocaleTimeString(), total_time: time })">
+                                <td>{{ $t("streamer.live_since") }}</td>
                                 <td>{{time}}</td>
                             </tr>
                         </table>
@@ -24,11 +24,19 @@
 </template>
 
 <script>
+    import { useI18n } from 'vue-i18n';
     import moment from 'moment';
     import Image from './Image.vue';
     
     export default {
         name: "Streamer",
+        setup() {
+            const { locale, t } = useI18n({
+                inheritLocale: true
+            })
+
+            return { locale, t }
+        },
         components: {
             Image
         },

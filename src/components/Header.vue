@@ -48,7 +48,6 @@
 
 <script>
     import { useI18n } from 'vue-i18n';
-    import moment from 'moment';
     // https://pieroxy.net/blog/pages/lz-string/demo.html
     import { compressToUTF16, decompressFromUTF16 } from 'lz-string';
 
@@ -142,7 +141,7 @@
                     api_data = JSON.parse(decompressFromUTF16(localStorage.getItem("altv")));
                 }
                 
-                this.lastupdate = `${moment().format("H:m")} Uhr`;
+                this.lastupdate = new Date().toLocaleTimeString(this.locale);
 
                 if (api_data["active"]) {
                     this.active = api_data["active"];

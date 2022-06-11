@@ -25,7 +25,6 @@
 
 <script>
     import { useI18n } from 'vue-i18n';
-    import moment from 'moment';
     import Image from './Image.vue';
     
     export default {
@@ -55,18 +54,11 @@
         methods: {
             calculate_time(time) {
                 // Stream runtime calculation
-                const startDate = moment(time);
-                const timeEnd = moment();
-                const diff = timeEnd.diff(startDate);
-                const diffDuration = moment.duration(diff);
-
-                let hours = (diffDuration.hours());
-                let minuets = (diffDuration.minutes());
-                let seconds = (diffDuration.seconds());
-
-                var tempdate = new Date();
-                tempdate.setHours(hours, minuets, seconds);
-                return tempdate.toLocaleTimeString();
+                let startDate = new Date(time);
+                let timeEnd = new Date();
+                let diff = timeEnd - startDate;
+                let utcdate = new Date(diff).toLocaleTimeString("de", {timeZone: "UTC"});
+                return utcdate;
             }
         }
     }

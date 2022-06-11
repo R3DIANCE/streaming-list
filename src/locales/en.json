@@ -6,6 +6,7 @@
         "players_online_head": "Players Online:",
         "viewers_head": "Total viewers:",
         "last_refresh_head": "Last refresh:",
+        "last_update_never": "Never",
         "tooltips": {
             "streamer": "There are {streamer_count} streamers live right now.",
             "altv_version_1": "The server is using the latest alt:V Version. ✔️",

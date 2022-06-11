@@ -72,7 +72,7 @@
                 players: 0,
                 maxplayers: 0,
                 version: 0,
-                lastupdate: "Nie",
+                lastupdate: this.$t("header.last_update_never"),
                 cdn_data: {},
                 timer: null
             }

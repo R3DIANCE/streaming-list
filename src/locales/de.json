@@ -6,6 +6,7 @@
         "players_online_head": "Spieler:innen Online:",
         "viewers_head": "Zuschauer:innen insgesamt:",
         "last_refresh_head": "Zuletzt aktualisiert:",
+        "last_update_never": "Nie",
         "tooltips": {
             "streamer": "Es sind gerade {streamer_count} Streamer:innen live.",
             "altv_version_1": "Der Server benutzt die aktuellste alt:V Version. ✔️",

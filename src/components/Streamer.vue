@@ -11,9 +11,9 @@
                                 <td>{{ $t("streamer.viewer_count") }}</td>
                                 <td>{{stream["viewer_count"]}}</td>
                             </tr>
-                            <tr :title="$t('streamer.tooltips.live_since', { user: stream['user_name'], time: new Date(stream['started_at']).toLocaleTimeString(), total_time: time })">
+                            <tr :title="$t('streamer.tooltips.live_since', { user: stream['user_name'], time: new Date(stream['started_at']).toLocaleTimeString(), total_time: calculate_time })">
                                 <td>{{ $t("streamer.live_since") }}</td>
-                                <td>{{time}}</td>
+                                <td>{{calculate_time}}</td>
                             </tr>
                         </table>
                     </p>
@@ -43,18 +43,10 @@
             stream: Object,
             cachekey: String
         },
-        data() {
-            return {
-                time: ""
-            }
-        },
-        created() {
-            this.time = this.calculate_time(this.stream["started_at"]);
-        },
-        methods: {
-            calculate_time(time) {
+        computed: {
+            calculate_time() {
                 // Stream runtime calculation
-                let startDate = new Date(time);
+                let startDate = new Date(this.stream["started_at"]);
                 let timeEnd = new Date();
                 let diff = timeEnd - startDate;
                 let utcdate = new Date(diff).toLocaleTimeString("de", {timeZone: "UTC"});

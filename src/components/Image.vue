@@ -9,7 +9,7 @@
             referrerPolicy="same-origin"
         />
         <div class="textblock">
-            {{stream["user_name"]}}<img src="../assets/twitch.svg" class="twitch" />
+            {{stream["user_name"]}} <img class="twitch" src="../assets/twitch.svg">
         </div>
     </div>
 </template>

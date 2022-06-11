@@ -42,6 +42,8 @@
     color: #dadada;
     font-size: 2rem;
     margin: 1px;
+    font-family: "Courgette";
+    font-size: 2.25rem;
 }
 
 .searchcombo input[type="text"]:focus {

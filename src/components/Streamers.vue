@@ -52,22 +52,22 @@
             },
         },
         async created() {
-            let invalid_date = new Date(localStorage.getItem("streamers:invalidate"))
+            let invalid_date = new Date(localStorage["streamers:invalidate"])
             let now = new Date();
 
-            if (localStorage.getItem("streamers") && now < invalid_date) {
+            if (localStorage["streamers"] && now < invalid_date) {
                 // use old data
                 console.log("using cached data: twitch");
-                this.streamers = JSON.parse(decompressFromUTF16(localStorage.getItem("streamers")));
+                this.streamers = JSON.parse(decompressFromUTF16(localStorage["streamers"]));
             } else {
                 // get new data
                 console.log("fetching new data: twitch");
                 let twitch_data = await this.fetch_twitch();
                 if (twitch_data != undefined) {
-                    localStorage.setItem("streamers", compressToUTF16(JSON.stringify(twitch_data)));
+                    localStorage["streamers"] = compressToUTF16(JSON.stringify(twitch_data));
                     let invalid_date = new Date();
                     invalid_date.setMinutes(invalid_date.getMinutes() + 5);
-                    localStorage.setItem("streamers:invalidate", invalid_date);
+                    localStorage["streamers:invalidate"] = invalid_date;
                     this.streamers = twitch_data;
                 }
             }

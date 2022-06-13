@@ -78,7 +78,7 @@
         },
         async created() {
             let now = new Date();
-            if (localStorage.getItem("altv") && now < new Date(localStorage.getItem("altv:invalidate"))) {
+            if (localStorage["altv"] && now < new Date(localStorage["altv:invalidate"])) {
                 // use old data
                 console.log("using cached data: alt:V");
                 await this.fetch_altv(localStorage.getItem("altv"));
@@ -87,10 +87,10 @@
                 console.log("fetching new data: alt:V");
                 await this.fetch_altv();
             }
-            if (localStorage.getItem("altv_server") && now < new Date(localStorage.getItem("altv_server:invalidate"))) {
+            if (localStorage["altv_server"] && now < new Date(localStorage["altv_server:invalidate"])) {
                 // use old data
                 console.log("using cached data: alt:V Server");
-                await this.fetch_altv_server(localStorage.getItem("altv_server"));
+                await this.fetch_altv_server(localStorage["altv_server"]);
             } else {
                 // fetch new data
                 console.log("fetching new data: alt:V Server");
@@ -106,22 +106,22 @@
                         const response = await fetch(data_url);
                         cdn_data = await response.json();
                         if (cdn_data == undefined) {
-                            cdn_data = JSON.parse(decompressFromUTF16(localStorage.getItem("altv_server")));
+                            cdn_data = JSON.parse(decompressFromUTF16(localStorage["altv_server"]));
                         }
                     } catch (Exception) {
                         console.error(Exception);
                         cdn_data = [];
                     } 
                 } else {
-                    cdn_data = JSON.parse(decompressFromUTF16(localStorage.getItem("altv_server")));
+                    cdn_data = JSON.parse(decompressFromUTF16(localStorage["altv_server"]));
                 }
 
                 this.cdn_data = cdn_data;
 
                 let invalid_date = new Date();
                 invalid_date.setMinutes(invalid_date.getMinutes() + 2);
-                localStorage.setItem("altv_server:invalidate", invalid_date);
-                localStorage.setItem("altv_server", compressToUTF16(JSON.stringify(cdn_data)));
+                localStorage["altv_server:invalidate"] = invalid_date;
+                localStorage["altv_server"] = compressToUTF16(JSON.stringify(cdn_data));
             },
             async fetch_altv(data) {
                 let url = import.meta.env.VERCEL_ENV == "production" ? "/api/altv":`https://api.altv.mp/server/${import.meta.env.VITE_ALTV_SERVER_ID}`;
@@ -131,14 +131,14 @@
                         const response = await fetch(url);
                         api_data = await response.json();
                         if (api_data == undefined) {
-                            api_data = JSON.parse(decompressFromUTF16(localStorage.getItem("altv")));
+                            api_data = JSON.parse(decompressFromUTF16(localStorage["altv"]));
                         }
                     } catch (Exception) {
                         console.error(Exception);
                         api_data = [];
                     } 
                 } else {
-                    api_data = JSON.parse(decompressFromUTF16(localStorage.getItem("altv")));
+                    api_data = JSON.parse(decompressFromUTF16(localStorage["altv"]));
                 }
                 
                 this.lastupdate = new Date().toLocaleTimeString(this.locale);
@@ -150,8 +150,8 @@
                     this.version = api_data["info"]["version"];
                     let invalid_date = new Date();
                     invalid_date.setMinutes(invalid_date.getMinutes() + 2);
-                    localStorage.setItem("altv:invalidate", invalid_date);
-                    localStorage.setItem("altv", compressToUTF16(JSON.stringify(api_data)));
+                    localStorage["altv:invalidate"] = invalid_date;
+                    localStorage["altv"] = compressToUTF16(JSON.stringify(api_data));
                 }
             }
         },

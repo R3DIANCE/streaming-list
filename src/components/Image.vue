@@ -3,13 +3,13 @@
         <img
             width="640px"
             height="340px"
-            src="../assets/placeholder.jpg"
+            src="/img/site/placeholder.webp"
             :data-url="'https://external-content.duckduckgo.com/iu/?u=' + this.stream['thumbnail_url'].replace('{width}', '640').replace('{height}', '360') + '?cache-key=' + this.cachekey"
             :alt="stream['user_name']"
             referrerPolicy="same-origin"
         />
         <div class="textblock">
-            {{stream["user_name"]}} <img class="twitch" src="../assets/twitch.svg">
+            {{stream["user_name"]}} <img class="twitch" src="/img/site/twitch.svg">
         </div>
     </div>
 </template>

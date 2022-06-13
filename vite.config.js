@@ -17,7 +17,7 @@ export default defineConfig({
       workbox: {
         cleanupOutdatedCaches: false,
         sourcemap: true,
-        globPatterns: ['**/*.{woff2,ttf,eot,woff,svg,css,js,jpg,ico,png,html,json,txt}']
+        globPatterns: ['**/*.{woff2,ttf,eot,woff,svg,css,js,jpg,ico,png,webp,html,json,txt}']
       },
       manifest: {
         name: 'streaming-list',

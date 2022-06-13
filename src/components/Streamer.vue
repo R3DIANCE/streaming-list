@@ -1,12 +1,12 @@
 <template>
-    <li class="cards_item">
+    <li class="cards-list-item">
         <a :href="'https://twitch.tv/' + stream['user_name']" target="_blank" rel="noopener noreferrer">
-            <div class="card">
+            <div class="card-item">
                 <Image :stream="this.stream" :cachekey="this.cachekey" />
-                <div class="cardcontent">
-                    <p class="cardtext">
-                        <p class="card_item">{{stream["title"]}}</p>
-                        <table class="streamertable">
+                <div class="card-content">
+                    <p class="card-text">
+                        <p class="card-text-item">{{stream["title"]}}</p>
+                        <table class="card-streamer-table">
                             <tr :title="$t('streamer.tooltips.viewer', { user: stream['user_name'], viewer: stream['viewer_count'] })">
                                 <td>{{ $t("streamer.viewer_count") }}</td>
                                 <td>{{stream["viewer_count"]}}</td>
@@ -56,6 +56,6 @@
     }
 </script>
 
-<style scoped>
-    @import '../assets/streamer.css';
+<style scoped lang="scss">
+    @import '../assets/streamer.scss';
 </style>

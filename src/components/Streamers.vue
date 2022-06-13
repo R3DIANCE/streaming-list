@@ -119,6 +119,6 @@
     }
 </script>
 
-<style scoped>
-    @import '../assets/streamers.css';
+<style lang="scss">
+    @import '../assets/streamers.scss';
 </style>

@@ -169,6 +169,6 @@
     }
 </script>
 
-<style scoped>
-    @import '../assets/header.css';
+<style scoped lang="scss">
+    @import '../assets/header.scss';
 </style>

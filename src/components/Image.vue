@@ -1,5 +1,5 @@
 <template>
-    <div v-lazyload class="cardimage">
+    <div v-lazyload class="card-image">
         <img
             width="640px"
             height="340px"
@@ -8,7 +8,7 @@
             :alt="stream['user_name']"
             referrerPolicy="same-origin"
         />
-        <div class="textblock">
+        <div class="card-text-block">
             {{stream["user_name"]}} <img class="twitch" src="/img/site/twitch.svg">
         </div>
     </div>
@@ -28,6 +28,6 @@
     };
 </script>
 
-<style scoped>
-    @import '../assets/image.css';
+<style scoped lang="scss">
+    @import '../assets/image.scss';
 </style>

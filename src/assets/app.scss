@@ -16,6 +16,10 @@ html {
     color: white;
 }
 
+body {
+    margin: 0;
+}
+
 *,
 *::before,
 *::after {
@@ -32,40 +36,11 @@ h3 {
     font-family: "Courgette";
 }
 
-body {
-    margin: 0;
-}
-
 a {
     color: white;
     text-decoration: none;
-}
 
-a:hover {
-    color: #fcd401;
-}
-
-.head {
-    text-align: center;
-}
-
-img {
-    width: 100%;
-    height: 100%;
-}
-
-.infotable,
-.maintable {
-    margin: 0 auto;
-    border-collapse: collapse;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-}
-
-th,
-td {
-    padding: 12px 15px;
-}
-
-.infotable tr:nth-of-type(even) {
-    background-color: gray;
+    &:hover {
+        color: #fcd401;
+    }
 }

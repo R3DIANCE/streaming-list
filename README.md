@@ -11,7 +11,7 @@
 - Automatic refresh (alt:V, Twitch)
 - Lazy loading images with ([Intersection Observer](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API))
 - Fast Builds (20 seconds on Vercel)
-- Small Builds (0.35 MB, with external Font)
+- Small Builds (0.3488 MB, with external Font)
 - Caching API data with [lz-string](https://www.npmjs.com/package/lz-string)
 - Multi language support (Currently German and English) with Automatic detection.
 - Tooltips to describe values, e.g. Game server status or total viewers.

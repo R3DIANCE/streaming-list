@@ -48,8 +48,7 @@
 
 <script>
     import { useI18n } from 'vue-i18n';
-    // https://pieroxy.net/blog/pages/lz-string/demo.html
-    import { compressToUTF16, decompressFromUTF16 } from 'lz-string';
+    import api from '../mixins/api.js';
 
     export default {
         name: "Header",
@@ -77,70 +76,16 @@
             }
         },
         async created() {
-            let now = new Date();
-            if (localStorage["altv"] && now < new Date(localStorage["altv:invalidate"])) {
-                // use old data
-                console.log("using cached data: alt:V");
-                await this.fetch_altv(localStorage.getItem("altv"));
-            } else {
-                // fetch new data
-                console.log("fetching new data: alt:V");
-                await this.fetch_altv();
-            }
-            if (localStorage["altv_server"] && now < new Date(localStorage["altv_server:invalidate"])) {
-                // use old data
-                console.log("using cached data: alt:V Server");
-                await this.fetch_altv_server(localStorage["altv_server"]);
-            } else {
-                // fetch new data
-                console.log("fetching new data: alt:V Server");
-                await this.fetch_altv_server();
-            }
+            this.fetch_altv();
+            this.fetch_altv_server();
         },
         methods: {
-            async fetch_altv_server(data) {
-                const data_url = `https://cdn.altv.mp/server/release/x64_linux/update.json`;
-                let cdn_data = {};
-                if (!data) {
-                    try {
-                        const response = await fetch(data_url);
-                        cdn_data = await response.json();
-                        if (cdn_data == undefined) {
-                            cdn_data = JSON.parse(decompressFromUTF16(localStorage["altv_server"]));
-                        }
-                    } catch (Exception) {
-                        console.error(Exception);
-                        cdn_data = [];
-                    } 
-                } else {
-                    cdn_data = JSON.parse(decompressFromUTF16(localStorage["altv_server"]));
-                }
-
+            async fetch_altv_server() {
+                const cdn_data = await api.fetch_or_cache("https://cdn.altv.mp/server/release/x64_linux/update.json", "altv_server");
                 this.cdn_data = cdn_data;
-
-                let invalid_date = new Date();
-                invalid_date.setMinutes(invalid_date.getMinutes() + 2);
-                localStorage["altv_server:invalidate"] = invalid_date;
-                localStorage["altv_server"] = compressToUTF16(JSON.stringify(cdn_data));
             },
-            async fetch_altv(data) {
-                let url = import.meta.env.VERCEL_ENV == "production" ? "/api/altv":`https://api.altv.mp/server/${import.meta.env.VITE_ALTV_SERVER_ID}`;
-                let api_data = [];
-                if (!data) {
-                    try {
-                        const response = await fetch(url);
-                        api_data = await response.json();
-                        if (api_data == undefined) {
-                            api_data = JSON.parse(decompressFromUTF16(localStorage["altv"]));
-                        }
-                    } catch (Exception) {
-                        console.error(Exception);
-                        api_data = [];
-                    } 
-                } else {
-                    api_data = JSON.parse(decompressFromUTF16(localStorage["altv"]));
-                }
-                
+            async fetch_altv() {
+                const api_data = await api.fetch_or_cache(import.meta.env.VERCEL_ENV == "production" ? "/api/altv":`https://api.altv.mp/server/${import.meta.env.VITE_ALTV_SERVER_ID}`, "altv");
                 this.lastupdate = new Date().toLocaleTimeString(this.locale);
 
                 if (api_data["active"]) {
@@ -148,10 +93,6 @@
                     this.players = api_data["info"]["players"];
                     this.maxplayers = api_data["info"]["maxPlayers"];
                     this.version = api_data["info"]["version"];
-                    let invalid_date = new Date();
-                    invalid_date.setMinutes(invalid_date.getMinutes() + 2);
-                    localStorage["altv:invalidate"] = invalid_date;
-                    localStorage["altv"] = compressToUTF16(JSON.stringify(api_data));
                 }
             }
         },

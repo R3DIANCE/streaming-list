@@ -12,8 +12,7 @@
 <script>
     import { useI18n } from 'vue-i18n';
     import Streamer from './Streamer.vue';
-    // https://pieroxy.net/blog/pages/lz-string/demo.html
-    import { compressToUTF16, decompressFromUTF16 } from 'lz-string';
+    import api from '../mixins/api.js';
 
     export default {
         name: "Streamerlist",
@@ -52,25 +51,8 @@
             },
         },
         async created() {
-            let invalid_date = new Date(localStorage["streamers:invalidate"])
-            let now = new Date();
-
-            if (localStorage["streamers"] && now < invalid_date) {
-                // use old data
-                console.log("using cached data: twitch");
-                this.streamers = JSON.parse(decompressFromUTF16(localStorage["streamers"]));
-            } else {
-                // get new data
-                console.log("fetching new data: twitch");
-                let twitch_data = await this.fetch_twitch();
-                if (twitch_data != undefined) {
-                    localStorage["streamers"] = compressToUTF16(JSON.stringify(twitch_data));
-                    let invalid_date = new Date();
-                    invalid_date.setMinutes(invalid_date.getMinutes() + 5);
-                    localStorage["streamers:invalidate"] = invalid_date;
-                    this.streamers = twitch_data;
-                }
-            }
+            const api_data = await api.fetch_or_cache(import.meta.env.VERCEL_ENV == "production" ? "/api/streamers":import.meta.env.VITE_SEARCH_SERVER, "streamers");
+            this.streamers = api_data["data"];
             
             let viewers = 0;
             let streamers = 0;
@@ -82,19 +64,6 @@
             this.set_streamers(streamers);
         },
         methods: {
-            async fetch_twitch() {
-                let url = import.meta.env.VERCEL_ENV == "production" ? "/api/streamers":import.meta.env.VITE_SEARCH_SERVER;
-                try {
-                    const response = await fetch(url);
-                    const api_data = await response.json();
-                    if (api_data["status"] == "done") {
-                        return api_data["data"]
-                    }
-                } catch (Exception) {
-                    console.error(Exception);
-                    return [];
-                }
-            },
             set_total_views(viewers) {
                 this.$emit("total-viewers", viewers);
             },

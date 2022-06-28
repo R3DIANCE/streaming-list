@@ -20,7 +20,8 @@
     },
     "page": {
         "search": "Suche...",
-        "up": "⬆️Nach Oben⬆️"
+        "up": "⬆️Nach Oben⬆️",
+        "nolive": "Leider ist aktuell kein Streamer:in live. 😴"
     },
     "streamer": {
         "viewer_count": "Zuschauer:",

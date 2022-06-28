@@ -1,12 +1,14 @@
 <template>
-    <div class="searchcombo">
+    <div class="searchcombo" v-if="filterstreamers.length > 0">
         <input type="text" v-model="searchword" :placeholder="$t('page.search')" />
     </div>
-    
-    <ul class="cards">
+    <ul class="cards" v-if="filterstreamers.length > 0">
         <Streamer :stream=stream :cachekey=imgcachekey :key="stream['user_id']" v-for="(stream) of filterstreamers" />
     </ul>
-    <a href="#top" class="top">{{$t('page.up')}}</a>
+    <div v-if="filterstreamers.length <= 0">
+        <h1 class="nolive">{{$t('page.nolive')}}</h1>
+    </div>
+    <a v-if="filterstreamers.length > 0" href="#top" class="top">{{$t('page.up')}}</a>
 </template>
 
 <script>

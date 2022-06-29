@@ -23,6 +23,7 @@
 }
 
 .searchcombo {
+    display: flex;
     width: 80%;
     margin-left: 10%;
     margin-right: 10%;
@@ -35,7 +36,7 @@
 }
 
 .searchcombo input[type="text"] {
-    width: 95%;
+    width: 90%;
     padding: 0.75%;
     background: #333;
     border: 0px;
@@ -59,4 +60,14 @@
 
 .nolive {
     text-align: center;
+}
+
+.clear_input {
+    width: 5%;
+    display: inline;
+    filter: invert(100%);
+
+    &:hover {
+        filter: invert(0%);
+    }
 }

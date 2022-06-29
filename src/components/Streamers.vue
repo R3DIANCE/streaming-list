@@ -1,14 +1,15 @@
 <template>
-    <div class="searchcombo" v-if="filterstreamers.length > 0" :title="$t('page.searchinfo')">
+    <div class="searchcombo" v-if="streamers.length > 0" :title="$t('page.searchinfo')">
         <input type="text" v-model="searchword" :placeholder="$t('page.search')" />
+        <img v-on:click="clear_input" src="/img/site/x.svg" class="clear_input" />
     </div>
-    <ul class="cards" v-if="filterstreamers.length > 0">
+    <ul class="cards" v-if="streamers.length > 0">
         <Streamer :stream=stream :cachekey=imgcachekey :key="stream['user_id']" v-for="(stream) of filterstreamers" />
     </ul>
-    <div v-if="filterstreamers.length <= 0">
+    <div v-if="streamers.length <= 0">
         <h1 class="nolive">{{$t('page.nolive')}}</h1>
     </div>
-    <a v-if="filterstreamers.length > 0" href="#top" class="top">{{$t('page.up')}}</a>
+    <a v-if="streamers.length > 0" href="#top" class="top">{{$t('page.up')}}</a>
 </template>
 
 <script>
@@ -75,6 +76,9 @@
             async updatedata() {
                 await this.fetch_twitch();
                 this.imgcachekey = Math.random().toString().substr(2, 8);
+            },
+            clear_input() {
+                this.searchword = ""
             }
         },
         mounted: function () {

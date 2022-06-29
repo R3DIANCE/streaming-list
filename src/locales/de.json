@@ -20,6 +20,7 @@
     },
     "page": {
         "search": "Suche...",
+        "searchinfo": "Streamer:in, Stream Titel.",
         "up": "⬆️Nach Oben⬆️",
         "nolive": "Leider ist aktuell kein Streamer:in live. 😴"
     },

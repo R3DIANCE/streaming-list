@@ -1,5 +1,5 @@
 <template>
-    <div class="searchcombo" v-if="filterstreamers.length > 0">
+    <div class="searchcombo" v-if="filterstreamers.length > 0" :title="$t('page.searchinfo')">
         <input type="text" v-model="searchword" :placeholder="$t('page.search')" />
     </div>
     <ul class="cards" v-if="filterstreamers.length > 0">

@@ -51,11 +51,22 @@
     outline: none !important;
 }
 
-.top {
-    padding: 2%;
-    text-align: center;
-    display: inline-block;
-    width: 100%;
+.mock_button {
+    width: 5%;
+    height: 7%;
+    background-color: #fcd401;
+    border-radius: 25px;
+    position: fixed;
+    right: 2rem;
+    bottom: 2rem;
+}
+
+.mock_button img {
+    display: block;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    margin: auto;
 }
 
 .nolive {

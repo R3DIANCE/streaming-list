@@ -21,7 +21,6 @@
     "page": {
         "search": "Search...",
         "searchinfo": "Streamer, Stream Title.",
-        "up": "⬆️Back to top⬆️",
         "nolive": "Unfortunately there is no streamer live at the moment. 😴"
     },
     "streamer": {

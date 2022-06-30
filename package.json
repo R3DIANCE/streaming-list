@@ -4,7 +4,7 @@
   "license": "MPL-2.0",
   "scripts": {
     "build": "vite build",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .eslintignore",
     "dev": "vite",
     "preview": "vite preview --port 5050",
     "pwa": "npm run build && npx http-server dist"

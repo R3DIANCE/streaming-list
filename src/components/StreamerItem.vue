@@ -1,0 +1,84 @@
+<template>
+    <li class="cards-list-item">
+        <a
+            :href="'https://twitch.tv/' + stream['user_name']"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            <div class="card-item">
+                <TwitchImage :stream="this.stream" :cachekey="this.cachekey" />
+                <div class="card-content">
+                    <div class="card-text">
+                        <p class="card-text-item">{{ stream["title"] }}</p>
+                        <table class="card-streamer-table">
+                            <tr
+                                :title="
+                                    $t('streamer.tooltips.viewer', {
+                                        user: stream['user_name'],
+                                        viewer: stream['viewer_count'],
+                                    })
+                                "
+                            >
+                                <td>{{ $t("streamer.viewer_count") }}</td>
+                                <td>{{ stream["viewer_count"] }}</td>
+                            </tr>
+                            <tr
+                                :title="
+                                    $t('streamer.tooltips.live_since', {
+                                        user: stream['user_name'],
+                                        time: new Date(
+                                            stream['started_at']
+                                        ).toLocaleTimeString(),
+                                        total_time: calculate_time,
+                                    })
+                                "
+                            >
+                                <td>{{ $t("streamer.live_since") }}</td>
+                                <td>{{ calculate_time }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </li>
+</template>
+
+<script>
+import { useI18n } from "vue-i18n"
+import TwitchImage from "./TwitchImage.vue"
+
+export default {
+    name: "StreamerItem",
+    setup() {
+        const { locale, t } = useI18n({
+            inheritLocale: true,
+        })
+
+        return { locale, t }
+    },
+    components: {
+        TwitchImage,
+    },
+    props: {
+        stream: Object,
+        cachekey: String,
+    },
+    computed: {
+        calculate_time() {
+            // Stream runtime calculation
+            let startDate = new Date(this.stream["started_at"])
+            let timeEnd = new Date()
+            let diff = timeEnd - startDate
+            let utcdate = new Date(diff).toLocaleTimeString("de", {
+                timeZone: "UTC",
+            })
+            return utcdate
+        },
+    },
+}
+</script>
+
+<style scoped lang="scss">
+@import "../assets/streamer.scss";
+</style>

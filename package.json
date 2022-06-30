@@ -10,24 +10,24 @@
     "pwa": "npm run build && npx http-server dist"
   },
   "dependencies": {
-    "@intlify/vite-plugin-vue-i18n": "^3.4.0",
     "lz-string": "github:pieroxy/lz-string",
     "sass": "^1.53.0",
     "vue": "^3.2.37",
     "vue-i18n": "^9.1.10",
     "vue-router": "^4.0.16",
+    "vite": "^2.9.13",
+    "vite-plugin-pwa": "^0.12.1",
+    "workbox-build": "^6.5.3",
+    "workbox-window": "^6.5.3",
     "workbox-cli": "^6.5.3"
   },
   "devDependencies": {
+    "@intlify/vite-plugin-vue-i18n": "^3.4.0",
     "@rushstack/eslint-patch": "^1.1.0",
     "@vitejs/plugin-vue": "^2.3.1",
     "@vue/eslint-config-prettier": "^7.0.0",
     "eslint": "^8.18.0",
     "eslint-plugin-vue": "^9.1.1",
-    "prettier": "^2.7.1",
-    "vite": "^2.9.13",
-    "vite-plugin-pwa": "^0.12.1",
-    "workbox-build": "^6.5.3",
-    "workbox-window": "^6.5.3"
+    "prettier": "^2.7.1"
   }
 }

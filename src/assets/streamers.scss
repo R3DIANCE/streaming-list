@@ -70,6 +70,11 @@
     margin-left: auto;
     margin-right: auto;
     margin: auto;
+    filter: invert(0%);
+
+    &:hover {
+        filter: invert(100%);
+    }
 }
 
 .nolive {
@@ -79,9 +84,9 @@
 .clear_input {
     width: 5%;
     display: inline;
-    filter: invert(100%);
+    filter: invert(0%);
 
     &:hover {
-        filter: invert(0%);
+        filter: invert(100%);
     }
 }

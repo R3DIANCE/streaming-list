@@ -9,7 +9,7 @@
     <div v-if="streamers.length <= 0">
         <h1 class="nolive">{{$t('page.nolive')}}</h1>
     </div>
-    <a v-if="streamers.length > 3" href="#top" class="top">
+    <a v-if="filterstreamers.length > 3" href="#top" class="top">
         <div class="mock_button">
             <img src="/img/site/up.svg" />
         </div>

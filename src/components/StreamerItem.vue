@@ -80,5 +80,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../assets/streamer.scss";
+@import "../assets/StreamerItem.scss";
 </style>

@@ -37,5 +37,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../assets/image.scss";
+@import "../assets/TwitchImage.scss";
 </style>

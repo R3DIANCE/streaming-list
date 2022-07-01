@@ -153,5 +153,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../assets/header.scss";
+@import "../assets/PageHeader.scss";
 </style>

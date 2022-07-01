@@ -9,11 +9,12 @@
             v-model="searchword"
             :placeholder="$t('page.search')"
         />
-        <img
-            v-on:click="clear_input"
-            src="/img/site/x.svg"
-            class="clear_input"
-        />
+        <div class="clear_input">
+            <img
+                v-on:click="clear_input"
+                src="/img/site/x.svg"
+            />
+        </div>
     </div>
     <ul class="cards" v-if="streamers.length > 0">
         <StreamerItem
@@ -123,5 +124,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../assets/streamers.scss";
+@import "../assets/StreamerList.scss";
 </style>

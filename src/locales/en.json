@@ -10,7 +10,7 @@
         "tooltips": {
             "streamer": "There are {streamer_count} streamers live right now.",
             "altv_version_1": "The server is using the latest alt:V Version. ✔️",
-            "altv_version_2": "The server requires a alt:V update. ({version})'",
+            "altv_version_2": "The server requires a alt:V update. ({version})",
             "gameserver_1": "The Gameserver is online.",
             "gameserver_2": "The Gameserver is offline.",
             "players": "Currently {player} players are playing on the server.",

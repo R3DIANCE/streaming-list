@@ -36,6 +36,12 @@
                                 <td>{{ $t("streamer.live_since") }}</td>
                                 <td>{{ calculate_time }}</td>
                             </tr>
+                            <tr class="tags" title="stream tags">
+                                <span class="tag"
+                                    :key="tag"
+                                    v-for="tag of tags"
+                                >{{ tag }}</span>
+                            </tr>
                         </table>
                     </div>
                 </div>
@@ -57,6 +63,19 @@ export default {
 
         return { locale, t }
     },
+    data() {
+        return {
+            tags: []
+        }
+    },
+    mounted() {
+        let tags = [];
+        console.log()
+        if (this.stream["is_mature"]) {
+            tags.push("18 +");
+        }
+        this.tags = tags;
+    },
     components: {
         TwitchImage,
     },
@@ -67,13 +86,13 @@ export default {
     computed: {
         calculate_time() {
             // Stream runtime calculation
-            let startDate = new Date(this.stream["started_at"])
-            let timeEnd = new Date()
-            let diff = timeEnd - startDate
+            let startDate = new Date(this.stream["started_at"]);
+            let timeEnd = new Date();
+            let diff = timeEnd - startDate;
             let utcdate = new Date(diff).toLocaleTimeString("de", {
                 timeZone: "UTC",
-            })
-            return utcdate
+            });
+            return utcdate;
         },
     },
 }

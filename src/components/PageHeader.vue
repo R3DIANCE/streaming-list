@@ -17,7 +17,7 @@
     <table class="infotable">
         <tr
             :title="
-                version == cdn_data['version']
+                this.altv_data['version'] == cdn_data['version']
                     ? $t('header.tooltips.altv_version_1')
                     : $t('header.tooltips.altv_version_2', {
                           version: cdn_data['version'],
@@ -35,9 +35,9 @@
             </td>
             <td>
                 {{
-                    version == cdn_data["version"]
-                        ? `${version} ✔️`
-                        : `${version} ⬆️`
+                    this.altv_data['version'] == cdn_data["version"]
+                        ? `${this.altv_data['version']} ✔️`
+                        : `${this.altv_data['version']} ⬆️`
                 }}
             </td>
         </tr>
@@ -50,7 +50,7 @@
         >
             <td>
                 <a
-                    href="https://altstats.net/server/"
+                    :href="`https://api.altv.mp/server/${this.altv_data['id']}`"
                     rel="noopener noreferrer"
                     target="_blank"
                 >
@@ -61,11 +61,11 @@
         </tr>
         <tr
             :title="
-                active ? $t('header.tooltips.players', { player: players }) : ''
+                active ? $t('header.tooltips.players', { player: this.altv_data['players'] }) : ''
             "
         >
             <td>{{ $t("header.players_online_head") }}</td>
-            <td>{{ players }}/{{ maxplayers }}</td>
+            <td>{{ this.altv_data['players'] }}/{{ this.altv_data['maxPlayers'] }}</td>
         </tr>
         <tr :title="$t('header.tooltips.viewer', { viewer: viewers })">
             <td>{{ $t("header.viewers_head") }}</td>
@@ -99,12 +99,10 @@ export default {
     data() {
         return {
             active: false,
-            players: 0,
-            maxplayers: 0,
-            version: 0,
             lastupdate: this.$t("header.last_update_never"),
             cdn_data: {},
             timer: null,
+            altv_data: {}
         }
     },
     async created() {
@@ -131,10 +129,8 @@ export default {
             this.lastupdate = new Date().toLocaleTimeString(this.locale)
 
             if (api_data["active"]) {
+                this.altv_data = api_data["info"];
                 this.active = api_data["active"]
-                this.players = api_data["info"]["players"]
-                this.maxplayers = api_data["info"]["maxPlayers"]
-                this.version = api_data["info"]["version"]
             }
         },
     },

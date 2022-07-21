@@ -35,6 +35,17 @@
                 line-height: 1.5;
                 margin-bottom: 1.25rem;
 
+                .tags {
+                    padding: 1%;
+
+                    .tag {
+                        background-color: gray;
+                        color: white;
+                        padding: 1.25%;
+                        border-radius: 25px;
+                    }
+                }
+
                 .card-streamer-table {
                     width: 80%;
                     font-size: 1rem;

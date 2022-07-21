@@ -32,20 +32,22 @@
             .card-text {
                 flex: 1 1 auto;
                 font-size: 0.875rem;
-                line-height: 1.5;
-                margin-bottom: 1.25rem;
+                margin-bottom: 1rem;
 
                 .tags {
-                    padding-top: 5%;
-                    display: inline;
+                    padding-top: 1%;
+                    line-height: 300%;
+                    line-break: loose;
+                    display: flex;
+                    flex-direction: column;
+                    flex-flow: wrap;
 
                     .tag {
                         background-color: gray;
                         color: white;
-                        padding: 2%;
+                        padding: 1.5%;
                         border-radius: 25px;
                         margin: 1%;
-                        word-wrap: inherit;
                     }
                 }
 

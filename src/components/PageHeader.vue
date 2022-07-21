@@ -35,9 +35,9 @@
             </td>
             <td>
                 {{
-                    this.altv_data['version'] == cdn_data["version"]
-                        ? `${this.altv_data['version']} ✔️`
-                        : `${this.altv_data['version']} ⬆️`
+                    this.altv_data["version"] == cdn_data["version"]
+                        ? `${this.altv_data["version"]} ✔️`
+                        : `${this.altv_data["version"]} ⬆️`
                 }}
             </td>
         </tr>
@@ -61,11 +61,19 @@
         </tr>
         <tr
             :title="
-                active ? $t('header.tooltips.players', { player: this.altv_data['players'] }) : ''
+                active
+                    ? $t('header.tooltips.players', {
+                          player: this.altv_data['players'],
+                      })
+                    : ''
             "
         >
             <td>{{ $t("header.players_online_head") }}</td>
-            <td>{{ this.altv_data['players'] }}/{{ this.altv_data['maxPlayers'] }}</td>
+            <td>
+                {{ this.altv_data["players"] }}/{{
+                    this.altv_data["maxPlayers"]
+                }}
+            </td>
         </tr>
         <tr :title="$t('header.tooltips.viewer', { viewer: viewers })">
             <td>{{ $t("header.viewers_head") }}</td>
@@ -102,7 +110,7 @@ export default {
             lastupdate: this.$t("header.last_update_never"),
             cdn_data: {},
             timer: null,
-            altv_data: {}
+            altv_data: {},
         }
     },
     async created() {
@@ -129,7 +137,7 @@ export default {
             this.lastupdate = new Date().toLocaleTimeString(this.locale)
 
             if (api_data["active"]) {
-                this.altv_data = api_data["info"];
+                this.altv_data = api_data["info"]
                 this.active = api_data["active"]
             }
         },

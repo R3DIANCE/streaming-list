@@ -36,13 +36,20 @@
                                 <td>{{ $t("streamer.live_since") }}</td>
                                 <td>{{ calculate_time }}</td>
                             </tr>
-                            <tr class="tags" title="stream tags">
-                                <span class="tag"
-                                    :key="tag"
-                                    v-for="tag of stream['tags']"
-                                >{{ language == undefined ? tag["en-us"]:tag[language] }}</span>
-                            </tr>
                         </table>
+                        <div class="tags" title="stream tags">
+                            <span
+                                class="tag"
+                                :key="tag"
+                                v-for="tag of stream['tags']"
+                            >
+                                {{
+                                    language == undefined
+                                        ? tag["en-us"]
+                                        : tag[language]
+                                }}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -65,36 +72,8 @@ export default {
     },
     data() {
         return {
-            language: import.meta.env.VITE_TAGS_LANG
+            language: import.meta.env.VITE_TAGS_LANG,
         }
-    },
-    mounted() {
-        if (this.stream["is_mature"]) {
-            this.stream["tags"].push({
-                "bg-bg": "18 +",
-                "cs-cz": "18 +",
-                "da-dk": "18 +",
-                "de-de": "18 +",
-                "el-gr": "18 +",
-                "en-us": "18 +",
-                "es-es": "18 +",
-                "es-mx": "18 +",
-                "fi-fi": "18 +",
-                "fr-fr": "18 +",
-                "hu-hu": "18 +",
-                "it-it": "18 +",
-                "ja-jp": "18 +",
-                "ko-kr": "18 +",
-                "nl-nl": "18 +",
-                "no-no": "18 +",
-                "pl-pl": "18 +",
-                "pt-br": "18 +",
-                "pt-pt": "18 +",
-                "ro-ro": "18 +"
-            })
-        }
-        
-        delete this.stream["tag_ids"];
     },
     components: {
         TwitchImage,
@@ -106,13 +85,13 @@ export default {
     computed: {
         calculate_time() {
             // Stream runtime calculation
-            let startDate = new Date(this.stream["started_at"]);
-            let timeEnd = new Date();
-            let diff = timeEnd - startDate;
+            let startDate = new Date(this.stream["started_at"])
+            let timeEnd = new Date()
+            let diff = timeEnd - startDate
             let utcdate = new Date(diff).toLocaleTimeString("de", {
                 timeZone: "UTC",
-            });
-            return utcdate;
+            })
+            return utcdate
         },
     },
 }

@@ -10,10 +10,7 @@
             :placeholder="$t('page.search')"
         />
         <div class="clear_input">
-            <img
-                v-on:click="clear_input"
-                src="/img/site/x.svg"
-            />
+            <img v-on:click="clear_input" src="/img/site/x.svg" />
         </div>
     </div>
     <ul class="cards" v-if="streamers.length > 0">
@@ -78,19 +75,48 @@ export default {
         },
     },
     async created() {
-        await this.get_tags();
-        const api_data = await api.fetch_or_cache(import.meta.env.VERCEL_ENV == "production"? "/api/streamers": import.meta.env.VITE_SEARCH_SERVER, "streamers");
+        await this.get_tags()
+        const api_data = await api.fetch_or_cache(
+            import.meta.env.VERCEL_ENV == "production"
+                ? "/api/streamers"
+                : import.meta.env.VITE_SEARCH_SERVER,
+            "streamers"
+        )
         this.streamers = api_data["data"]
 
         let viewers = 0
         let streamers = 0
         this.streamers.forEach((stream) => {
             viewers = viewers + stream["viewer_count"]
-            streamers = streamers + 1
-            stream["tag_ids"].forEach(stream_tag => {
-                stream["tags"] = [];
-                stream["tags"].push(this.tags[stream_tag]);
-            });
+            streamers++
+            stream["tags"] = []
+            stream["tag_ids"].forEach((stream_tag) => {
+                stream["tags"].push(this.tags[stream_tag])
+            })
+            if (stream["is_mature"]) {
+                stream["tags"].push({
+                    "bg-bg": "18 +",
+                    "cs-cz": "18 +",
+                    "da-dk": "18 +",
+                    "de-de": "18 +",
+                    "el-gr": "18 +",
+                    "en-us": "18 +",
+                    "es-es": "18 +",
+                    "es-mx": "18 +",
+                    "fi-fi": "18 +",
+                    "fr-fr": "18 +",
+                    "hu-hu": "18 +",
+                    "it-it": "18 +",
+                    "ja-jp": "18 +",
+                    "ko-kr": "18 +",
+                    "nl-nl": "18 +",
+                    "no-no": "18 +",
+                    "pl-pl": "18 +",
+                    "pt-br": "18 +",
+                    "pt-pt": "18 +",
+                    "ro-ro": "18 +",
+                })
+            }
         })
         this.set_total_views(viewers)
         this.set_streamers(streamers)
@@ -98,7 +124,13 @@ export default {
     methods: {
         async get_tags() {
             // cache for 7 days
-            const api_data = await api.fetch_or_cache(import.meta.env.VERCEL_ENV == "production"? "/api/tags" : import.meta.env.VITE_TAGS, "tags", 10080);
+            const api_data = await api.fetch_or_cache(
+                import.meta.env.VERCEL_ENV == "production"
+                    ? "/api/tags"
+                    : import.meta.env.VITE_TAGS,
+                "tags",
+                10080
+            )
             this.tags = api_data["data"]
         },
         set_total_views(viewers) {

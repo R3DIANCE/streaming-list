@@ -36,13 +36,16 @@
                 margin-bottom: 1.25rem;
 
                 .tags {
-                    padding: 1%;
+                    padding-top: 5%;
+                    display: inline;
 
                     .tag {
                         background-color: gray;
                         color: white;
-                        padding: 1.25%;
+                        padding: 2%;
                         border-radius: 25px;
+                        margin: 1%;
+                        word-wrap: inherit;
                     }
                 }
 

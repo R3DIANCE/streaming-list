@@ -39,8 +39,8 @@
                             <tr class="tags" title="stream tags">
                                 <span class="tag"
                                     :key="tag"
-                                    v-for="tag of tags"
-                                >{{ tag }}</span>
+                                    v-for="tag of stream['tags']"
+                                >{{ tag["en-us"] }}</span>
                             </tr>
                         </table>
                     </div>
@@ -64,17 +64,33 @@ export default {
         return { locale, t }
     },
     data() {
-        return {
-            tags: []
-        }
+        return {}
     },
     mounted() {
-        let tags = [];
-        console.log()
         if (this.stream["is_mature"]) {
-            tags.push("18 +");
+            this.stream["tags"].push({
+                "bg-bg": "18 +",
+                "cs-cz": "18 +",
+                "da-dk": "18 +",
+                "de-de": "18 +",
+                "el-gr": "18 +",
+                "en-us": "18 +",
+                "es-es": "18 +",
+                "es-mx": "18 +",
+                "fi-fi": "18 +",
+                "fr-fr": "18 +",
+                "hu-hu": "18 +",
+                "it-it": "18 +",
+                "ja-jp": "18 +",
+                "ko-kr": "18 +",
+                "nl-nl": "18 +",
+                "no-no": "18 +",
+                "pl-pl": "18 +",
+                "pt-br": "18 +",
+                "pt-pt": "18 +",
+                "ro-ro": "18 +"
+            })
         }
-        this.tags = tags;
     },
     components: {
         TwitchImage,

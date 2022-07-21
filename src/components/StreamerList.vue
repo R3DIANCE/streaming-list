@@ -78,6 +78,7 @@ export default {
         },
     },
     async created() {
+        await this.get_tags();
         const api_data = await api.fetch_or_cache(
             import.meta.env.VERCEL_ENV == "production"
                 ? "/api/streamers"
@@ -91,11 +92,19 @@ export default {
         this.streamers.forEach((stream) => {
             viewers = viewers + stream["viewer_count"]
             streamers = streamers + 1
+            stream["tag_ids"].forEach(stream_tag => {
+                stream["tags"] = [];
+                stream["tags"].push(this.tags[stream_tag]);
+            });
         })
         this.set_total_views(viewers)
         this.set_streamers(streamers)
     },
     methods: {
+        async get_tags() {
+            const api_data = await api.fetch_or_cache(import.meta.env.VERCEL_ENV == "production"? "/api/tags" : import.meta.env.VITE_TAGS, "tags");
+            this.tags = api_data["data"]
+        },
         set_total_views(viewers) {
             this.$emit("total-viewers", viewers)
         },

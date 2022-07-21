@@ -40,7 +40,7 @@
                                 <span class="tag"
                                     :key="tag"
                                     v-for="tag of stream['tags']"
-                                >{{ tag["en-us"] }}</span>
+                                >{{ language == undefined ? tag["en-us"]:tag[language] }}</span>
                             </tr>
                         </table>
                     </div>
@@ -64,7 +64,9 @@ export default {
         return { locale, t }
     },
     data() {
-        return {}
+        return {
+            language: import.meta.env.VITE_TAGS_LANG
+        }
     },
     mounted() {
         if (this.stream["is_mature"]) {
@@ -91,6 +93,8 @@ export default {
                 "ro-ro": "18 +"
             })
         }
+        
+        delete this.stream["tag_ids"];
     },
     components: {
         TwitchImage,

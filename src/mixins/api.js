@@ -2,7 +2,7 @@ import { compressToUTF16, decompressFromUTF16 } from "lz-string"
 
 const api = {
     // https://pieroxy.net/blog/pages/lz-string/demo.html
-    async fetch_or_cache(url, key) {
+    async fetch_or_cache(url, key, minuets = 2) {
         let now = new Date()
         let api_data
         if (
@@ -17,7 +17,7 @@ const api = {
                 api_data = await response.json()
                 // set data to localstorage and set invaliddate
                 let invalid_date = new Date()
-                invalid_date.setMinutes(invalid_date.getMinutes() + 2)
+                invalid_date.setMinutes(invalid_date.getMinutes() + minuets)
                 localStorage[`${key}:invalidate`] = invalid_date
                 localStorage[key] = compressToUTF16(JSON.stringify(api_data))
             } catch (Exception) {

@@ -1,10 +1,35 @@
 <template>
     <div class="sort">
-        <button v-on:click="filter = 'viewer_high'" :class="filter == 'viewer_high' ? 'active':''">{{ $t("streamer.sort.viewer_high") }}</button>
-        <button v-on:click="filter = 'viewer_low'" :class="filter == 'viewer_low' ? 'active':''">{{ $t("streamer.sort.viewer_low") }}</button>
-        <button v-on:click="filter = 'alphabetically_az'" :class="filter == 'alphabetically_az' ? 'active':''">{{ $t("streamer.sort.alphabetically_az") }}</button>
-        <button v-on:click="filter = 'alphabetically_za'" :class="filter == 'alphabetically_za' ? 'active':''">{{ $t("streamer.sort.alphabetically_za") }}</button>
-        <button v-on:click="filter = 'shuffle'" :class="filter == 'shuffle' ? 'active':''">{{ $t("streamer.sort.shuffle") }}</button>
+        <button
+            v-on:click="filter = 'viewer_high'"
+            :class="filter == 'viewer_high' ? 'active' : ''"
+        >
+            {{ $t("streamer.sort.viewer_high") }}
+        </button>
+        <button
+            v-on:click="filter = 'viewer_low'"
+            :class="filter == 'viewer_low' ? 'active' : ''"
+        >
+            {{ $t("streamer.sort.viewer_low") }}
+        </button>
+        <button
+            v-on:click="filter = 'alphabetically_az'"
+            :class="filter == 'alphabetically_az' ? 'active' : ''"
+        >
+            {{ $t("streamer.sort.alphabetically_az") }}
+        </button>
+        <button
+            v-on:click="filter = 'alphabetically_za'"
+            :class="filter == 'alphabetically_za' ? 'active' : ''"
+        >
+            {{ $t("streamer.sort.alphabetically_za") }}
+        </button>
+        <button
+            v-on:click="filter = 'shuffle'"
+            :class="filter == 'shuffle' ? 'active' : ''"
+        >
+            {{ $t("streamer.sort.shuffle") }}
+        </button>
     </div>
     <div
         class="searchcombo"
@@ -66,7 +91,7 @@ export default {
             imgcachekey: Math.random().toString().substr(2, 8),
             searchword: "",
             // alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle
-            filter: "viewer_high"
+            filter: "viewer_high",
         }
     },
     computed: {
@@ -82,27 +107,33 @@ export default {
                 }
             })
             if (this.filter == "viewer_low") {
-                return filtered_streamers.sort(function(a, b) {
-                    return a["viewer_count"] - b["viewer_count"];
-                });
+                return filtered_streamers.sort(function (a, b) {
+                    return a["viewer_count"] - b["viewer_count"]
+                })
             } else if (this.filter == "viewer_high") {
-                return filtered_streamers.sort(function(a, b) {
-                    return a["viewer_count"] - b["viewer_count"];
-                }).reverse();
+                return filtered_streamers
+                    .sort(function (a, b) {
+                        return a["viewer_count"] - b["viewer_count"]
+                    })
+                    .reverse()
             } else if (this.filter == "shuffle") {
-                return this.shuffleArray(filtered_streamers);
+                return this.shuffleArray(filtered_streamers)
             } else if (this.filter == "alphabetically_az") {
-                return filtered_streamers.sort(function(a, b) {
-                    const a1 = a["user_login"].toLowerCase();
-                    const b1 = b["user_login"].toLowerCase();
-                    return a1<b1 ?-1:a1> b1? 1 :0;
+                return filtered_streamers.sort(function (a, b) {
+                    const a1 = a["user_login"].toLowerCase()
+                    const b1 = b["user_login"].toLowerCase()
+                    return a1 < b1 ? -1 : a1 > b1 ? 1 : 0
                 })
             } else if (this.filter == "alphabetically_za") {
-                return filtered_streamers.sort(function(a, b) {
-                    const a1 = a["user_login"].toLowerCase();
-                    const b1 = b["user_login"].toLowerCase();
-                    return a1<b1 ?-1:a1> b1? 1 :0;
-                }).reverse()
+                return filtered_streamers
+                    .sort(function (a, b) {
+                        const a1 = a["user_login"].toLowerCase()
+                        const b1 = b["user_login"].toLowerCase()
+                        return a1 < b1 ? -1 : a1 > b1 ? 1 : 0
+                    })
+                    .reverse()
+            } else {
+                return filtered_streamers
             }
         },
     },
@@ -181,19 +212,19 @@ export default {
             this.searchword = ""
         },
         shuffleArray(array) {
-            let curId = array.length;
+            let curId = array.length
             // There remain elements to shuffle
             while (0 !== curId) {
                 // Pick a remaining element
-                let randId = Math.floor(Math.random() * curId);
-                curId -= 1;
+                let randId = Math.floor(Math.random() * curId)
+                curId -= 1
                 // Swap it with the current element.
-                let tmp = array[curId];
-                array[curId] = array[randId];
-                array[randId] = tmp;
+                let tmp = array[curId]
+                array[curId] = array[randId]
+                array[randId] = tmp
             }
-            return array;
-        }
+            return array
+        },
     },
     mounted: function () {
         if (this.timer == null) {

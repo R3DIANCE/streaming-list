@@ -91,7 +91,9 @@ export default {
             streamers++
             stream["tags"] = []
             stream["tag_ids"].forEach((stream_tag) => {
-                stream["tags"].push(this.tags[stream_tag])
+                if (this.tags[stream_tag] != undefined) {
+                    stream["tags"].push(this.tags[stream_tag])
+                }
             })
             if (stream["is_mature"]) {
                 stream["tags"].push({

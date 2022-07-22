@@ -1,10 +1,10 @@
 <template>
     <div class="sort">
-        <button v-on:click="filter = 'viewer_high'">{{ $t("streamer.sort.viewer_high") }}</button>
-        <button v-on:click="filter = 'viewer_low'">{{ $t("streamer.sort.viewer_low") }}</button>
-        <button v-on:click="filter = 'alphabetically_az'">{{ $t("streamer.sort.alphabetically_az") }}</button>
-        <button v-on:click="filter = 'alphabetically_za'">{{ $t("streamer.sort.alphabetically_za") }}</button>
-        <button v-on:click="filter = 'shuffle'">{{ $t("streamer.sort.shuffle") }}</button>
+        <button v-on:click="filter = 'viewer_high'" :class="filter == 'viewer_high' ? 'active':''">{{ $t("streamer.sort.viewer_high") }}</button>
+        <button v-on:click="filter = 'viewer_low'" :class="filter == 'viewer_low' ? 'active':''">{{ $t("streamer.sort.viewer_low") }}</button>
+        <button v-on:click="filter = 'alphabetically_az'" :class="filter == 'alphabetically_az' ? 'active':''">{{ $t("streamer.sort.alphabetically_az") }}</button>
+        <button v-on:click="filter = 'alphabetically_za'" :class="filter == 'alphabetically_za' ? 'active':''">{{ $t("streamer.sort.alphabetically_za") }}</button>
+        <button v-on:click="filter = 'shuffle'" :class="filter == 'shuffle' ? 'active':''">{{ $t("streamer.sort.shuffle") }}</button>
     </div>
     <div
         class="searchcombo"

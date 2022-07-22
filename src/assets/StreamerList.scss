@@ -32,6 +32,11 @@
     margin: 0 auto;
     width: auto;
 
+    .active {
+        background-color: black;
+        color: white;
+    }
+
     button {
         transition: all 0.3s linear;
         flex-direction: column;

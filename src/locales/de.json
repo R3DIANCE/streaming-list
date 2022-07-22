@@ -26,6 +26,13 @@
     "streamer": {
         "viewer_count": "Zuschauer:",
         "live_since": "Live seit:",
+        "sort": {
+            "viewer_high": "Zuschauer ⬆️",
+            "viewer_low": "Zuschauer ⬇️",
+            "alphabetically_az": "alphabetisch 🅰️-🇿",
+            "alphabetically_za": "alphabetisch z-🅰️",
+            "shuffle": "Zufällig 🎲"
+        },
         "tooltips": {
             "viewer": "{user} hat gerade {viewer} Zuschauer:innen.",
             "live_since": "{user} ist live seit {time} Uhr und damit {total_time} Stunden."

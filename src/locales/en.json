@@ -26,6 +26,13 @@
     "streamer": {
         "viewer_count": "Viewers:",
         "live_since": "Live since:",
+        "sort": {
+            "viewer_high": "Viewer ⬆️",
+            "viewer_low": "Viewer ⬇️",
+            "alphabetically_az": "alphabetically 🅰️-🇿",
+            "alphabetically_za": "alphabetically z-🅰️",
+            "shuffle": "Random 🎲"
+        },
         "tooltips": {
             "viewer": "{user} has {viewer} viewers.",
             "live_since": "{user} is live since {time}, which is {total_time} hours."

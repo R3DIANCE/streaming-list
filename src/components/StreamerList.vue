@@ -1,4 +1,11 @@
 <template>
+    <div class="sort">
+        <button v-on:click="this.filter = 'viewer_high'">{{ $t("streamer.sort.viewer_high") }}</button>
+        <button v-on:click="this.filter = 'viewer_low'">{{ $t("streamer.sort.viewer_low") }}</button>
+        <button v-on:click="this.filter = 'alphabetically_az'">{{ $t("streamer.sort.alphabetically_az") }}</button>
+        <button v-on:click="this.filter = 'alphabetically_za'">{{ $t("streamer.sort.alphabetically_za") }}</button>
+        <button v-on:click="this.filter = 'shuffle'">{{ $t("streamer.sort.shuffle") }}</button>
+    </div>
     <div
         class="searchcombo"
         v-if="streamers.length > 0"
@@ -58,12 +65,14 @@ export default {
             timer: null,
             imgcachekey: Math.random().toString().substr(2, 8),
             searchword: "",
+            // alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle
+            filter: "viewer_high"
         }
     },
     computed: {
         filterstreamers() {
             const { streamers, searchword } = this
-            return streamers.filter((stream) => {
+            let filtered_streamers = streamers.filter((stream) => {
                 let search_value = searchword.toLowerCase()
                 if (
                     stream.title.toLowerCase().includes(search_value) ||
@@ -72,6 +81,29 @@ export default {
                     return stream
                 }
             })
+            if (this.filter == "viewer_low") {
+                return filtered_streamers.sort(function(a, b) {
+                    return a["viewer_count"] - b["viewer_count"];
+                });
+            } else if (this.filter == "viewer_high") {
+                return filtered_streamers.sort(function(a, b) {
+                    return a["viewer_count"] - b["viewer_count"];
+                }).reverse();
+            } else if (this.filter == "shuffle") {
+                return this.shuffleArray(filtered_streamers);
+            } else if (this.filter == "alphabetically_az") {
+                return filtered_streamers.sort(function(a, b) {
+                    const a1 = a["user_login"].toLowerCase();
+                    const b1 = b["user_login"].toLowerCase();
+                    return a1<b1 ?-1:a1> b1? 1 :0;
+                })
+            } else if (this.filter == "alphabetically_za") {
+                return filtered_streamers.sort(function(a, b) {
+                    const a1 = a["user_login"].toLowerCase();
+                    const b1 = b["user_login"].toLowerCase();
+                    return a1<b1 ?-1:a1> b1? 1 :0;
+                }).reverse()
+            }
         },
     },
     async created() {
@@ -148,6 +180,20 @@ export default {
         clear_input() {
             this.searchword = ""
         },
+        shuffleArray(array) {
+            let curId = array.length;
+            // There remain elements to shuffle
+            while (0 !== curId) {
+                // Pick a remaining element
+                let randId = Math.floor(Math.random() * curId);
+                curId -= 1;
+                // Swap it with the current element.
+                let tmp = array[curId];
+                array[curId] = array[randId];
+                array[randId] = tmp;
+            }
+            return array;
+        }
     },
     mounted: function () {
         if (this.timer == null) {

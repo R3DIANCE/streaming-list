@@ -107,7 +107,6 @@
     position: fixed;
     right: 2rem;
     bottom: 2rem;
-    transition: all 0.3s linear;
 }
 
 .mock_button img {
@@ -117,6 +116,7 @@
     margin-right: auto;
     margin: auto;
     filter: invert(0%);
+    transition: all 0.1s linear;
 
     &:hover {
         filter: invert(100%);

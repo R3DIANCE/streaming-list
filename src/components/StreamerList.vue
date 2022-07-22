@@ -1,31 +1,31 @@
 <template>
     <div class="sort">
         <button
-            v-on:click="filter = 'viewer_high'"
+            v-on:click="this.set_filter('viewer_high')"
             :class="filter == 'viewer_high' ? 'active' : ''"
         >
             {{ $t("streamer.sort.viewer_high") }}
         </button>
         <button
-            v-on:click="filter = 'viewer_low'"
+            v-on:click="this.set_filter('viewer_low')"
             :class="filter == 'viewer_low' ? 'active' : ''"
         >
             {{ $t("streamer.sort.viewer_low") }}
         </button>
         <button
-            v-on:click="filter = 'alphabetically_az'"
+            v-on:click="this.set_filter('alphabetically_az')"
             :class="filter == 'alphabetically_az' ? 'active' : ''"
         >
             {{ $t("streamer.sort.alphabetically_az") }}
         </button>
         <button
-            v-on:click="filter = 'alphabetically_za'"
+            v-on:click="this.set_filter('alphabetically_za')"
             :class="filter == 'alphabetically_za' ? 'active' : ''"
         >
             {{ $t("streamer.sort.alphabetically_za") }}
         </button>
         <button
-            v-on:click="filter = 'shuffle'"
+            v-on:click="this.set_filter('shuffle')"
             :class="filter == 'shuffle' ? 'active' : ''"
         >
             {{ $t("streamer.sort.shuffle") }}
@@ -91,7 +91,7 @@ export default {
             imgcachekey: Math.random().toString().substr(2, 8),
             searchword: "",
             // alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle
-            filter: "viewer_high",
+            filter: this.get_filter(),
         }
     },
     computed: {
@@ -225,6 +225,18 @@ export default {
             }
             return array
         },
+        set_filter(filter) {
+            if (filter == this.filter) { return }
+            this.filter = filter;
+            localStorage.setItem("sort:method", filter);
+        },
+        get_filter() {
+            if (localStorage.getItem("sort:method") != undefined) {
+                return localStorage.getItem("sort:method")
+            } else {
+                return "viewer_high"
+            }
+        }
     },
     mounted: function () {
         if (this.timer == null) {

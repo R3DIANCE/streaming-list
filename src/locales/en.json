@@ -29,8 +29,8 @@
         "sort": {
             "viewer_high": "Viewer ⬆️",
             "viewer_low": "Viewer ⬇️",
-            "alphabetically_az": "alphabetically 🅰️-🇿",
-            "alphabetically_za": "alphabetically z-🅰️",
+            "alphabetically_az": "alphabetically 🅰️- 🇿",
+            "alphabetically_za": "alphabetically 🇿 -🅰️",
             "shuffle": "Random 🎲"
         },
         "tooltips": {

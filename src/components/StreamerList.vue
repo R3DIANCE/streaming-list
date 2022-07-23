@@ -147,11 +147,14 @@ export default {
             viewers = viewers + stream["viewer_count"]
             streamers++
             stream["tags"] = []
-            stream["tag_ids"].forEach((stream_tag) => {
-                if (this.tags[stream_tag] != undefined) {
-                    stream["tags"].push(this.tags[stream_tag])
-                }
-            })
+            if (stream["tag_ids"] != undefined) {
+                stream["tag_ids"].forEach((stream_tag) => {
+                    if (this.tags[stream_tag] != undefined) {
+                        stream["tags"].push(this.tags[stream_tag])
+                    }
+                })
+            }
+
             if (stream["is_mature"]) {
                 stream["tags"].push({
                     localization_names: {

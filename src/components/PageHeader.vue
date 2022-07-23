@@ -136,6 +136,10 @@ export default {
             )
             this.lastupdate = new Date().toLocaleTimeString(this.locale)
 
+            if (api_data == undefined) {
+                return
+            }
+
             if (api_data["active"]) {
                 this.altv_data = api_data["info"]
                 this.active = api_data["active"]

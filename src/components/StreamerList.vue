@@ -139,13 +139,7 @@ export default {
     },
     async created() {
         await this.get_tags()
-        const api_data = await api.fetch_or_cache(
-            import.meta.env.VERCEL_ENV == "production"
-                ? "/api/streamers"
-                : import.meta.env.VITE_SEARCH_SERVER,
-            "streamers"
-        )
-        this.streamers = api_data["data"]
+        await this.get_streamers()
 
         let viewers = 0
         let streamers = 0
@@ -189,6 +183,15 @@ export default {
         this.set_streamers(streamers)
     },
     methods: {
+        async get_streamers() {
+            const api_data = await api.fetch_or_cache(
+                import.meta.env.VERCEL_ENV == "production"
+                    ? "/api/streamers"
+                    : import.meta.env.VITE_SEARCH_SERVER,
+                "streamers"
+            )
+            this.streamers = api_data["data"]
+        },
         async get_tags() {
             // cache for 7 days
             const api_data = await api.fetch_or_cache(

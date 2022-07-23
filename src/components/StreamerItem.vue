@@ -45,8 +45,8 @@
                             >
                                 {{
                                     language == undefined
-                                        ? tag["en-us"]
-                                        : tag[language]
+                                        ? tag["localization_names"]["en-us"]
+                                        : tag["localization_names"][language]
                                 }}
                             </span>
                         </div>

@@ -160,26 +160,28 @@ export default {
             })
             if (stream["is_mature"]) {
                 stream["tags"].push({
-                    "bg-bg": "18 +",
-                    "cs-cz": "18 +",
-                    "da-dk": "18 +",
-                    "de-de": "18 +",
-                    "el-gr": "18 +",
-                    "en-us": "18 +",
-                    "es-es": "18 +",
-                    "es-mx": "18 +",
-                    "fi-fi": "18 +",
-                    "fr-fr": "18 +",
-                    "hu-hu": "18 +",
-                    "it-it": "18 +",
-                    "ja-jp": "18 +",
-                    "ko-kr": "18 +",
-                    "nl-nl": "18 +",
-                    "no-no": "18 +",
-                    "pl-pl": "18 +",
-                    "pt-br": "18 +",
-                    "pt-pt": "18 +",
-                    "ro-ro": "18 +",
+                    localization_names: {
+                        "bg-bg": "18 +",
+                        "cs-cz": "18 +",
+                        "da-dk": "18 +",
+                        "de-de": "18 +",
+                        "el-gr": "18 +",
+                        "en-us": "18 +",
+                        "es-es": "18 +",
+                        "es-mx": "18 +",
+                        "fi-fi": "18 +",
+                        "fr-fr": "18 +",
+                        "hu-hu": "18 +",
+                        "it-it": "18 +",
+                        "ja-jp": "18 +",
+                        "ko-kr": "18 +",
+                        "nl-nl": "18 +",
+                        "no-no": "18 +",
+                        "pl-pl": "18 +",
+                        "pt-br": "18 +",
+                        "pt-pt": "18 +",
+                        "ro-ro": "18 +",
+                    },
                 })
             }
         })
@@ -190,13 +192,11 @@ export default {
         async get_tags() {
             // cache for 7 days
             const api_data = await api.fetch_or_cache(
-                import.meta.env.VERCEL_ENV == "production"
-                    ? "/api/tags"
-                    : import.meta.env.VITE_TAGS,
+                "https://raw.githubusercontent.com/Nickwasused/twitch-tag-list/gh-pages/tags.min.json",
                 "tags",
                 10080
             )
-            this.tags = api_data["data"]
+            this.tags = api_data
         },
         set_total_views(viewers) {
             this.$emit("total-viewers", viewers)
@@ -205,7 +205,7 @@ export default {
             this.$emit("streamers", streamers)
         },
         async updatedata() {
-            await this.fetch_twitch()
+            // await this.fetch_twitch()
             this.imgcachekey = Math.random().toString().substr(2, 8)
         },
         clear_input() {
@@ -226,9 +226,11 @@ export default {
             return array
         },
         set_filter(filter) {
-            if (filter == this.filter) { return }
-            this.filter = filter;
-            localStorage.setItem("sort:method", filter);
+            if (filter == this.filter) {
+                return
+            }
+            this.filter = filter
+            localStorage.setItem("sort:method", filter)
         },
         get_filter() {
             if (localStorage.getItem("sort:method") != undefined) {
@@ -236,7 +238,7 @@ export default {
             } else {
                 return "viewer_high"
             }
-        }
+        },
     },
     mounted: function () {
         if (this.timer == null) {

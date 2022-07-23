@@ -123,6 +123,11 @@ export default {
                 "https://cdn.altv.mp/server/release/x64_linux/update.json",
                 "altv_server"
             )
+
+            if (cdn_data == undefined) {
+                return
+            }
+
             this.cdn_data = cdn_data
         },
         async fetch_altv() {

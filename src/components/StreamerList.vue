@@ -193,6 +193,11 @@ export default {
                     : import.meta.env.VITE_SEARCH_SERVER,
                 "streamers"
             )
+
+            if (api_data == undefined) {
+                return
+            }
+
             this.streamers = api_data["data"]
         },
         async get_tags() {
@@ -202,6 +207,11 @@ export default {
                 "tags",
                 10080
             )
+
+            if (api_data == undefined) {
+                return
+            }
+
             this.tags = api_data
         },
         set_total_views(viewers) {

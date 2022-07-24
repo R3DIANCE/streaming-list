@@ -16,7 +16,16 @@
         padding-left: 1%;
         padding-right: 1%;
         font-size: 1.5em;
-    }            
+    }
+    
+    .external {
+        position: absolute;
+        top: 1%;
+        right: 2%;
+        width: 10%;
+        height: 20%;
+        filter: invert(100%);
+    }
 }
 
 img {

@@ -5,8 +5,16 @@
             target="_blank"
             rel="noopener noreferrer"
         >
-            <div class="card-item">
-                <TwitchImage :stream="this.stream" :cachekey="this.cachekey" />
+            <div
+                class="card-item"
+                @mouseover="mouseover = true"
+                @mouseleave="mouseover = false"
+            >
+                <TwitchImage
+                    :stream="this.stream"
+                    :cachekey="this.cachekey"
+                    :mouseover="this.mouseover"
+                />
                 <div class="card-content">
                     <div class="card-text">
                         <p class="card-text-item">{{ stream["title"] }}</p>
@@ -72,6 +80,7 @@ export default {
     },
     data() {
         return {
+            mouseover: false,
             language: import.meta.env.VITE_TAGS_LANG,
         }
     },

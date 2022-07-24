@@ -19,6 +19,11 @@
             {{ stream["user_name"] }}
             <img class="twitch" src="/img/site/twitch.svg" />
         </div>
+        <img
+            v-if="mouseover"
+            class="external"
+            src="../../public/img/site/external.svg"
+        />
     </div>
 </template>
 
@@ -30,6 +35,9 @@ export default {
             required: true,
         },
         cachekey: {
+            required: true,
+        },
+        mouseover: {
             required: true,
         },
     },

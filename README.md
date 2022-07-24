@@ -17,5 +17,5 @@
 - Tooltips to describe values, e.g. Game server status or total viewers.
 
 # Preview
-![streaming-list-de-preview](https://user-images.githubusercontent.com/34883496/173234244-efe178e4-71fe-4891-9f83-a0645a085690.png)
-![streaming-list-en-preview](https://user-images.githubusercontent.com/34883496/173234507-d6533e52-3a93-439d-9536-37689f634b8b.png)
+![streaming-list-de-preview](./preview/gif1.gif)
+![streaming-list-en-preview](./preview/gif2.gif)

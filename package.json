@@ -11,23 +11,23 @@
   },
   "dependencies": {
     "lz-string": "github:pieroxy/lz-string",
-    "sass": "^1.53.0",
+    "sass": "^1.54.0",
     "vue": "^3.2.37",
     "vue-i18n": "^9.1.10",
-    "vue-router": "^4.0.16",
-    "vite": "^2.9.13",
-    "vite-plugin-pwa": "^0.12.1",
+    "vue-router": "^4.1.2",
+    "vite": "^3.0.2",
+    "vite-plugin-pwa": "^0.12.3",
     "workbox-build": "^6.5.3",
     "workbox-window": "^6.5.3",
     "workbox-cli": "^6.5.3"
   },
   "devDependencies": {
-    "@intlify/vite-plugin-vue-i18n": "^3.4.0",
-    "@rushstack/eslint-patch": "^1.1.0",
-    "@vitejs/plugin-vue": "^2.3.1",
+    "@intlify/vite-plugin-vue-i18n": "^5.0.1",
+    "@rushstack/eslint-patch": "^1.1.4",
+    "@vitejs/plugin-vue": "^3.0.1",
     "@vue/eslint-config-prettier": "^7.0.0",
-    "eslint": "^8.18.0",
-    "eslint-plugin-vue": "^9.1.1",
+    "eslint": "^8.20.0",
+    "eslint-plugin-vue": "^9.2.0",
     "prettier": "^2.7.1"
   }
 }

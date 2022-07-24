@@ -1,5 +1,5 @@
 <template>
-    <div class="sort">
+    <div class="sort" v-if="show_filters">
         <button
             v-on:click="this.set_filter('viewer_high')"
             :class="filter == 'viewer_high' ? 'active' : ''"
@@ -30,6 +30,9 @@
         >
             {{ $t("streamer.sort.shuffle") }}
         </button>
+    </div>
+    <div v-if="this.small_device" v-on:click="show_filters_set">
+        <img :class="this.show_filters ? 'show_filters_button state2':'show_filters_button state1'" src="/img/site/up.svg" />
     </div>
     <div
         class="searchcombo"
@@ -92,6 +95,8 @@ export default {
             searchword: "",
             // alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle
             filter: this.get_filter(),
+            show_filters: true,
+            small_device: false
         }
     },
     computed: {
@@ -138,6 +143,8 @@ export default {
         },
     },
     async created() {
+        this.window_resize()
+        window.addEventListener("resize", this.window_resize);
         await this.get_tags()
         await this.get_streamers()
 
@@ -185,7 +192,25 @@ export default {
         this.set_total_views(viewers)
         this.set_streamers(streamers)
     },
+    destroyed() {
+        window.removeEventListener("resize", this.window_resize);
+    },
     methods: {
+        window_resize() {
+            const width = window.innerWidth
+            const height = window.innerHeight
+
+            if (width < 742) {
+                this.show_filters = false
+                this.small_device = true
+            } else {
+                this.show_filters = true
+                this.small_device = false
+            }
+        },
+        show_filters_set() {
+            this.show_filters = !this.show_filters
+        },
         async get_streamers() {
             const api_data = await api.fetch_or_cache(
                 import.meta.env.VERCEL_ENV == "production"
@@ -207,10 +232,6 @@ export default {
                 "tags",
                 10080
             )
-
-            if (api_data == undefined) {
-                return
-            }
 
             this.tags = api_data
         },
@@ -268,6 +289,7 @@ export default {
     },
 }
 </script>
+
 
 <style lang="scss">
 @import "../assets/StreamerList.scss";

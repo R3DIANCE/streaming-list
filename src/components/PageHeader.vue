@@ -121,12 +121,9 @@ export default {
         async fetch_altv_server() {
             const cdn_data = await api.fetch_or_cache(
                 "https://cdn.altv.mp/server/release/x64_linux/update.json",
-                "altv_server"
+                "altv_server_cdn",
+                60
             )
-
-            if (cdn_data == undefined) {
-                return
-            }
 
             this.cdn_data = cdn_data
         },
@@ -140,10 +137,6 @@ export default {
                 "altv"
             )
             this.lastupdate = new Date().toLocaleTimeString(this.locale)
-
-            if (api_data == undefined) {
-                return
-            }
 
             if (api_data["active"]) {
                 this.altv_data = api_data["info"]

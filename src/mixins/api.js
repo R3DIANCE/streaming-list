@@ -22,7 +22,7 @@ const api = {
                 localStorage[key] = compressToUTF16(JSON.stringify(api_data))
             } catch (Exception) {
                 console.error(Exception)
-                api_data = undefined
+                return {}
             }
         } else {
             // load data from cache

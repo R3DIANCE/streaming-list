@@ -96,9 +96,7 @@ export default {
             // alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle
             filter: this.get_filter(),
             show_filters: true,
-            small_device: false,
-            width: 0,
-            height: 0
+            small_device: false
         }
     },
     computed: {
@@ -199,10 +197,10 @@ export default {
     },
     methods: {
         window_resize() {
-            const new_width = window.innerWidth
-            const new_height = window.innerHeight
+            const width = window.innerWidth
+            const height = window.innerHeight
 
-            if (new_width < 742 && new_width != this.width) {
+            if (width < 742) {
                 this.show_filters = false
                 this.small_device = true
             } else {

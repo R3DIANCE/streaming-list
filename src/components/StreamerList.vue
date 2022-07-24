@@ -32,7 +32,14 @@
         </button>
     </div>
     <div v-if="this.small_device" v-on:click="show_filters_set">
-        <img :class="this.show_filters ? 'show_filters_button state2':'show_filters_button state1'" src="/img/site/up.svg" />
+        <img
+            :class="
+                this.show_filters
+                    ? 'show_filters_button state2'
+                    : 'show_filters_button state1'
+            "
+            src="/img/site/up.svg"
+        />
     </div>
     <div
         class="searchcombo"
@@ -96,7 +103,7 @@ export default {
             // alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle
             filter: this.get_filter(),
             show_filters: true,
-            small_device: false
+            small_device: false,
         }
     },
     computed: {
@@ -144,7 +151,7 @@ export default {
     },
     async created() {
         this.window_resize()
-        window.addEventListener("resize", this.window_resize);
+        window.addEventListener("resize", this.window_resize)
         await this.get_tags()
         await this.get_streamers()
 
@@ -192,13 +199,10 @@ export default {
         this.set_total_views(viewers)
         this.set_streamers(streamers)
     },
-    destroyed() {
-        window.removeEventListener("resize", this.window_resize);
-    },
     methods: {
         window_resize() {
             const width = window.innerWidth
-            const height = window.innerHeight
+            // const height = window.innerHeight
 
             if (width < 742) {
                 this.show_filters = false
@@ -286,10 +290,10 @@ export default {
     },
     unmounted() {
         clearInterval(this.timer)
+        window.removeEventListener("resize", this.window_resize)
     },
 }
 </script>
-
 
 <style lang="scss">
 @import "../assets/StreamerList.scss";

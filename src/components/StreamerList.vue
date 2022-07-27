@@ -216,12 +216,16 @@ export default {
             this.show_filters = !this.show_filters
         },
         async get_streamers() {
-            const api_data = await api.fetch_or_cache(
+            let api_data = await api.fetch_or_cache(
                 import.meta.env.VERCEL_ENV == "production"
                     ? "/api/streamers"
                     : import.meta.env.VITE_SEARCH_SERVER,
                 "streamers"
             )
+
+            if (api_data == {}) {
+                api_data = []
+            }
 
             this.streamers = api_data
         },

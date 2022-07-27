@@ -223,11 +223,7 @@ export default {
                 "streamers"
             )
 
-            if (api_data == undefined) {
-                return
-            }
-
-            this.streamers = api_data["data"]
+            this.streamers = api_data
         },
         async get_tags() {
             // cache for 7 days

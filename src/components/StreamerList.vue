@@ -269,12 +269,16 @@ export default {
         set_filter(filter) {
             if (filter == "shuffle") {
                 filter = `shuffle-${Math.random().toString().substr(2, 3)}`
+                if (!this.filter.toLowerCase().includes("shuffle")) {
+                    localStorage.setItem("sort:method", "shuffle")
+                }
+            } else {
+                if (filter == this.filter) {
+                    return
+                } else {
+                    localStorage.setItem("sort:method", filter)
+                } 
             }
-            if (filter == this.filter && filter != "shuffle") {
-                return
-            } else if (filter != "shuffle" || this.filter != "shuffle") {
-                localStorage.setItem("sort:method", filter)
-            } 
             this.filter = filter
         },
         get_filter() {

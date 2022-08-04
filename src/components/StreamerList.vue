@@ -128,7 +128,7 @@ export default {
                         return a["viewer_count"] - b["viewer_count"]
                     })
                     .reverse()
-            } else if (this.filter == "shuffle") {
+            } else if (this.filter.toLowerCase().includes("shuffle")) {
                 return this.shuffleArray(filtered_streamers)
             } else if (this.filter == "alphabetically_az") {
                 return filtered_streamers.sort(function (a, b) {
@@ -267,11 +267,15 @@ export default {
             return array
         },
         set_filter(filter) {
-            if (filter == this.filter) {
-                return
+            if (filter == "shuffle") {
+                filter = `shuffle-${Math.random().toString().substr(2, 3)}`
             }
+            if (filter == this.filter && filter != "shuffle") {
+                return
+            } else if (filter != "shuffle" || this.filter != "shuffle") {
+                localStorage.setItem("sort:method", filter)
+            } 
             this.filter = filter
-            localStorage.setItem("sort:method", filter)
         },
         get_filter() {
             if (localStorage.getItem("sort:method") != undefined) {

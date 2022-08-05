@@ -253,6 +253,7 @@ export default {
             this.searchword = ""
         },
         shuffleArray(array) {
+            if (array == []) { return [] }
             let curId = array.length
             // There remain elements to shuffle
             while (0 !== curId) {
@@ -268,7 +269,9 @@ export default {
         },
         set_filter(filter) {
             if (filter == "shuffle") {
-                filter = `shuffle-${Math.random().toString().substr(2, 3)}`
+                if (this.streamers.length != 0) {
+                    filter = `shuffle-${Math.random().toString().substr(2, 3)}`
+                }
                 if (!this.filter.toLowerCase().includes("shuffle")) {
                     localStorage.setItem("sort:method", "shuffle")
                 }

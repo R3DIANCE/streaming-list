@@ -35,9 +35,10 @@
             </td>
             <td>
                 {{
+                    active ? (
                     this.altv_data["version"] == cdn_data["version"]
                         ? `${this.altv_data["version"]} ✔️`
-                        : `${this.altv_data["version"]} ⬆️`
+                        : `${this.altv_data["version"]} ⬆️`):"0.0 ❌"
                 }}
             </td>
         </tr>
@@ -70,8 +71,8 @@
         >
             <td>{{ $t("header.players_online_head") }}</td>
             <td>
-                {{ this.altv_data["players"] }}/{{
-                    this.altv_data["maxPlayers"]
+                {{ active ? (this.altv_data["players"] + "/" +
+                    this.altv_data["maxPlayers"]):"0/0"
                 }}
             </td>
         </tr>

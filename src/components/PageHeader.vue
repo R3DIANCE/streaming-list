@@ -28,6 +28,7 @@
                 <a
                     href="https://altv.mp"
                     rel="noopener noreferrer"
+                    referrerpolicy="no-referrer"
                     target="_blank"
                 >
                     {{ $t("header.altv_head_version") }}
@@ -53,6 +54,7 @@
                 <a
                     :href="`https://api.altv.mp/server/${this.altv_data['id']}`"
                     rel="noopener noreferrer"
+                    referrerpolicy="no-referrer"
                     target="_blank"
                 >
                     {{ $t("header.game_server_head") }}

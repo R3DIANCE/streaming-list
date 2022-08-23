@@ -4,6 +4,7 @@
             :href="'https://twitch.tv/' + stream['user_name']"
             target="_blank"
             rel="noopener noreferrer"
+            referrerpolicy="no-referrer"
         >
             <div
                 class="card-item"

@@ -16,7 +16,7 @@
                     :user_name="this.stream['user_name']"
                     :cachekey="this.cachekey"
                     :mouseover="this.mouseover"
-                    v-memo="[this.cachekey]"
+                    v-memo="[this.cachekey, this.mouseover]"
                 />
                 <div class="card-content" v-memo="[this.stream]">
                     <div class="card-text">

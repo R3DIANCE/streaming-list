@@ -6,21 +6,20 @@
             src="/img/site/placeholder.webp"
             :data-url="
                 'https://external-content.duckduckgo.com/iu/?u=' +
-                this.thumbnail_url
+                thumbnail_url
                     .replace('{width}', '640')
                     .replace('{height}', '360') +
                 '?cache-key=' +
-                this.cachekey
+                cachekey
             "
-            :alt="this.user_name"
+            :alt="user_name"
             referrerPolicy="same-origin"
         />
-        <div class="card-text-block">
-            {{ this.user_name }}
+        <div class="card-text-block" v-once>
+            {{ user_name }}
             <img class="twitch" src="/img/site/twitch.svg" />
         </div>
         <img
-            v-once
             v-if="mouseover"
             class="external"
             src="../../public/img/site/external.svg"

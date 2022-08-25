@@ -6,20 +6,21 @@
             src="/img/site/placeholder.webp"
             :data-url="
                 'https://external-content.duckduckgo.com/iu/?u=' +
-                this.stream['thumbnail_url']
+                this.thumbnail_url
                     .replace('{width}', '640')
                     .replace('{height}', '360') +
                 '?cache-key=' +
                 this.cachekey
             "
-            :alt="stream['user_name']"
+            :alt="this.user_name"
             referrerPolicy="same-origin"
         />
         <div class="card-text-block">
-            {{ stream["user_name"] }}
+            {{ this.user_name }}
             <img class="twitch" src="/img/site/twitch.svg" />
         </div>
         <img
+            v-once
             v-if="mouseover"
             class="external"
             src="../../public/img/site/external.svg"
@@ -31,7 +32,10 @@
 export default {
     name: "TwitchImage",
     props: {
-        stream: {
+        thumbnail_url: {
+            required: true,
+        },
+        user_name: {
             required: true,
         },
         cachekey: {

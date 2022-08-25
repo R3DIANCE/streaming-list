@@ -12,11 +12,13 @@
                 @mouseleave="mouseover = false"
             >
                 <TwitchImage
-                    :stream="this.stream"
+                    :thumbnail_url="this.stream['thumbnail_url']"
+                    :user_name="this.stream['user_name']"
                     :cachekey="this.cachekey"
                     :mouseover="this.mouseover"
+                    v-memo="[this.cachekey]"
                 />
-                <div class="card-content">
+                <div class="card-content" v-memo="[this.stream]">
                     <div class="card-text">
                         <p class="card-text-item">{{ stream["title"] }}</p>
                         <table class="card-streamer-table">

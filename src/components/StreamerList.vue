@@ -26,7 +26,7 @@
         </button>
         <button
             v-on:click="this.set_filter('shuffle')"
-            :class="filter == 'shuffle' ? 'active' : ''"
+            :class="filter.includes('shuffle') ? 'active' : ''"
         >
             {{ $t("streamer.sort.shuffle") }}
         </button>
@@ -55,7 +55,7 @@
             <img v-on:click="clear_input" src="/img/site/x.svg" />
         </div>
     </div>
-    <ul class="cards" v-if="streamers.length > 0">
+    <ul class="cards" v-if="streamers.length > 0" v-memo="[streamers, imgcachekey, filter]">
         <StreamerItem
             :stream="stream"
             :cachekey="imgcachekey"

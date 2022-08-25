@@ -1,5 +1,5 @@
 <template>
-    <table class="maintable">
+    <table class="maintable" v-memo="[this.online_count, this.altv_data, this.cdn_data]">
         <tr>
             <td>
                 <h1
@@ -9,7 +9,7 @@
                         })
                     "
                 >
-                    {{ $t("header.streamer_head", { count: online_count }) }}
+                    {{ $t("header.streamer_head", { count: this.online_count }) }}
                 </h1>
             </td>
         </tr>
@@ -17,10 +17,10 @@
     <table class="infotable">
         <tr
             :title="
-                this.altv_data['version'] == cdn_data['version']
+                this.altv_data['version'] == this.cdn_data['version']
                     ? $t('header.tooltips.altv_version_1')
                     : $t('header.tooltips.altv_version_2', {
-                          version: cdn_data['version'],
+                          version: this.cdn_data['version'],
                       })
             "
         >
@@ -113,7 +113,7 @@ export default {
             lastupdate: this.$t("header.last_update_never"),
             cdn_data: {},
             timer: null,
-            altv_data: {},
+            altv_data: {}
         }
     },
     async created() {

@@ -5,31 +5,38 @@ const api = {
     async fetch_or_cache(url, key, minuets = 2) {
         let now = new Date()
         let api_data
-        if (
-            localStorage[key] == undefined ||
-            localStorage[`${key}:invalidate`] == undefined ||
-            now > new Date(localStorage[`${key}:invalidate`])
-        ) {
-            // fetch new data
-            console.debug(`fetching new data for: ${key}`)
-            try {
-                const response = await fetch(url)
-                api_data = await response.json()
-                // set data to localstorage and set invaliddate
-                let invalid_date = new Date()
-                invalid_date.setMinutes(invalid_date.getMinutes() + minuets)
-                localStorage[`${key}:invalidate`] = invalid_date
-                localStorage[key] = compressToUTF16(JSON.stringify(api_data))
-            } catch (Exception) {
-                console.error(Exception)
-                return {}
+        try {
+            if (
+                localStorage[key] == undefined ||
+                localStorage[`${key}:invalidate`] == undefined ||
+                now > new Date(localStorage[`${key}:invalidate`])
+            ) {
+                // fetch new data
+                console.debug(`fetching new data for: ${key}`)
+                try {
+                    const response = await fetch(url)
+                    api_data = await response.json()
+                    // set data to localstorage and set invaliddate
+                    let invalid_date = new Date()
+                    invalid_date.setMinutes(invalid_date.getMinutes() + minuets)
+                    localStorage[`${key}:invalidate`] = invalid_date
+                    localStorage[key] = compressToUTF16(JSON.stringify(api_data))
+                } catch (Exception) {
+                    console.error(Exception)
+                    return {}
+                }
+            } else {
+                // load data from cache
+                console.debug(`using cached data for: ${key}`)
+                api_data = JSON.parse(decompressFromUTF16(localStorage[key]))
             }
-        } else {
-            // load data from cache
-            console.debug(`using cached data for: ${key}`)
-            api_data = JSON.parse(decompressFromUTF16(localStorage[key]))
+        } catch (e) {
+            console.debug(`fetching new data for: ${key}`)
+            console.warn("localstorage error.")
+            const response = await fetch(url)
+            api_data = await response.json()
         }
-
+        
         return api_data
     },
 }

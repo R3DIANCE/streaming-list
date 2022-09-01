@@ -273,21 +273,34 @@ export default {
                     filter = `shuffle-${Math.random().toString().substr(2, 3)}`
                 }
                 if (!this.filter.toLowerCase().includes("shuffle")) {
-                    localStorage.setItem("sort:method", "shuffle")
+                    try {
+                        localStorage.setItem("sort:method", "shuffle")
+                    } catch (e) {
+                        console.warn("localstorage error.")
+                    }
                 }
             } else {
                 if (filter == this.filter) {
                     return
                 } else {
-                    localStorage.setItem("sort:method", filter)
+                    try {
+                        localStorage.setItem("sort:method", filter)
+                    } catch (e) {
+                        console.warn("localstorage error.")
+                    }
                 } 
             }
             this.filter = filter
         },
         get_filter() {
-            if (localStorage.getItem("sort:method") != undefined) {
-                return localStorage.getItem("sort:method")
-            } else {
+            try {
+                if (localStorage.getItem("sort:method") != undefined) {
+                    return localStorage.getItem("sort:method")
+                } else {
+                    return "viewer_high"
+                }
+            } catch (e) {
+                console.warn("localstorage error.")
                 return "viewer_high"
             }
         },

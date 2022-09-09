@@ -18,7 +18,7 @@
                     :mouseover="this.mouseover"
                     v-memo="[this.cachekey, this.mouseover]"
                 />
-                <div class="card-content" v-memo="[this.stream]">
+                <div class="card-content">
                     <div class="card-text">
                         <p class="card-text-item">{{ stream["title"] }}</p>
                         <table class="card-streamer-table">

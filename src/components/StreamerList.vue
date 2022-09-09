@@ -55,7 +55,11 @@
             <img v-on:click="clear_input" src="/img/site/x.svg" />
         </div>
     </div>
-    <ul class="cards" v-if="streamers.length > 0" v-memo="[streamers, imgcachekey, filter]">
+    <ul
+        class="cards"
+        v-if="streamers.length > 0"
+        v-memo="[streamers, imgcachekey, filter]"
+    >
         <StreamerItem
             :stream="stream"
             :cachekey="imgcachekey"
@@ -253,7 +257,9 @@ export default {
             this.searchword = ""
         },
         shuffleArray(array) {
-            if (array == []) { return [] }
+            if (array == []) {
+                return []
+            }
             let curId = array.length
             // There remain elements to shuffle
             while (0 !== curId) {
@@ -288,7 +294,7 @@ export default {
                     } catch (e) {
                         console.warn("localstorage error.")
                     }
-                } 
+                }
             }
             this.filter = filter
         },

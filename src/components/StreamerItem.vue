@@ -55,9 +55,7 @@
                                 v-for="tag of stream['tags']"
                             >
                                 {{
-                                    language == undefined
-                                        ? tag["localization_names"]["en-us"]
-                                        : tag["localization_names"][language]
+                                    language == undefined ? tag["localization_names"]["en-us"]:tag["localization_names"][language]
                                 }}
                             </span>
                         </div>

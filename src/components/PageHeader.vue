@@ -1,5 +1,8 @@
 <template>
-    <table class="maintable" v-memo="[this.online_count, this.altv_data, this.cdn_data]">
+    <table
+        class="maintable"
+        v-memo="[this.online_count, this.altv_data, this.cdn_data]"
+    >
         <tr>
             <td>
                 <h1
@@ -9,7 +12,9 @@
                         })
                     "
                 >
-                    {{ $t("header.streamer_head", { count: this.online_count }) }}
+                    {{
+                        $t("header.streamer_head", { count: this.online_count })
+                    }}
                 </h1>
             </td>
         </tr>
@@ -36,10 +41,11 @@
             </td>
             <td>
                 {{
-                    active ? (
-                    this.altv_data["version"] == cdn_data["version"]
-                        ? `${this.altv_data["version"]} ✔️`
-                        : `${this.altv_data["version"]} ⬆️`):"0.0 ❌"
+                    active
+                        ? this.altv_data["version"] == cdn_data["version"]
+                            ? `${this.altv_data["version"]} ✔️`
+                            : `${this.altv_data["version"]} ⬆️`
+                        : "0.0 ❌"
                 }}
             </td>
         </tr>
@@ -73,8 +79,12 @@
         >
             <td>{{ $t("header.players_online_head") }}</td>
             <td>
-                {{ active ? (this.altv_data["players"] + "/" +
-                    this.altv_data["maxPlayers"]):"0/0"
+                {{
+                    active
+                        ? this.altv_data["players"] +
+                          "/" +
+                          this.altv_data["maxPlayers"]
+                        : "0/0"
                 }}
             </td>
         </tr>
@@ -113,7 +123,7 @@ export default {
             lastupdate: this.$t("header.last_update_never"),
             cdn_data: {},
             timer: null,
-            altv_data: {}
+            altv_data: {},
         }
     },
     async created() {

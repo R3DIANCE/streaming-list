@@ -20,7 +20,9 @@ const api = {
                     let invalid_date = new Date()
                     invalid_date.setMinutes(invalid_date.getMinutes() + minuets)
                     localStorage[`${key}:invalidate`] = invalid_date
-                    localStorage[key] = compressToUTF16(JSON.stringify(api_data))
+                    localStorage[key] = compressToUTF16(
+                        JSON.stringify(api_data)
+                    )
                 } catch (Exception) {
                     console.error(Exception)
                     return {}
@@ -36,7 +38,7 @@ const api = {
             const response = await fetch(url)
             api_data = await response.json()
         }
-        
+
         return api_data
     },
 }

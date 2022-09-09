@@ -58,7 +58,7 @@
     <ul
         class="cards"
         v-if="streamers.length > 0"
-        v-memo="[streamers, imgcachekey, filter]"
+        v-memo="[streamers, imgcachekey, filter, searchword]"
     >
         <StreamerItem
             :stream="stream"

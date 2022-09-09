@@ -22,7 +22,7 @@
         <img
             v-if="mouseover"
             class="external"
-            src="../../public/img/site/external.svg"
+            src="/img/site/external.svg"
         />
     </div>
 </template>

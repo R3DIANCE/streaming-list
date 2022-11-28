@@ -219,6 +219,20 @@ export default {
         show_filters_set() {
             this.show_filters = !this.show_filters
         },
+        remove_duplicate_streamers(array) {
+            // our api server is not always returning correct data!
+            if (array.length == 0) { return [] }
+            const tmp_ids = [];
+            let new_data = [];
+            array.forEach(entry => {
+                if (!tmp_ids.includes(entry["id"])) {
+                    tmp_ids.push(entry["id"]);
+                    new_data.push(entry);
+                }
+            });
+
+            return new_data;
+        },
         async get_streamers() {
             let api_data = await api.fetch_or_cache(
                 import.meta.env.VERCEL_ENV == "production"
@@ -231,7 +245,7 @@ export default {
                 api_data = []
             }
 
-            this.streamers = api_data
+            this.streamers = this.remove_duplicate_streamers(api_data)
         },
         async get_tags() {
             // cache for 7 days

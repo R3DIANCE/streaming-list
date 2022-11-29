@@ -1,9 +1,13 @@
 import { fileURLToPath, URL } from "url"
-import { defineConfig } from "vite"
+import { defineConfig, loadEnv } from "vite"
 import vue from "@vitejs/plugin-vue"
 import { VitePWA } from "vite-plugin-pwa"
 import vueI18n from "@intlify/vite-plugin-vue-i18n"
 import path from "path"
+
+const env = loadEnv("production", process.cwd(), '')
+let build_source_map = true;
+if (env.VERCEL_ENV == "production") { build_source_map = false; }
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -16,7 +20,7 @@ export default defineConfig({
             registerType: "autoUpdate",
             workbox: {
                 cleanupOutdatedCaches: false,
-                sourcemap: true,
+                sourcemap: build_source_map,
                 globPatterns: [
                     "**/*.{woff2,ttf,eot,woff,svg,css,js,jpg,ico,png,webp,html,json,txt}",
                 ],

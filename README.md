@@ -10,12 +10,22 @@
 - SASS ([Syntactically Awesome Style Sheets](https://sass-lang.com/))
 - Automatic refresh (alt:V, Twitch)
 - Lazy loading images with ([Intersection Observer](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API))
-- Fast Builds (20 seconds on Vercel)
+- Fast Builds (17 seconds on Vercel)
 - Small Builds (0.33046 MB, with external Font)
 - Caching API data with [lz-string](https://www.npmjs.com/package/lz-string)
 - Multi language support (Currently German and English) with Automatic detection.
 - Tooltips to describe values, e.g. Game server status or total viewers.
 
 # Preview
-![streaming-list-de-preview](./preview/gif1.gif)
-![streaming-list-en-preview](./preview/gif2.gif)
+![streaming-list-de-preview](./preview/preview-de.webp)
+![streaming-list-en-preview](./preview/preview-en.webp)
+
+# Building and development
+
+0. Make sure that you have [node 16+](https://nodejs.org/en/) installed with [NPM](https://nodejs.org/en/knowledge/getting-started/npm/what-is-npm/)
+1. Start by cloning the repository: `git clone https://github.com/Nickwasused/streaming-list.git`
+2. Change into the directory and open a shell of some sort e.g. PowerShell, bash
+3. install the dependencies with: `npm i`
+4. now you can start developing with: `npm run dev`
+  
+You can get started by editing the .env file

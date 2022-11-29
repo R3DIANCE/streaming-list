@@ -14,6 +14,9 @@
 - Small Builds (0.33046 MB, with external Font)
 - Caching API data with [lz-string](https://www.npmjs.com/package/lz-string)
 - Multi language support (Currently German and English) with Automatic detection.
+- Sort streams by Viewer count and Alphabetically or randomize the list.
+- Search streams by title or Username.
+- Show the status of the game server, e.g. if the Version is up-to-date or if the server is online.
 - Tooltips to describe values, e.g. Game server status or total viewers.
 
 # Preview

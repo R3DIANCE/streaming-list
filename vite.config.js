@@ -7,7 +7,7 @@ import path from "path"
 
 const env = loadEnv("production", process.cwd(), '')
 
-console.log(env);
+console.log(env.VERCEL_ENV == "production");
 
 // https://vitejs.dev/config/
 export default defineConfig({

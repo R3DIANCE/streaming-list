@@ -1,9 +1,13 @@
 import { fileURLToPath, URL } from "url"
-import { defineConfig } from "vite"
+import { defineConfig, loadEnv } from "vite"
 import vue from "@vitejs/plugin-vue"
 import { VitePWA } from "vite-plugin-pwa"
 import vueI18n from "@intlify/vite-plugin-vue-i18n"
 import path from "path"
+
+const env = loadEnv("production", process.cwd(), '')
+
+console.log(env.VERCEL_ENV);
 
 // https://vitejs.dev/config/
 export default defineConfig({

@@ -122,43 +122,38 @@ export default {
     computed: {
         filterstreamers() {
             const { streamers, searchword } = this
-            let filtered_streamers = streamers.filter((stream) => {
-                let search_value = searchword.toLowerCase()
-                if (
-                    stream.title.toLowerCase().includes(search_value) ||
-                    stream.user_login.includes(search_value)
-                ) {
-                    return stream
-                }
-            })
-            if (this.filter == "viewer_low") {
-                return filtered_streamers.sort(function (a, b) {
-                    return a["viewer_count"] - b["viewer_count"]
-                })
-            } else if (this.filter == "viewer_high") {
-                return filtered_streamers
-                    .sort(function (a, b) {
+            let filtered_streamers = streamers.filter((stream) => (
+                stream.title.toLowerCase().includes(searchword.toLowerCase()) ||
+                stream.user_login.includes(searchword)
+            ))
+
+            if (this.filter.toLowerCase().includes("shuffle")) { this.filter = "shuffle" }
+
+            switch (this.filter) {
+                case "viewer_high":
+                    return filtered_streamers.sort(function (a, b) {
+                        return a["viewer_count"] - b["viewer_count"]
+                    }).reverse()
+                case "viewer_low":
+                    return filtered_streamers.sort(function (a, b) {
                         return a["viewer_count"] - b["viewer_count"]
                     })
-                    .reverse()
-            } else if (this.filter.toLowerCase().includes("shuffle")) {
-                return this.shuffleArray(filtered_streamers)
-            } else if (this.filter == "alphabetically_az") {
-                return filtered_streamers.sort(function (a, b) {
-                    const a1 = a["user_login"].toLowerCase()
-                    const b1 = b["user_login"].toLowerCase()
-                    return a1 < b1 ? -1 : a1 > b1 ? 1 : 0
-                })
-            } else if (this.filter == "alphabetically_za") {
-                return filtered_streamers
-                    .sort(function (a, b) {
+                case "alphabetically_az":
+                    return filtered_streamers.sort(function (a, b) {
                         const a1 = a["user_login"].toLowerCase()
                         const b1 = b["user_login"].toLowerCase()
                         return a1 < b1 ? -1 : a1 > b1 ? 1 : 0
                     })
-                    .reverse()
-            } else {
-                return filtered_streamers
+                case "alphabetically_za":
+                    return filtered_streamers.sort(function (a, b) {
+                        const a1 = a["user_login"].toLowerCase()
+                        const b1 = b["user_login"].toLowerCase()
+                        return a1 < b1 ? -1 : a1 > b1 ? 1 : 0
+                    }).reverse()
+                case "shuffle":
+                    return this.shuffleArray(filtered_streamers)
+                default:
+                    return filtered_streamers
             }
         },
     },
@@ -298,7 +293,7 @@ export default {
         set_filter(filter) {
             if (filter == "shuffle") {
                 if (this.streamers.length != 0) {
-                    filter = `shuffle-${Math.random().toString().substr(2, 3)}`
+                    filter = `shuffle-${Math.random().toString().substring(2, 3)}`
                 }
                 if (!this.filter.toLowerCase().includes("shuffle")) {
                     try {

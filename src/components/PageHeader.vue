@@ -101,6 +101,7 @@
 
 <script>
 import { useI18n } from "vue-i18n"
+import { ref } from "vue"
 import api from "../mixins/api.js"
 
 export default {
@@ -110,22 +111,26 @@ export default {
             inheritLocale: true,
         })
 
-        return { locale, t }
+        const active = ref(false)
+        const last_update = ref(t("header.last_update_never"))
+        const cdn_data = ref({})
+        const timer = ref(null)
+        const altv_data = ref({})
+
+        return { 
+            active,
+            last_update,
+            cdn_data,
+            timer,
+            altv_data,
+            locale, t 
+        }
     },
     props: {
         viewers: Number,
         online_count: Number,
     },
     components: {},
-    data() {
-        return {
-            active: false,
-            lastupdate: this.$t("header.last_update_never"),
-            cdn_data: {},
-            timer: null,
-            altv_data: {},
-        }
-    },
     async created() {
         this.fetch_altv()
         this.fetch_altv_server()

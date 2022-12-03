@@ -68,6 +68,7 @@
 
 <script>
 import { useI18n } from "vue-i18n"
+import { ref } from "vue"
 import TwitchImage from "./TwitchImage.vue"
 
 export default {
@@ -77,12 +78,13 @@ export default {
             inheritLocale: true,
         })
 
-        return { locale, t }
-    },
-    data() {
-        return {
-            mouseover: false,
-            language: import.meta.env.VITE_TAGS_LANG,
+        const mouseover = ref(false)
+        const language = ref(import.meta.env.VITE_TAGS_LANG)
+
+        return { 
+            mouseover,
+            language,
+            locale, t 
         }
     },
     components: {

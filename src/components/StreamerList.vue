@@ -79,6 +79,7 @@
 
 <script>
 import { useI18n } from "vue-i18n"
+import { ref } from "vue"
 import StreamerItem from "./StreamerItem.vue"
 import api from "../mixins/api.js"
 
@@ -89,26 +90,34 @@ export default {
             inheritLocale: true,
         })
 
-        return { locale, t }
+        const streamers = ref([]);
+        const views = ref(0);
+        const search_server = ref("");
+        const timer = ref(null);
+        const imgcachekey = ref(Math.random().toString().substring(2, 8));
+        const searchword = ref("");
+        const show_filters = ref(true);
+        const small_device = ref(false);
+        // alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle
+        const filter = ref("viewer_high")
+
+        return {
+            streamers,
+            views,
+            search_server,
+            timer,
+            imgcachekey,
+            searchword,
+            show_filters,
+            small_device,
+            filter,
+            locale, t
+        };
     },
     emits: ["streamers", "total-viewers"],
     props: {},
     components: {
         StreamerItem,
-    },
-    data() {
-        return {
-            streamers: [],
-            views: 0,
-            search_server: "",
-            timer: null,
-            imgcachekey: Math.random().toString().substr(2, 8),
-            searchword: "",
-            // alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle
-            filter: this.get_filter(),
-            show_filters: true,
-            small_device: false,
-        }
     },
     computed: {
         filterstreamers() {

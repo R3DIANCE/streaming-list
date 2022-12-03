@@ -31,7 +31,7 @@
             {{ $t("streamer.sort.shuffle") }}
         </button>
     </div>
-    <div v-if="this.small_device" v-on:click="show_filters_set">
+    <div v-if="this.small_device" v-on:click="this.show_filters = !this.show_filters">
         <img
             :class="
                 this.show_filters
@@ -211,16 +211,8 @@ export default {
             const width = window.innerWidth
             // const height = window.innerHeight
 
-            if (width < 742) {
-                this.show_filters = false
-                this.small_device = true
-            } else {
-                this.show_filters = true
-                this.small_device = false
-            }
-        },
-        show_filters_set() {
-            this.show_filters = !this.show_filters
+            this.small_device = width < 742
+            this.show_filters = !this.small_device
         },
         remove_duplicate_streamers(array) {
             // our api server is not always returning correct data!
@@ -267,7 +259,7 @@ export default {
             this.$emit("streamers", streamers)
         },
         async updatedata() {
-            // await this.fetch_twitch()
+            await this.fetch_twitch()
             this.imgcachekey = Math.random().toString().substr(2, 8)
         },
         shuffleArray(array) {

@@ -112,14 +112,14 @@ export default {
         })
 
         const active = ref(false)
-        const last_update = ref(t("header.last_update_never"))
+        const lastupdate = ref(t("header.last_update_never"))
         const cdn_data = ref({})
         const timer = ref(null)
         const altv_data = ref({})
 
         return { 
             active,
-            last_update,
+            lastupdate,
             cdn_data,
             timer,
             altv_data,

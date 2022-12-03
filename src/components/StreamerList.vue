@@ -164,7 +164,6 @@ export default {
     },
     async created() {
         this.window_resize()
-        window.addEventListener("resize", this.window_resize)
         await this.get_tags()
         await this.get_streamers()
 
@@ -335,6 +334,7 @@ export default {
         },
     },
     mounted: function () {
+        window.addEventListener("resize", this.window_resize)
         if (this.timer == null) {
             this.timer = setInterval(() => {
                 this.updatedata()

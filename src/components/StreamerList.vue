@@ -52,7 +52,7 @@
             :placeholder="$t('page.search')"
         />
         <div class="clear_input">
-            <img v-on:click="clear_input" src="/img/site/x.svg" />
+            <img v-on:click="this.searchword = ''" src="/img/site/x.svg" />
         </div>
     </div>
     <ul
@@ -269,9 +269,6 @@ export default {
         async updatedata() {
             // await this.fetch_twitch()
             this.imgcachekey = Math.random().toString().substr(2, 8)
-        },
-        clear_input() {
-            this.searchword = ""
         },
         shuffleArray(array) {
             if (array == []) {

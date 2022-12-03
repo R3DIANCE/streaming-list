@@ -259,8 +259,8 @@ export default {
             this.$emit("streamers", streamers)
         },
         async updatedata() {
-            await this.fetch_twitch()
-            this.imgcachekey = Math.random().toString().substr(2, 8)
+            await this.get_streamers()
+            this.imgcachekey = Math.random().toString().substring(2, 8)
         },
         shuffleArray(array) {
             if (array == []) {

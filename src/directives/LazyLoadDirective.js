@@ -1,6 +1,6 @@
 // https://css-tricks.com/lazy-loading-images-with-vue-js-directives-and-intersection-observer/
 export default {
-    created: (el) => {
+    mounted: function(el) {
         function loadImage() {
             const imageElement = Array.from(el.children).find(
                 (el) => el.nodeName === "IMG"
@@ -40,7 +40,7 @@ export default {
             loadImage()
         }
     },
-    updated(el) {
+    updated: function(el) {
         function loadImage() {
             const imageElement = Array.from(el.children).find(
                 (el) => el.nodeName === "IMG"

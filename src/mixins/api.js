@@ -23,8 +23,8 @@ const api = {
                     localStorage[key] = compressToUTF16(
                         JSON.stringify(api_data)
                     )
-                } catch (Exception) {
-                    console.error(Exception)
+                } catch (error) {
+                    console.error(error)
                     return {}
                 }
             } else {

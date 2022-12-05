@@ -57,7 +57,7 @@
             :placeholder="$t('page.search')"
         />
         <div class="clear_input">
-            <img alt="clear search" v-on:click="this.searchword = ''" src="/img/site/x.svg" />
+            <img alt="clear search" v-on:click="searchword = ''" src="/img/site/x.svg" />
         </div>
     </div>
     <ul
@@ -87,6 +87,7 @@ import { useI18n } from "vue-i18n"
 import { ref } from "vue"
 import StreamerItem from "./StreamerItem.vue"
 import api from "../mixins/api.js"
+import useDebouncedRef from './useDebouncedRef.js'
 
 export default {
     name: "StreamerList",
@@ -100,7 +101,7 @@ export default {
         const search_server = ref("");
         const timer = ref(null);
         const imgcachekey = ref(Math.random().toString().substring(2, 8));
-        const searchword = ref("");
+        const searchword = useDebouncedRef("", 500);
         const show_filters = ref(true);
         const small_device = ref(false);
         // alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle

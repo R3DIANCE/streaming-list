@@ -33,6 +33,11 @@
     </div>
     <div v-if="this.small_device" v-on:click="this.show_filters = !this.show_filters">
         <img
+            :alt="
+                this.show_filters
+                ? 'hide filters button'
+                : 'expand filters button'
+            "
             :class="
                 this.show_filters
                     ? 'show_filters_button state2'
@@ -52,7 +57,7 @@
             :placeholder="$t('page.search')"
         />
         <div class="clear_input">
-            <img v-on:click="this.searchword = ''" src="/img/site/x.svg" />
+            <img alt="clear search" v-on:click="this.searchword = ''" src="/img/site/x.svg" />
         </div>
     </div>
     <ul

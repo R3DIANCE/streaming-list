@@ -17,7 +17,7 @@
         />
         <div class="card-text-block" v-once>
             {{ user_name }}
-            <img class="twitch" src="/img/site/twitch.svg" />
+            <img class="twitch" alt="twitch logo" src="/img/site/twitch.svg" />
         </div>
         <img
             v-if="mouseover"

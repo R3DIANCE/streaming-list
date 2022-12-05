@@ -105,7 +105,7 @@ export default {
         const show_filters = ref(true);
         const small_device = ref(false);
         // alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle
-        const filter = ref("viewer_high")
+        const filter = useDebouncedRef("viewer_high", 200);
 
         return {
             streamers,

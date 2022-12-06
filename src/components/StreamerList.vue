@@ -109,6 +109,32 @@ export default {
         // alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle
         const filter = ref("viewer_high");
 
+        async function get_streamers() {
+            let api_data = await api.fetch_or_cache(
+                import.meta.env.VERCEL_ENV == "production"
+                    ? "/api/streamers"
+                    : import.meta.env.VITE_SEARCH_SERVER,
+                "streamers"
+            )
+
+            if (api_data == {}) {
+                api_data = []
+            }
+
+            this.streamers = api_data
+        }
+
+        async function get_tags() {
+            // cache for 7 days
+            const api_data = await api.fetch_or_cache(
+                "https://raw.githubusercontent.com/Nickwasused/twitch-tag-list/gh-pages/tags.min.json",
+                "tags",
+                10080
+            )
+
+            this.tags = api_data
+        }
+
         return {
             streamers,
             views,
@@ -119,6 +145,8 @@ export default {
             show_filters,
             small_device,
             filter,
+            get_streamers,
+            get_tags,
             locale, t
         };
     },
@@ -222,44 +250,6 @@ export default {
             this.small_device = width < 742
             this.show_filters = !this.small_device
         },
-        remove_duplicate_streamers(array) {
-            // our api server is not always returning correct data!
-            if (array.length == 0) { return [] }
-            const tmp_ids = [];
-            let new_data = [];
-            array.forEach(entry => {
-                if (!tmp_ids.includes(entry["id"])) {
-                    tmp_ids.push(entry["id"]);
-                    new_data.push(entry);
-                }
-            });
-
-            return new_data;
-        },
-        async get_streamers() {
-            let api_data = await api.fetch_or_cache(
-                import.meta.env.VERCEL_ENV == "production"
-                    ? "/api/streamers"
-                    : import.meta.env.VITE_SEARCH_SERVER,
-                "streamers"
-            )
-
-            if (api_data == {}) {
-                api_data = []
-            }
-
-            this.streamers = this.remove_duplicate_streamers(api_data)
-        },
-        async get_tags() {
-            // cache for 7 days
-            const api_data = await api.fetch_or_cache(
-                "https://raw.githubusercontent.com/Nickwasused/twitch-tag-list/gh-pages/tags.min.json",
-                "tags",
-                10080
-            )
-
-            this.tags = api_data
-        },
         set_total_views(viewers) {
             this.$emit("total-viewers", viewers)
         },
@@ -326,12 +316,14 @@ export default {
         },
     },
     mounted: function () {
-        window.addEventListener("resize", this.window_resize)
+        this.get_streamers();
+        this.get_tags();
         if (this.timer == null) {
             this.timer = setInterval(() => {
                 this.updatedata()
             }, 300000)
         }
+        window.addEventListener("resize", this.window_resize)
     },
     unmounted() {
         clearInterval(this.timer)

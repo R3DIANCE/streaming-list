@@ -14,11 +14,10 @@ const api = {
             try {
                 const response = await fetch(url)
                 api_data = await response.json()
-                
+
                 // set data to localstorage and set invaliddate
-                let invalid_date = new Date()
-                invalid_date.setMinutes(invalid_date.getMinutes() + minuets)
-                localStorage[`${key}:invalidate`] = invalid_date
+                now.setMinutes(now.getMinutes() + minuets)
+                localStorage[`${key}:invalidate`] = now
                 localStorage[key] = JSON.stringify(api_data)
             } catch (error) {
                 console.warn(`error while fetching resource: ${error}`)

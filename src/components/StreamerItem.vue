@@ -97,12 +97,15 @@ export default {
     computed: {
         calculate_time() {
             // Stream runtime calculation
-            let startDate = new Date(this.stream["started_at"])
-            let timeEnd = new Date()
+            let startDate = new Date(this.stream["started_at"]).getTime()
+            let timeEnd = Date.now()
             let diff = timeEnd - startDate
-            let utcdate = new Date(diff).toLocaleTimeString("de", {
+            let utcdate = new Intl.DateTimeFormat("de", {
                 timeZone: "UTC",
-            })
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric",
+            }).format(diff)
             return utcdate
         },
     },

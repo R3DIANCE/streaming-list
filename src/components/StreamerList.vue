@@ -70,8 +70,9 @@
         <StreamerItem
             :stream="stream"
             :cachekey="imgcachekey"
-            :key="stream['user_id']"
-            v-for="stream of filterstreamers"
+            :instant_render_image="index < 3"
+            :key="index"
+            v-for="(stream, index) of filterstreamers"
         />
     </ul>
     <div v-if="streamers.length <= 0">

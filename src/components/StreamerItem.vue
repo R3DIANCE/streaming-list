@@ -16,6 +16,7 @@
                     :user_name="this.stream['user_name']"
                     :cachekey="this.cachekey"
                     :mouseover="this.mouseover"
+                    :instant_render="this.instant_render_image"
                     v-memo="[this.cachekey, this.mouseover]"
                 />
                 <div class="card-content">
@@ -93,6 +94,7 @@ export default {
     props: {
         stream: Object,
         cachekey: String,
+        instant_render_image: Boolean
     },
     computed: {
         calculate_time() {

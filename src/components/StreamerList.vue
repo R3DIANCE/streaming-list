@@ -77,7 +77,7 @@
     </div>
     <a v-if="filterstreamers.length > 3" href="#top" class="top" aria-label="Go back to top.">
         <div class="mock_button">
-            <img alt="" src="/img/site/up.svg" />
+            <img alt="" width="66" height="66" src="/img/site/up.svg" />
         </div>
     </a>
 </template>

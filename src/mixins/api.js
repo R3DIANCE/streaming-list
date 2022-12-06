@@ -1,5 +1,3 @@
-import { compressToUTF16, decompressFromUTF16 } from "lz-string"
-
 const api = {
     // https://pieroxy.net/blog/pages/lz-string/demo.html
     async fetch_or_cache(url, key, minuets = 2) {
@@ -20,9 +18,7 @@ const api = {
                     let invalid_date = new Date()
                     invalid_date.setMinutes(invalid_date.getMinutes() + minuets)
                     localStorage[`${key}:invalidate`] = invalid_date
-                    localStorage[key] = compressToUTF16(
-                        JSON.stringify(api_data)
-                    )
+                    localStorage[key] = JSON.stringify(api_data)
                 } catch (error) {
                     console.warn(`error while fetching resource: ${error}`)
                     return {}
@@ -30,7 +26,7 @@ const api = {
             } else {
                 // load data from cache
                 console.debug(`using cached data for: ${key}`)
-                api_data = JSON.parse(decompressFromUTF16(localStorage[key]))
+                api_data = JSON.parse(localStorage[key])
             }
         } catch (e) {
             console.debug(`fetching new data for: ${key}`)

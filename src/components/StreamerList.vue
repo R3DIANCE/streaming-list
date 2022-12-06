@@ -99,7 +99,6 @@ export default {
         })
 
         const streamers = ref([]);
-        const tags = ref([]);
         const views = ref(0);
         const timer = ref(null);
         const imgcachekey = ref(Math.random().toString().substring(2, 8));
@@ -111,7 +110,6 @@ export default {
 
         return {
             streamers,
-            tags,
             views,
             timer,
             imgcachekey,
@@ -201,16 +199,6 @@ export default {
 
             this.streamers = this.remove_duplicate_streamers(api_data)
         },
-        async get_tags() {
-            // cache for 7 days
-            const api_data = await api.fetch_or_cache(
-                "https://raw.githubusercontent.com/Nickwasused/twitch-tag-list/gh-pages/tags.min.json",
-                "tags",
-                10080
-            )
-
-            this.tags = api_data
-        },
         set_total_views(viewers) {
             this.$emit("total-viewers", viewers)
         },
@@ -274,52 +262,13 @@ export default {
     },
     updated() {
         let viewers = 0;
-        let streamers = 0;
-        this.streamers.forEach((stream) => {
-            viewers = viewers + stream["viewer_count"]
-            streamers++
-            stream["tags"] = []
-            if (stream["tag_ids"] != undefined) {
-                stream["tag_ids"].forEach((stream_tag) => {
-                    if (this.tags[stream_tag] != undefined) {
-                        stream["tags"].push(this.tags[stream_tag])
-                    }
-                })
-            }
 
-            if (stream["is_mature"]) {
-                stream["tags"].push({
-                    localization_names: {
-                        "bg-bg": "18 +",
-                        "cs-cz": "18 +",
-                        "da-dk": "18 +",
-                        "de-de": "18 +",
-                        "el-gr": "18 +",
-                        "en-us": "18 +",
-                        "es-es": "18 +",
-                        "es-mx": "18 +",
-                        "fi-fi": "18 +",
-                        "fr-fr": "18 +",
-                        "hu-hu": "18 +",
-                        "it-it": "18 +",
-                        "ja-jp": "18 +",
-                        "ko-kr": "18 +",
-                        "nl-nl": "18 +",
-                        "no-no": "18 +",
-                        "pl-pl": "18 +",
-                        "pt-br": "18 +",
-                        "pt-pt": "18 +",
-                        "ro-ro": "18 +",
-                    },
-                })
-            }
-        })
-
-        console.log(streamers)
-        console.log(viewers)
+        for (const streamer of this.streamers) {
+            viewers = viewers + streamer["viewer_count"]
+        }
         
         this.set_total_views(viewers)
-        this.set_streamers(streamers)
+        this.set_streamers(this.streamers.length)
     },
     mounted: function () {
         this.window_resize();
@@ -333,7 +282,6 @@ export default {
     },
     beforeMount() {
         this.get_streamers();
-        this.get_tags();
     },
     unmounted() {
         clearInterval(this.timer)

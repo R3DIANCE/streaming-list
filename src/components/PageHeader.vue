@@ -158,9 +158,11 @@ export default {
             }
         },
     },
-    mounted: function () {
+    beforeMount() {
         this.fetch_altv()
         this.fetch_altv_server()
+    },
+    mounted: function () {
         if (this.timer == null) {
             this.timer = setInterval(() => {
                 this.fetch_altv()

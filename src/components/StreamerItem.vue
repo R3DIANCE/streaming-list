@@ -48,17 +48,6 @@
                                 <td>{{ calculate_time }}</td>
                             </tr>
                         </table>
-                        <div class="tags" title="stream tags">
-                            <span
-                                class="tag"
-                                :key="tag"
-                                v-for="tag of stream['tags']"
-                            >
-                                {{
-                                    language == undefined ? tag["localization_names"]["en-us"]:tag["localization_names"][language]
-                                }}
-                            </span>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -79,11 +68,9 @@ export default {
         })
 
         const mouseover = ref(false)
-        const language = ref(import.meta.env.VITE_TAGS_LANG)
 
         return { 
             mouseover,
-            language,
             locale, t 
         }
     },

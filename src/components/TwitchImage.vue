@@ -1,26 +1,10 @@
 <template>
     <div v-lazyload class="card-image">
         <img
-            v-if="!this.instant_render"
             width="640px"
             height="340px"
             src="/img/site/placeholder.webp"
             :data-url="
-                'https://external-content.duckduckgo.com/iu/?u=' +
-                thumbnail_url
-                    .replace('{width}', '640')
-                    .replace('{height}', '360') +
-                '?cache-key=' +
-                cachekey
-            "
-            :alt="user_name"
-            referrerPolicy="same-origin"
-        />
-        <img
-            v-if="this.instant_render"
-            width="640px"
-            height="340px"
-            :src="
                 'https://external-content.duckduckgo.com/iu/?u=' +
                 thumbnail_url
                     .replace('{width}', '640')
@@ -57,9 +41,6 @@ export default {
             required: true,
         },
         mouseover: {
-            required: true,
-        },
-        instant_render: {
             required: true,
         },
     },

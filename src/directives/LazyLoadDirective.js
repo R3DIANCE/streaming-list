@@ -9,13 +9,10 @@ export default {
                 imageElement.addEventListener("load", () => {
                     setTimeout(() => el.classList.add("loaded"), 100)
                 })
-                imageElement.addEventListener("error", (e) =>
-                    console.log(`error while handling image: ${e}`)
+                imageElement.addEventListener("error", () =>
+                    console.log("error")
                 )
-                
-                if (imageElement.dataset.url !== undefined) {
-                    imageElement.src = imageElement.dataset.url
-                }
+                imageElement.src = imageElement.dataset.url
             }
         }
 
@@ -52,14 +49,10 @@ export default {
                 imageElement.addEventListener("load", () => {
                     setTimeout(() => el.classList.add("loaded"), 100)
                 })
-                
                 imageElement.addEventListener("error", () =>
                     console.log("error")
                 )
-
-                if (imageElement.dataset.url !== undefined) {
-                    imageElement.src = imageElement.dataset.url
-                }
+                imageElement.src = imageElement.dataset.url
             }
         }
 

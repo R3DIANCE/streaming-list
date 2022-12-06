@@ -266,10 +266,6 @@ export default {
         set_streamers(streamers) {
             this.$emit("streamers", streamers)
         },
-        async updatedata() {
-            await this.get_streamers()
-            this.imgcachekey = Math.random().toString().substring(2, 8)
-        },
         shuffleArray(array) {
             if (array == []) {
                 return []
@@ -325,11 +321,16 @@ export default {
             }
         },
     },
+    onBeforeMount() {
+        this.get_streamers();
+        this.get_tags();
+    },
     mounted: function () {
         window.addEventListener("resize", this.window_resize)
         if (this.timer == null) {
             this.timer = setInterval(() => {
-                this.updatedata()
+                this.get_streamers()
+                this.imgcachekey = Math.random().toString().substring(2, 8)
             }, 300000)
         }
     },

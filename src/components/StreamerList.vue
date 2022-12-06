@@ -183,22 +183,19 @@ export default {
 
             this.streamers = api_data;
         },
+        // Fisher-Yates shuffle algorithm
         shuffleArray(array) {
-            if (array == []) {
-                return []
+            let remainingElements = array.length;
+            // Iterate through the array from the last element to the first
+            while (remainingElements) {
+                // Pick a random element from the remaining portion of the array
+                let randId = Math.floor(Math.random() * remainingElements--);
+                // Swap the current element with the random element
+                let tmp = array[remainingElements];
+                array[remainingElements] = array[randId];
+                array[randId] = tmp;
             }
-            let curId = array.length
-            // There remain elements to shuffle
-            while (0 !== curId) {
-                // Pick a remaining element
-                let randId = Math.floor(Math.random() * curId)
-                curId -= 1
-                // Swap it with the current element.
-                let tmp = array[curId]
-                array[curId] = array[randId]
-                array[randId] = tmp
-            }
-            return array
+            return array;
         },
         set_filter(filter) {
             if (filter == "shuffle") {

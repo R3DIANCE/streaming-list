@@ -43,6 +43,8 @@
                     ? 'show_filters_button state2'
                     : 'show_filters_button state1'
             "
+            width="71"
+            height="71"
             src="/img/site/up.svg"
         />
     </div>

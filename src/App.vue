@@ -4,10 +4,10 @@
 </template>
 
 <script>
-import PageHeader from "../components/PageHeader.vue"
-import StreamerList from "../components/StreamerList.vue"
+import PageHeader from "./components/PageHeader.vue"
+import StreamerList from "./components/StreamerList.vue"
 export default {
-    name: "MainPage",
+    name: "App",
     props: {},
     data() {
         return {
@@ -32,5 +32,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../assets/app.scss";
+@import "./assets/app.scss";
 </style>

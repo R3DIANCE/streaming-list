@@ -5,7 +5,6 @@
             height="340px"
             src="/img/site/placeholder.webp"
             :data-url="
-                'https://external-content.duckduckgo.com/iu/?u=' +
                 thumbnail_url
                     .replace('{width}', '640')
                     .replace('{height}', '360') +
@@ -14,6 +13,7 @@
             "
             :alt="user_name"
             referrerPolicy="same-origin"
+            crossorigin="anonymous"
         />
         <div class="card-text-block" v-once>
             {{ user_name }}

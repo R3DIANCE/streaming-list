@@ -48,17 +48,6 @@
                                 <td>{{ calculate_time }}</td>
                             </tr>
                         </table>
-                        <div class="tags" title="stream tags">
-                            <span
-                                class="tag"
-                                :key="tag"
-                                v-for="tag of stream['tags']"
-                            >
-                                {{
-                                    language == undefined ? tag["localization_names"]["en-us"]:tag["localization_names"][language]
-                                }}
-                            </span>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -79,11 +68,9 @@ export default {
         })
 
         const mouseover = ref(false)
-        const language = ref(import.meta.env.VITE_TAGS_LANG)
 
         return { 
             mouseover,
-            language,
             locale, t 
         }
     },
@@ -97,12 +84,15 @@ export default {
     computed: {
         calculate_time() {
             // Stream runtime calculation
-            let startDate = new Date(this.stream["started_at"])
-            let timeEnd = new Date()
+            let startDate = new Date(this.stream["started_at"]).getTime()
+            let timeEnd = Date.now()
             let diff = timeEnd - startDate
-            let utcdate = new Date(diff).toLocaleTimeString("de", {
+            let utcdate = new Intl.DateTimeFormat("de", {
                 timeZone: "UTC",
-            })
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric",
+            }).format(diff)
             return utcdate
         },
     },

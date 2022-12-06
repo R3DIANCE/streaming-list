@@ -34,24 +34,6 @@
                 font-size: 0.875rem;
                 margin-bottom: 1rem;
 
-                .tags {
-                    padding-top: 1%;
-                    line-height: 300%;
-                    line-break: loose;
-                    display: flex;
-                    flex-direction: column;
-                    flex-flow: wrap;
-
-                    .tag {
-                        background-color: darkblue;
-                        color: white;
-                        padding-left: 2%;
-                        padding-right: 2%;
-                        border-radius: 25px;
-                        margin: 1%;
-                    }
-                }
-
                 .card-streamer-table {
                     width: 80%;
                     font-size: 1rem;

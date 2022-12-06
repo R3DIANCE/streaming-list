@@ -43,6 +43,8 @@
                     ? 'show_filters_button state2'
                     : 'show_filters_button state1'
             "
+            width="71"
+            height="71"
             src="/img/site/up.svg"
         />
     </div>
@@ -77,7 +79,7 @@
     </div>
     <a v-if="filterstreamers.length > 3" href="#top" class="top" aria-label="Go back to top.">
         <div class="mock_button">
-            <img alt="" src="/img/site/up.svg" />
+            <img alt="" width="66" height="66" src="/img/site/up.svg" />
         </div>
     </a>
 </template>
@@ -98,19 +100,17 @@ export default {
 
         const streamers = ref([]);
         const views = ref(0);
-        const search_server = ref("");
         const timer = ref(null);
         const imgcachekey = ref(Math.random().toString().substring(2, 8));
-        const searchword = useDebouncedRef("", 500);
+        const searchword = useDebouncedRef("", 300);
         const show_filters = ref(true);
         const small_device = ref(false);
         // alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle
-        const filter = useDebouncedRef("viewer_high", 200);
+        const filter = ref("viewer_high");
 
         return {
             streamers,
             views,
-            search_server,
             timer,
             imgcachekey,
             searchword,
@@ -163,55 +163,6 @@ export default {
             }
         },
     },
-    async created() {
-        this.window_resize()
-        await this.get_tags()
-        await this.get_streamers()
-
-        let viewers = 0
-        let streamers = 0
-        this.streamers.forEach((stream) => {
-            viewers = viewers + stream["viewer_count"]
-            streamers++
-            stream["tags"] = []
-            if (stream["tag_ids"] != undefined) {
-                stream["tag_ids"].forEach((stream_tag) => {
-                    if (this.tags[stream_tag] != undefined) {
-                        stream["tags"].push(this.tags[stream_tag])
-                    }
-                })
-            }
-
-            if (stream["is_mature"]) {
-                stream["tags"].push({
-                    localization_names: {
-                        "bg-bg": "18 +",
-                        "cs-cz": "18 +",
-                        "da-dk": "18 +",
-                        "de-de": "18 +",
-                        "el-gr": "18 +",
-                        "en-us": "18 +",
-                        "es-es": "18 +",
-                        "es-mx": "18 +",
-                        "fi-fi": "18 +",
-                        "fr-fr": "18 +",
-                        "hu-hu": "18 +",
-                        "it-it": "18 +",
-                        "ja-jp": "18 +",
-                        "ko-kr": "18 +",
-                        "nl-nl": "18 +",
-                        "no-no": "18 +",
-                        "pl-pl": "18 +",
-                        "pt-br": "18 +",
-                        "pt-pt": "18 +",
-                        "ro-ro": "18 +",
-                    },
-                })
-            }
-        })
-        this.set_total_views(viewers)
-        this.set_streamers(streamers)
-    },
     methods: {
         window_resize() {
             const width = window.innerWidth
@@ -219,20 +170,6 @@ export default {
 
             this.small_device = width < 742
             this.show_filters = !this.small_device
-        },
-        remove_duplicate_streamers(array) {
-            // our api server is not always returning correct data!
-            if (array.length == 0) { return [] }
-            const tmp_ids = [];
-            let new_data = [];
-            array.forEach(entry => {
-                if (!tmp_ids.includes(entry["id"])) {
-                    tmp_ids.push(entry["id"]);
-                    new_data.push(entry);
-                }
-            });
-
-            return new_data;
         },
         async get_streamers() {
             let api_data = await api.fetch_or_cache(
@@ -242,31 +179,9 @@ export default {
                 "streamers"
             )
 
-            if (api_data == {}) {
-                api_data = []
-            }
+            if (api_data == {}) { api_data = []; }
 
-            this.streamers = this.remove_duplicate_streamers(api_data)
-        },
-        async get_tags() {
-            // cache for 7 days
-            const api_data = await api.fetch_or_cache(
-                "https://raw.githubusercontent.com/Nickwasused/twitch-tag-list/gh-pages/tags.min.json",
-                "tags",
-                10080
-            )
-
-            this.tags = api_data
-        },
-        set_total_views(viewers) {
-            this.$emit("total-viewers", viewers)
-        },
-        set_streamers(streamers) {
-            this.$emit("streamers", streamers)
-        },
-        async updatedata() {
-            await this.get_streamers()
-            this.imgcachekey = Math.random().toString().substring(2, 8)
+            this.streamers = api_data;
         },
         shuffleArray(array) {
             if (array == []) {
@@ -309,27 +224,30 @@ export default {
                 }
             }
             this.filter = filter
-        },
-        get_filter() {
-            try {
-                if (localStorage.getItem("sort:method") != undefined) {
-                    return localStorage.getItem("sort:method")
-                } else {
-                    return "viewer_high"
-                }
-            } catch (e) {
-                console.warn("localstorage error.")
-                return "viewer_high"
-            }
-        },
+        }
+    },
+    updated() {
+        let viewers = 0;
+
+        for (const streamer of this.streamers) {
+            viewers = viewers + streamer["viewer_count"]
+        }
+        
+        this.$emit("total-viewers", viewers)
+        this.$emit("streamers", this.streamers.length)
     },
     mounted: function () {
+        this.window_resize();
         window.addEventListener("resize", this.window_resize)
         if (this.timer == null) {
             this.timer = setInterval(() => {
-                this.updatedata()
+                this.get_streamers()
+                this.imgcachekey = Math.random().toString().substring(2, 8)
             }, 300000)
         }
+    },
+    beforeMount() {
+        this.get_streamers();
     },
     unmounted() {
         clearInterval(this.timer)

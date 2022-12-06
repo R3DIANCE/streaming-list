@@ -131,10 +131,6 @@ export default {
         online_count: Number,
     },
     components: {},
-    async created() {
-        this.fetch_altv()
-        this.fetch_altv_server()
-    },
     methods: {
         async fetch_altv_server() {
             const cdn_data = await api.fetch_or_cache(
@@ -161,6 +157,10 @@ export default {
                 this.active = api_data["active"]
             }
         },
+    },
+    beforeMount() {
+        this.fetch_altv()
+        this.fetch_altv_server()
     },
     mounted: function () {
         if (this.timer == null) {

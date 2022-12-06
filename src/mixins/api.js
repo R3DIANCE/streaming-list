@@ -1,42 +1,37 @@
-import { compressToUTF16, decompressFromUTF16 } from "lz-string"
-
 const api = {
-    // https://pieroxy.net/blog/pages/lz-string/demo.html
     async fetch_or_cache(url, key, minuets = 2) {
-        let now = new Date()
-        let api_data
-        try {
-            if (
-                localStorage[key] == undefined ||
-                localStorage[`${key}:invalidate`] == undefined ||
-                now > new Date(localStorage[`${key}:invalidate`])
-            ) {
-                // fetch new data
-                console.debug(`fetching new data for: ${key}`)
-                try {
-                    const response = await fetch(url)
-                    api_data = await response.json()
-                    // set data to localstorage and set invaliddate
-                    let invalid_date = new Date()
-                    invalid_date.setMinutes(invalid_date.getMinutes() + minuets)
-                    localStorage[`${key}:invalidate`] = invalid_date
-                    localStorage[key] = compressToUTF16(
-                        JSON.stringify(api_data)
-                    )
-                } catch (error) {
-                    console.error(error)
+        let now = new Date();
+        let api_data;
+
+        const local_item = localStorage.getItem(key);
+
+        if (
+            local_item == undefined ||
+            localStorage.getItem(`${key}:invalidate`) == undefined ||
+            now > new Date(localStorage[`${key}:invalidate`])
+        ) {
+            // fetch new data
+            console.debug(`fetching new data for: ${key}`);
+            try {
+                const response = await fetch(url);
+                api_data = await response.json();
+
+                // set data to localstorage and set invaliddate
+                now.setMinutes(now.getMinutes() + minuets);
+                localStorage.setItem(`${key}:invalidate`, now);
+                localStorage.setItem(key, JSON.stringify(api_data));
+            } catch (error) {
+                console.warn(`error while fetching resource: ${error}`)
+                if (local_item == undefined) {
                     return {}
+                } else {
+                    return JSON.parse(local_item);
                 }
-            } else {
-                // load data from cache
-                console.debug(`using cached data for: ${key}`)
-                api_data = JSON.parse(decompressFromUTF16(localStorage[key]))
             }
-        } catch (e) {
-            console.debug(`fetching new data for: ${key}`)
-            console.warn("localstorage error.")
-            const response = await fetch(url)
-            api_data = await response.json()
+        } else {
+            // load data from cache
+            console.debug(`using cached data for: ${key}`);
+            api_data = JSON.parse(local_item);
         }
 
         return api_data

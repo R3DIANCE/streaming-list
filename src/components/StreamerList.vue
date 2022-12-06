@@ -199,12 +199,6 @@ export default {
 
             this.streamers = this.remove_duplicate_streamers(api_data)
         },
-        set_total_views(viewers) {
-            this.$emit("total-viewers", viewers)
-        },
-        set_streamers(streamers) {
-            this.$emit("streamers", streamers)
-        },
         shuffleArray(array) {
             if (array == []) {
                 return []
@@ -267,8 +261,8 @@ export default {
             viewers = viewers + streamer["viewer_count"]
         }
         
-        this.set_total_views(viewers)
-        this.set_streamers(this.streamers.length)
+        this.$emit("total-viewers", viewers)
+        this.$emit("streamers", this.streamers.length)
     },
     mounted: function () {
         this.window_resize();

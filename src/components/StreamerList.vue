@@ -103,11 +103,11 @@ export default {
         const search_server = ref("");
         const timer = ref(null);
         const imgcachekey = ref(Math.random().toString().substring(2, 8));
-        const searchword = useDebouncedRef("", 500);
+        const searchword = useDebouncedRef("", 300);
         const show_filters = ref(true);
         const small_device = ref(false);
         // alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle
-        const filter = useDebouncedRef("viewer_high", 200);
+        const filter = ref("viewer_high");
 
         return {
             streamers,

@@ -171,20 +171,6 @@ export default {
             this.small_device = width < 742
             this.show_filters = !this.small_device
         },
-        remove_duplicate_streamers(array) {
-            // our api server is not always returning correct data!
-            if (array.length == 0) { return [] }
-            const tmp_ids = [];
-            let new_data = [];
-            array.forEach(entry => {
-                if (!tmp_ids.includes(entry["id"])) {
-                    tmp_ids.push(entry["id"]);
-                    new_data.push(entry);
-                }
-            });
-
-            return new_data;
-        },
         async get_streamers() {
             let api_data = await api.fetch_or_cache(
                 import.meta.env.VERCEL_ENV == "production"
@@ -193,11 +179,9 @@ export default {
                 "streamers"
             )
 
-            if (api_data == {}) {
-                api_data = []
-            }
+            if (api_data == {}) { api_data = []; }
 
-            this.streamers = this.remove_duplicate_streamers(api_data)
+            this.streamers = api_data;
         },
         shuffleArray(array) {
             if (array == []) {
@@ -240,19 +224,7 @@ export default {
                 }
             }
             this.filter = filter
-        },
-        get_filter() {
-            try {
-                if (localStorage.getItem("sort:method") != undefined) {
-                    return localStorage.getItem("sort:method")
-                } else {
-                    return "viewer_high"
-                }
-            } catch (e) {
-                console.warn("localstorage error.")
-                return "viewer_high"
-            }
-        },
+        }
     },
     updated() {
         let viewers = 0;

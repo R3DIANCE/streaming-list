@@ -100,7 +100,6 @@ export default {
 
         const streamers = ref([]);
         const views = ref(0);
-        const search_server = ref("");
         const timer = ref(null);
         const imgcachekey = ref(Math.random().toString().substring(2, 8));
         const searchword = useDebouncedRef("", 300);
@@ -112,7 +111,6 @@ export default {
         return {
             streamers,
             views,
-            search_server,
             timer,
             imgcachekey,
             searchword,

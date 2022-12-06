@@ -24,7 +24,7 @@ const api = {
                         JSON.stringify(api_data)
                     )
                 } catch (error) {
-                    console.error(error)
+                    console.warn(`error while fetching resource: ${error}`)
                     return {}
                 }
             } else {

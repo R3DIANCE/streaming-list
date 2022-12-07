@@ -105,8 +105,8 @@ export default {
         const searchword = useDebouncedRef("", 300);
         const show_filters = ref(true);
         const small_device = ref(false);
-        // alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle
-        // define default filter
+        // possible values: alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle
+        // default value: viewer_high
         let filter = ref("viewer_high")
 
         // load filter from localstorage
@@ -116,7 +116,6 @@ export default {
         } catch (error) {
             console.warn("localstorage error.")
         }
-        
         
         return {
             streamers,
@@ -130,18 +129,17 @@ export default {
             locale, t
         };
     },
-    emits: ["streamers", "total-viewers"],
-    props: {},
+    emits: ["set_viewer_count", "set_streamer_count"],
     components: {
         StreamerItem,
     },
     computed: {
         filterstreamers() {
-            let { streamers, searchword } = this
-            let searchword2 = searchword.toLowerCase();
-            let filtered_streamers = streamers.filter((stream) => (
-                stream.title.toLowerCase().includes(searchword2) ||
-                stream.user_name.toLowerCase().includes(searchword2)
+            const { streamers, searchword } = this
+            const tmp_searchword = searchword.toLowerCase();
+            const filtered_streamers = streamers.filter((stream) => (
+                stream.title.toLowerCase().includes(tmp_searchword) ||
+                stream.user_name.toLowerCase().includes(tmp_searchword)
             ))
 
             if (this.filter.toLowerCase().includes("shuffle")) { this.filter = "shuffle" }
@@ -193,16 +191,16 @@ export default {
             };
         },
         async get_streamers() {
-            let api_data = await api.fetch_or_cache(
+            let api_response = await api.fetch_or_cache(
                 import.meta.env.VERCEL_ENV == "production"
                     ? "/api/streamers"
                     : import.meta.env.VITE_SEARCH_SERVER,
                 "streamers"
             )
 
-            if (api_data == {}) { api_data = []; }
+            if (api_response == {}) { api_response = []; }
 
-            this.streamers = api_data.map(this.filterObject);;
+            this.streamers = api_response.map(this.filterObject);;
         },
         // Fisher-Yates shuffle algorithm
         shuffleArray(array) {
@@ -231,12 +229,13 @@ export default {
     },
     updated() {
         // create a array with only the viewer_count
-        const viewerCountArray = this.streamers.map(obj => obj.viewer_count);
+        const viewerCount = this.streamers.map(obj => obj.viewer_count);
         // count all viewers together
-        const totalViewerCount = viewerCountArray.reduce((acc, count) => acc + count, 0);
+        const totalViewerCount = viewerCount.reduce((acc, count) => acc + count, 0);
 
-        this.$emit("total-viewers", totalViewerCount);
-        this.$emit("streamers", this.streamers.length);
+        // emit the result to the App.vue component that will pass it to the Pageheader.vue
+        this.$emit("set_viewer_count", totalViewerCount);
+        this.$emit("set_streamer_count", this.streamers.length);
     },
     mounted: function () {
         this.window_resize();

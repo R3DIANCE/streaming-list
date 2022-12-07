@@ -1,6 +1,6 @@
 <template>
     <table
-        class="maintable"
+        class="stream_count_table"
         v-memo="[this.online_count, this.altv_data, this.cdn_data]"
     >
         <tr>
@@ -19,7 +19,7 @@
             </td>
         </tr>
     </table>
-    <table class="infotable">
+    <table class="info_table">
         <tr
             :title="
                 this.altv_data['version'] == this.cdn_data['version']

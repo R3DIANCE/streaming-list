@@ -1,33 +1,43 @@
 <template>
-    <PageHeader :viewers="viewers" :online_count="online_count" />
-    <StreamerList @total-viewers="set_viewers" @streamers="set_streamers" />
+  <PageHeader
+    :viewer-count="viewerCount"
+    :streamer-count="streamerCount"
+  />
+  <StreamerList
+    @set_viewer_count="set_viewer_count"
+    @set_streamer_count="set_streamer_count"
+  />
 </template>
 
 <script>
-import PageHeader from "./components/PageHeader.vue"
-import StreamerList from "./components/StreamerList.vue"
+import { ref } from "vue";
+import PageHeader from "./components/PageHeader.vue";
+import StreamerList from "./components/StreamerList.vue";
+
 export default {
     name: "App",
-    props: {},
-    data() {
-        return {
-            viewers: 0,
-            online_count: 0,
-        }
-    },
     components: {
         PageHeader,
         StreamerList,
     },
+    setup() {
+        const viewerCount = ref(0);
+        const streamerCount = ref(0);
+
+        return {
+            viewerCount,
+            streamerCount
+        };
+    },
     methods: {
-        set_viewers(viewers) {
-            this.viewers = viewers
+        set_viewer_count(viewerCount) {
+            this.viewerCount = viewerCount;
         },
-        set_streamers(streamers) {
-            this.online_count = streamers
+        set_streamer_count(streamerCount) {
+            this.streamerCount = streamerCount;
         },
     },
-}
+};
 </script>
 
 <style lang="scss">

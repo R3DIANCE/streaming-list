@@ -106,8 +106,13 @@ export default {
         const show_filters = ref(true);
         const small_device = ref(false);
         // alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle
-        const filter = ref("viewer_high");
+        // define default filter
+        let filter = ref("viewer_high")
 
+        // load filter from localstorage
+        const load_filter = localStorage.getItem("sort_method");
+        if (load_filter !== undefined) { filter = ref(load_filter); }
+        
         return {
             streamers,
             views,
@@ -200,27 +205,12 @@ export default {
         set_filter(filter) {
             if (filter == "shuffle") {
                 if (this.streamers.length != 0) {
-                    filter = `shuffle-${Math.random().toString().substring(2, 3)}`
-                }
-                if (!this.filter.toLowerCase().includes("shuffle")) {
-                    try {
-                        localStorage.setItem("sort:method", "shuffle")
-                    } catch (e) {
-                        console.warn("localstorage error.")
-                    }
+                    this.filter = `shuffle-${Math.random().toString().substring(2, 3)}`
                 }
             } else {
-                if (filter == this.filter) {
-                    return
-                } else {
-                    try {
-                        localStorage.setItem("sort:method", filter)
-                    } catch (e) {
-                        console.warn("localstorage error.")
-                    }
-                }
+                this.filter = filter;
             }
-            this.filter = filter
+            
         }
     },
     updated() {
@@ -229,12 +219,16 @@ export default {
         // count all viewers together
         const totalViewerCount = viewerCountArray.reduce((acc, count) => acc + count, 0);
 
-        this.$emit("total-viewers", totalViewerCount)
-        this.$emit("streamers", this.streamers.length)
+        this.$emit("total-viewers", totalViewerCount);
+        this.$emit("streamers", this.streamers.length);
     },
     mounted: function () {
         this.window_resize();
         window.addEventListener("resize", this.window_resize)
+        // save selected filter on page exit
+        window.addEventListener('beforeunload', () => {
+            localStorage.setItem("sort_method", this.filter);
+        });
         if (this.timer == null) {
             this.timer = setInterval(() => {
                 this.get_streamers()
@@ -247,7 +241,7 @@ export default {
     },
     unmounted() {
         clearInterval(this.timer)
-        window.removeEventListener("resize", this.window_resize)
+        window.removeEventListener("resize", this.window_resize);
     },
 }
 </script>

@@ -45,7 +45,7 @@
             "
             width="71"
             height="71"
-            src="/img/site/up.svg"
+            src="../assets/img/site/up.svg"
         />
     </div>
     <div
@@ -59,7 +59,7 @@
             :placeholder="$t('page.search')"
         />
         <div class="clear_input">
-            <img alt="clear search" v-on:click="searchword = ''" src="/img/site/x.svg" />
+            <img alt="clear search" v-on:click="searchword = ''" src="../assets/img/site/x.svg" />
         </div>
     </div>
     <ul
@@ -79,7 +79,7 @@
     </div>
     <a v-if="filterstreamers.length > 3" href="#top" class="top" aria-label="Go back to top.">
         <div class="mock_button">
-            <img alt="" width="66" height="66" src="/img/site/up.svg" />
+            <img alt="" width="66" height="66" src="../assets/img/site/up.svg" />
         </div>
     </a>
 </template>

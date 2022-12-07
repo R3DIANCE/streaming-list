@@ -3,7 +3,7 @@
         <img
             width="640px"
             height="340px"
-            src="/img/site/placeholder.webp"
+            src="../assets/img/site/placeholder.webp"
             :data-url="
                 thumbnail_url
                     .replace('{width}', '640')
@@ -17,12 +17,12 @@
         />
         <div class="card-text-block" v-once>
             {{ user_name }}
-            <img class="twitch" alt="twitch logo" src="/img/site/twitch.svg" />
+            <img class="twitch" alt="twitch logo" src="../assets/img/site/twitch.svg" />
         </div>
         <img
             v-if="mouseover"
             class="external"
-            src="/img/site/external.svg"
+            src="../assets/img/site/external.svg"
         />
     </div>
 </template>

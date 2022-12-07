@@ -130,7 +130,6 @@ export default {
         viewers: Number,
         online_count: Number,
     },
-    components: {},
     methods: {
         async fetch_altv_server() {
             const cdn_data = await api.fetch_or_cache(
@@ -148,7 +147,7 @@ export default {
                     : `https://api.altv.mp/server/${
                           import.meta.env.VITE_ALTV_SERVER_ID
                       }`,
-                "altv"
+                "altv_server_data"
             )
             this.lastupdate = new Date().toLocaleTimeString(this.locale)
 

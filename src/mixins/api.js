@@ -1,5 +1,6 @@
 const api = {
     async fetch_or_cache(url, key, minuets = 2) {
+        // we want to fetch data either from localstorage or from a remote server with a certain cache that we can set ourself e.g. for the alt:V CDN data
         let now = new Date();
         let api_data;
 
@@ -7,8 +8,7 @@ const api = {
 
         if (
             local_item == undefined ||
-            localStorage.getItem(`${key}:invalidate`) == undefined ||
-            now > new Date(localStorage[`${key}:invalidate`])
+            now > new Date(JSON.parse(local_item)["invalid_at"])
         ) {
             // fetch new data
             console.debug(`fetching new data for: ${key}`);
@@ -18,24 +18,27 @@ const api = {
 
                 // set data to localstorage and set invaliddate
                 now.setMinutes(now.getMinutes() + minuets);
-                localStorage.setItem(`${key}:invalidate`, now);
-                localStorage.setItem(key, JSON.stringify(api_data));
+                const save_item = {
+                    "invalid_at": now,
+                    "saved_data": api_data
+                }
+                localStorage.setItem(key, JSON.stringify(save_item));
             } catch (error) {
                 console.warn(`error while fetching resource: ${error}`)
                 if (local_item == undefined) {
                     return {}
                 } else {
-                    return JSON.parse(local_item);
+                    return JSON.parse(local_item)["saved_data"];
                 }
             }
         } else {
             // load data from cache
             console.debug(`using cached data for: ${key}`);
-            api_data = JSON.parse(local_item);
+            api_data = JSON.parse(local_item)["saved_data"];
         }
 
         return api_data
-    },
+    }
 }
 
 export default api

@@ -45,7 +45,7 @@
             "
             width="71"
             height="71"
-            src="/img/site/up.svg"
+            src="../assets/img/site/up.svg"
         />
     </div>
     <div
@@ -59,7 +59,7 @@
             :placeholder="$t('page.search')"
         />
         <div class="clear_input">
-            <img alt="clear search" v-on:click="searchword = ''" src="/img/site/x.svg" />
+            <img alt="clear search" v-on:click="searchword = ''" src="../assets/img/site/x.svg" />
         </div>
     </div>
     <ul
@@ -79,7 +79,7 @@
     </div>
     <a v-if="filterstreamers.length > 3" href="#top" class="top" aria-label="Go back to top.">
         <div class="mock_button">
-            <img alt="" width="66" height="66" src="/img/site/up.svg" />
+            <img alt="" width="66" height="66" src="../assets/img/site/up.svg" />
         </div>
     </a>
 </template>
@@ -106,8 +106,18 @@ export default {
         const show_filters = ref(true);
         const small_device = ref(false);
         // alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle
-        const filter = ref("viewer_high");
+        // define default filter
+        let filter = ref("viewer_high")
 
+        // load filter from localstorage
+        try {
+            const load_filter = localStorage.getItem("sort_method");
+            if (load_filter != undefined) { filter = ref(load_filter); }
+        } catch (error) {
+            console.warn("localstorage error.")
+        }
+        
+        
         return {
             streamers,
             views,
@@ -127,10 +137,11 @@ export default {
     },
     computed: {
         filterstreamers() {
-            const { streamers, searchword } = this
+            let { streamers, searchword } = this
+            let searchword2 = searchword.toLowerCase();
             let filtered_streamers = streamers.filter((stream) => (
-                stream.title.toLowerCase().includes(searchword.toLowerCase()) ||
-                stream.user_login.includes(searchword)
+                stream.title.toLowerCase().includes(searchword2) ||
+                stream.user_name.toLowerCase().includes(searchword2)
             ))
 
             if (this.filter.toLowerCase().includes("shuffle")) { this.filter = "shuffle" }
@@ -146,14 +157,14 @@ export default {
                     })
                 case "alphabetically_az":
                     return filtered_streamers.sort(function (a, b) {
-                        const a1 = a["user_login"].toLowerCase()
-                        const b1 = b["user_login"].toLowerCase()
+                        const a1 = a["user_name"].toLowerCase()
+                        const b1 = b["user_name"].toLowerCase()
                         return a1 < b1 ? -1 : a1 > b1 ? 1 : 0
                     })
                 case "alphabetically_za":
                     return filtered_streamers.sort(function (a, b) {
-                        const a1 = a["user_login"].toLowerCase()
-                        const b1 = b["user_login"].toLowerCase()
+                        const a1 = a["user_name"].toLowerCase()
+                        const b1 = b["user_name"].toLowerCase()
                         return a1 < b1 ? -1 : a1 > b1 ? 1 : 0
                     }).reverse()
                 case "shuffle":
@@ -171,6 +182,16 @@ export default {
             this.small_device = width < 742
             this.show_filters = !this.small_device
         },
+        filterObject(obj) {
+            return {
+                user_id: obj.user_id,
+                user_name: obj.user_name,
+                title: obj.title,
+                viewer_count: obj.viewer_count,
+                started_at: obj.started_at,
+                thumbnail_url: obj.thumbnail_url
+            };
+        },
         async get_streamers() {
             let api_data = await api.fetch_or_cache(
                 import.meta.env.VERCEL_ENV == "production"
@@ -181,7 +202,7 @@ export default {
 
             if (api_data == {}) { api_data = []; }
 
-            this.streamers = api_data;
+            this.streamers = api_data.map(this.filterObject);;
         },
         // Fisher-Yates shuffle algorithm
         shuffleArray(array) {
@@ -200,42 +221,30 @@ export default {
         set_filter(filter) {
             if (filter == "shuffle") {
                 if (this.streamers.length != 0) {
-                    filter = `shuffle-${Math.random().toString().substring(2, 3)}`
-                }
-                if (!this.filter.toLowerCase().includes("shuffle")) {
-                    try {
-                        localStorage.setItem("sort:method", "shuffle")
-                    } catch (e) {
-                        console.warn("localstorage error.")
-                    }
+                    this.filter = `shuffle-${Math.random().toString().substring(2, 3)}`
                 }
             } else {
-                if (filter == this.filter) {
-                    return
-                } else {
-                    try {
-                        localStorage.setItem("sort:method", filter)
-                    } catch (e) {
-                        console.warn("localstorage error.")
-                    }
-                }
+                this.filter = filter;
             }
-            this.filter = filter
+            
         }
     },
     updated() {
-        let viewers = 0;
+        // create a array with only the viewer_count
+        const viewerCountArray = this.streamers.map(obj => obj.viewer_count);
+        // count all viewers together
+        const totalViewerCount = viewerCountArray.reduce((acc, count) => acc + count, 0);
 
-        for (const streamer of this.streamers) {
-            viewers = viewers + streamer["viewer_count"]
-        }
-        
-        this.$emit("total-viewers", viewers)
-        this.$emit("streamers", this.streamers.length)
+        this.$emit("total-viewers", totalViewerCount);
+        this.$emit("streamers", this.streamers.length);
     },
     mounted: function () {
         this.window_resize();
         window.addEventListener("resize", this.window_resize)
+        // save selected filter on page exit
+        window.addEventListener('beforeunload', () => {
+            localStorage.setItem("sort_method", this.filter);
+        });
         if (this.timer == null) {
             this.timer = setInterval(() => {
                 this.get_streamers()
@@ -248,7 +257,7 @@ export default {
     },
     unmounted() {
         clearInterval(this.timer)
-        window.removeEventListener("resize", this.window_resize)
+        window.removeEventListener("resize", this.window_resize);
     },
 }
 </script>

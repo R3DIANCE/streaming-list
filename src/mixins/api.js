@@ -8,7 +8,7 @@ const api = {
 
         if (
             local_item == undefined ||
-            now > new Date(localStorage["invalid_at"])
+            now > new Date(JSON.parse(local_item)["invalid_at"])
         ) {
             // fetch new data
             console.debug(`fetching new data for: ${key}`);

@@ -137,10 +137,11 @@ export default {
     },
     computed: {
         filterstreamers() {
-            const { streamers, searchword } = this
+            let { streamers, searchword } = this
+            let searchword2 = searchword.toLowerCase();
             let filtered_streamers = streamers.filter((stream) => (
-                stream.title.toLowerCase().includes(searchword.toLowerCase()) ||
-                stream.user_login.includes(searchword)
+                stream.title.toLowerCase().includes(searchword2) ||
+                stream.user_name.toLowerCase().includes(searchword2)
             ))
 
             if (this.filter.toLowerCase().includes("shuffle")) { this.filter = "shuffle" }
@@ -156,14 +157,14 @@ export default {
                     })
                 case "alphabetically_az":
                     return filtered_streamers.sort(function (a, b) {
-                        const a1 = a["user_login"].toLowerCase()
-                        const b1 = b["user_login"].toLowerCase()
+                        const a1 = a["user_name"].toLowerCase()
+                        const b1 = b["user_name"].toLowerCase()
                         return a1 < b1 ? -1 : a1 > b1 ? 1 : 0
                     })
                 case "alphabetically_za":
                     return filtered_streamers.sort(function (a, b) {
-                        const a1 = a["user_login"].toLowerCase()
-                        const b1 = b["user_login"].toLowerCase()
+                        const a1 = a["user_name"].toLowerCase()
+                        const b1 = b["user_name"].toLowerCase()
                         return a1 < b1 ? -1 : a1 > b1 ? 1 : 0
                     }).reverse()
                 case "shuffle":
@@ -181,6 +182,17 @@ export default {
             this.small_device = width < 742
             this.show_filters = !this.small_device
         },
+        filterObject(obj) {
+            return {
+                id: obj.id,
+                user_id: obj.user_id,
+                user_name: obj.user_name,
+                title: obj.title,
+                viewer_count: obj.viewer_count,
+                started_at: obj.started_at,
+                thumbnail_url: obj.thumbnail_url
+            };
+        },
         async get_streamers() {
             let api_data = await api.fetch_or_cache(
                 import.meta.env.VERCEL_ENV == "production"
@@ -189,9 +201,11 @@ export default {
                 "streamers"
             )
 
+
+
             if (api_data == {}) { api_data = []; }
 
-            this.streamers = api_data;
+            this.streamers = api_data.map(this.filterObject);;
         },
         // Fisher-Yates shuffle algorithm
         shuffleArray(array) {

@@ -1,17 +1,17 @@
-import { createApp } from "vue"
-import App from "./App.vue"
-import LazyLoadDirective from "./directives/LazyLoadDirective.js"
-import { registerSW } from "virtual:pwa-register"
-import * as VueI18n from "vue-i18n"
-import messages from "@intlify/vite-plugin-vue-i18n/messages"
+import { createApp } from "vue";
+import App from "./App.vue";
+import LazyLoadDirective from "./directives/LazyLoadDirective.js";
+import { registerSW } from "virtual:pwa-register";
+import * as VueI18n from "vue-i18n";
+import messages from "@intlify/vite-plugin-vue-i18n/messages";
 
 window.addEventListener("load", () => {
-    registerSW({ immediate: true })
-})
+    registerSW({ immediate: true });
+});
 
-const app = createApp(App)
+const app = createApp(App);
 
-app.directive("lazyload", LazyLoadDirective)
+app.directive("lazyload", LazyLoadDirective);
 
 const i18n = VueI18n.createI18n({
     silentFallbackWarn: true,
@@ -23,7 +23,7 @@ const i18n = VueI18n.createI18n({
     fallbackLocale: "en",
     globalInjection: true,
     messages,
-})
+});
 
-app.use(i18n)
-app.mount("#app")
+app.use(i18n);
+app.mount("#app");

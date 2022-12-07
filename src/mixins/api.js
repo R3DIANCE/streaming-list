@@ -21,12 +21,12 @@ const api = {
                 const save_item = {
                     "invalid_at": now,
                     "saved_data": api_data
-                }
+                };
                 localStorage.setItem(key, JSON.stringify(save_item));
             } catch (error) {
-                console.warn(`error while fetching resource: ${error}`)
+                console.warn(`error while fetching resource: ${error}`);
                 if (local_item == undefined) {
-                    return {}
+                    return {};
                 } else {
                     return JSON.parse(local_item)["saved_data"];
                 }
@@ -37,8 +37,8 @@ const api = {
             api_data = JSON.parse(local_item)["saved_data"];
         }
 
-        return api_data
+        return api_data;
     }
-}
+};
 
-export default api
+export default api;

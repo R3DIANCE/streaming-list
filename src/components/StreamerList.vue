@@ -224,13 +224,12 @@ export default {
         }
     },
     updated() {
-        let viewers = 0;
+        // create a array with only the viewer_count
+        const viewerCountArray = this.streamers.map(obj => obj.viewer_count);
+        // count all viewers together
+        const totalViewerCount = viewerCountArray.reduce((acc, count) => acc + count, 0);
 
-        for (const streamer of this.streamers) {
-            viewers = viewers + streamer["viewer_count"]
-        }
-        
-        this.$emit("total-viewers", viewers)
+        this.$emit("total-viewers", totalViewerCount)
         this.$emit("streamers", this.streamers.length)
     },
     mounted: function () {

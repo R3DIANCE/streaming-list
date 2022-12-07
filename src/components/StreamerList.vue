@@ -184,7 +184,6 @@ export default {
         },
         filterObject(obj) {
             return {
-                id: obj.id,
                 user_id: obj.user_id,
                 user_name: obj.user_name,
                 title: obj.title,
@@ -200,8 +199,6 @@ export default {
                     : import.meta.env.VITE_SEARCH_SERVER,
                 "streamers"
             )
-
-
 
             if (api_data == {}) { api_data = []; }
 

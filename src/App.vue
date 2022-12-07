@@ -19,7 +19,6 @@ export default {
         PageHeader,
         StreamerList,
     },
-    created() {},
     methods: {
         set_viewers(viewers) {
             this.viewers = viewers

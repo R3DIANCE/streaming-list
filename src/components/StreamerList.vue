@@ -110,8 +110,13 @@ export default {
         let filter = ref("viewer_high")
 
         // load filter from localstorage
-        const load_filter = localStorage.getItem("sort_method");
-        if (load_filter !== undefined) { filter = ref(load_filter); }
+        try {
+            const load_filter = localStorage.getItem("sort_method");
+            if (load_filter != undefined) { filter = ref(load_filter); }
+        } catch (error) {
+            console.warn("localstorage error.")
+        }
+        
         
         return {
             streamers,

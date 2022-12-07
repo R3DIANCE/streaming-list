@@ -8,13 +8,13 @@
       height="340px"
       src="../assets/img/site/placeholder.webp"
       :data-url="
-        thumbnail_url
+        thumbnailUrl
           .replace('{width}', '640')
           .replace('{height}', '360') +
           '?cache-key=' +
-          cachekey
+          cacheKey
       "
-      :alt="user_name"
+      :alt="userName"
       referrerPolicy="same-origin"
       crossorigin="anonymous"
     >
@@ -22,7 +22,7 @@
       v-once
       class="card-text-block"
     >
-      {{ user_name }}
+      {{ userName }}
       <img
         class="twitch"
         alt="twitch logo"
@@ -30,7 +30,7 @@
       >
     </div>
     <img
-      v-if="mouseover"
+      v-if="mouseOver"
       class="external"
       src="../assets/img/site/external.svg"
     >
@@ -41,16 +41,20 @@
 export default {
     name: "TwitchImage",
     props: {
-        thumbnail_url: {
+        thumbnailUrl: {
+            type: String,
             required: true,
         },
-        user_name: {
+        userName: {
+            type: String,
             required: true,
         },
-        cachekey: {
+        cacheKey: {
+            type: String,
             required: true,
         },
-        mouseover: {
+        mouseOver: {
+            type: Boolean,
             required: true,
         },
     },

@@ -74,14 +74,14 @@
   </div>
   <ul
     v-if="streamers.length > 0"
-    v-memo="[streamers, imgcachekey, filter, searchword]"
+    v-memo="[streamers, imgCacheKey, filter, searchword]"
     class="cards"
   >
     <StreamerItem
       v-for="stream of filterstreamers"
       :key="stream['user_id']"
       :stream="stream"
-      :cachekey="imgcachekey"
+      :cache-key="imgCacheKey"
     />
   </ul>
   <div v-if="streamers.length <= 0">
@@ -127,7 +127,7 @@ export default {
         const streamers = ref([]);
         const views = ref(0);
         const timer = ref(null);
-        const imgcachekey = ref(Math.random().toString().substring(2, 8));
+        const imgCacheKey = ref(Math.random().toString().substring(2, 8));
         const searchword = useDebouncedRef("", 300);
         const show_filters = ref(true);
         const small_device = ref(false);
@@ -147,7 +147,7 @@ export default {
             streamers,
             views,
             timer,
-            imgcachekey,
+            imgCacheKey,
             searchword,
             show_filters,
             small_device,
@@ -159,38 +159,39 @@ export default {
         filterstreamers() {
             const { streamers, searchword } = this;
             const tmp_searchword = searchword.toLowerCase();
-            const filtered_streamers = streamers.filter((stream) => (
+            let tmp_filter = this.filter;
+            const tmp_streamers = streamers.filter((stream) => (
                 stream.title.toLowerCase().includes(tmp_searchword) ||
                 stream.user_name.toLowerCase().includes(tmp_searchword)
             ));
 
-            if (this.filter.toLowerCase().includes("shuffle")) { this.filter = "shuffle"; }
+            if (tmp_filter.toLowerCase().includes("shuffle")) { tmp_filter = "shuffle"; }
 
-            switch (this.filter) {
+            switch (tmp_filter) {
                 case "viewer_high":
-                    return filtered_streamers.sort(function (a, b) {
+                    return tmp_streamers.sort(function (a, b) {
                         return a["viewer_count"] - b["viewer_count"];
                     }).reverse();
                 case "viewer_low":
-                    return filtered_streamers.sort(function (a, b) {
+                    return tmp_streamers.sort(function (a, b) {
                         return a["viewer_count"] - b["viewer_count"];
                     });
                 case "alphabetically_az":
-                    return filtered_streamers.sort(function (a, b) {
+                    return tmp_streamers.sort(function (a, b) {
                         const a1 = a["user_name"].toLowerCase();
                         const b1 = b["user_name"].toLowerCase();
                         return a1 < b1 ? -1 : a1 > b1 ? 1 : 0;
                     });
                 case "alphabetically_za":
-                    return filtered_streamers.sort(function (a, b) {
+                    return tmp_streamers.sort(function (a, b) {
                         const a1 = a["user_name"].toLowerCase();
                         const b1 = b["user_name"].toLowerCase();
                         return a1 < b1 ? -1 : a1 > b1 ? 1 : 0;
                     }).reverse();
                 case "shuffle":
-                    return this.shuffleArray(filtered_streamers);
+                    return this.shuffleArray(tmp_streamers);
                 default:
-                    return filtered_streamers;
+                    return tmp_streamers;
             }
         },
     },
@@ -209,7 +210,12 @@ export default {
         window.addEventListener("resize", this.window_resize);
         // save selected filter on page exit
         window.addEventListener('beforeunload', () => {
-            localStorage.setItem("sort_method", this.filter);
+            if (this.filter.includes("shuffle")) {
+                localStorage.setItem("sort_method", "shuffle");
+            } else {
+                localStorage.setItem("sort_method", this.filter);
+            }
+            
         });
         if (this.timer == null) {
             this.timer = setInterval(() => {

@@ -1,7 +1,7 @@
 <template>
   <PageHeader
-    :viewer_count="viewer_count"
-    :streamer_count="streamer_count"
+    :viewer-count="viewerCount"
+    :streamer-count="streamerCount"
   />
   <StreamerList
     @set_viewer_count="set_viewer_count"
@@ -21,20 +21,20 @@ export default {
         StreamerList,
     },
     setup() {
-        const viewer_count = ref(0);
-        const streamer_count = ref(0);
+        const viewerCount = ref(0);
+        const streamerCount = ref(0);
 
         return {
-            viewer_count,
-            streamer_count
+            viewerCount,
+            streamerCount
         };
     },
     methods: {
-        set_viewer_count(viewer_count) {
-            this.viewer_count = viewer_count;
+        set_viewer_count(viewerCount) {
+            this.viewerCount = viewerCount;
         },
-        set_streamer_count(streamer_count) {
-            this.streamer_count = streamer_count;
+        set_streamer_count(streamerCount) {
+            this.streamerCount = streamerCount;
         },
     },
 };

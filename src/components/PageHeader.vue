@@ -1,6 +1,6 @@
 <template>
   <table
-    v-memo="[streamer_count, altv_server, altv_cdn]"
+    v-memo="[streamerCount, altv_server, altv_cdn]"
     class="stream_count_table"
   >
     <tr>
@@ -8,12 +8,12 @@
         <h1
           :title="
             $t('header.tooltips.streamer', {
-              streamer_count: streamer_count,
+              streamer_count: streamerCount,
             })
           "
         >
           {{
-            $t("header.streamer_head", { count: streamer_count })
+            $t("header.streamer_head", { count: streamerCount })
           }}
         </h1>
       </td>
@@ -88,9 +88,9 @@
         }}
       </td>
     </tr>
-    <tr :title="$t('header.tooltips.viewer', { viewer: viewer_count })">
+    <tr :title="$t('header.tooltips.viewer', { viewer: viewerCount })">
       <td>{{ $t("header.viewers_head") }}</td>
-      <td>{{ viewer_count }}</td>
+      <td>{{ viewerCount }}</td>
     </tr>
     <tr :title="$t('header.tooltips.refresh')">
       <td>{{ $t("header.last_refresh_head") }}</td>
@@ -107,8 +107,14 @@ import api from "../mixins/api.js";
 export default {
     name: "PageHeader",
     props: {
-        viewer_count: Number,
-        streamer_count: Number,
+        viewerCount: {
+            type: Number,
+            default: 0
+        },
+        streamerCount: {
+            type: Number,
+            default: 0
+        },
     },
     setup() {
         const { locale, t } = useI18n({

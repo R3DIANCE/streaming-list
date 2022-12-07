@@ -8,15 +8,15 @@
     >
       <div
         class="card-item"
-        @mouseover="mouseover = true"
-        @mouseleave="mouseover = false"
+        @mouseover="mouseOver = true"
+        @mouseleave="mouseOver = false"
       >
         <TwitchImage
-          v-memo="[cachekey, mouseover]"
-          :thumbnail_url="stream['thumbnail_url']"
-          :user_name="stream['user_name']"
-          :cachekey="cachekey"
-          :mouseover="mouseover"
+          v-memo="[cacheKey, mouseOver]"
+          :thumbnail-url="stream['thumbnail_url']"
+          :user-name="stream['user_name']"
+          :cache-key="cacheKey"
+          :mouse-over="mouseOver"
         />
         <div class="card-content">
           <div class="card-text">
@@ -66,18 +66,33 @@ export default {
         TwitchImage,
     },
     props: {
-        stream: Object,
-        cachekey: String,
+        stream: {
+            type: Object,
+            default: function() {
+                return { 
+                    "user_id": "",
+                    "user_name": "",
+                    "title": "",
+                    "viewer_count": 0,
+                    "started_at": "2022-01-01T00:00:01Z",
+                    "thumbnail_url": "" 
+                };
+            }
+        },
+        cacheKey: {
+            type: String,
+            default: "000000"
+        },
     },
     setup() {
         const { locale, t } = useI18n({
             inheritLocale: true,
         });
 
-        const mouseover = ref(false);
+        const mouseOver = ref(false);
 
         return { 
-            mouseover,
+            mouseOver,
             locale, t 
         };
     },

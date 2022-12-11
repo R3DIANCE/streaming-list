@@ -9,10 +9,11 @@ export default {
                 imageElement.addEventListener("load", () => {
                     setTimeout(() => el.classList.add("loaded"), 100);
                 });
-                imageElement.addEventListener("error", () =>
-                    console.log("error")
+                imageElement.addEventListener("error", (error) =>
+                    console.log("image error")
                 );
                 imageElement.src = imageElement.dataset.url;
+                imageElement.srcset = imageElement.dataset.srcset;
             }
         }
 
@@ -53,6 +54,7 @@ export default {
                     console.log("error")
                 );
                 imageElement.src = imageElement.dataset.url;
+                imageElement.srcset = imageElement.dataset.srcset;
             }
         }
 

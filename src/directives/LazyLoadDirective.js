@@ -12,26 +12,22 @@ const options = {
 
 export default {
     mounted: function(el) {
-        function handleIntersect(entries, observer) {
+        const observer = new IntersectionObserver((entries, observer) => {
             // we only expect one observer as we apply it directly to the image tag!
             if (entries[0].isIntersecting) {
                 loadImage(entries[0].target);
                 observer.unobserve(el);
             }
-        }
-
-        const observer = new IntersectionObserver(handleIntersect, options);
+        }, options);
         observer.observe(el);
     },
     updated: function(el) {
-        function handleIntersect(entries, observer) {
+        const observer = new IntersectionObserver((entries, observer) => {
             if (entries[0].isIntersecting) {
                 loadImage(entries[0].target);
                 observer.unobserve(el);
             }
-        }
-
-        const observer = new IntersectionObserver(handleIntersect, options);
+        }, options);
         observer.observe(el);
     },
 };

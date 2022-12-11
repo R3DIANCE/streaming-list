@@ -5,7 +5,7 @@ const options = {
 };
 
 export default {
-    mounted: function(el) {
+    created: function(el) {
         const observer = new IntersectionObserver((entries, observer) => {
             // we only expect one observer as we apply it directly to the image tag!
             if (entries[0].isIntersecting) {
@@ -16,7 +16,7 @@ export default {
         observer.observe(el);
     },
     updated: function(el) {
-        const observer = new IntersectionObserver((entries, observer) => {
+        const observer = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting) {
                 entries[0].target.srcset = entries[0].target.dataset.srcset;
                 observer.unobserve(el);

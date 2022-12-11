@@ -9,8 +9,8 @@
       src="../assets/img/site/placeholder.webp"
       :data-url="
         thumbnailUrl
-          .replace('{width}', '640')
-          .replace('{height}', '360') +
+          .replace('{width}', '320')
+          .replace('{height}', '180') +
           '?cache-key=' +
           cacheKey
       "

@@ -7,6 +7,10 @@
     position: relative;
     transition: filter 0.5s cubic-bezier(0.43, 0.41, 0.22, 0.91);
 
+    .twitch_thumbnail {
+        min-height: 250px;
+    }
+
     .card-text-block {
         position: absolute;
         bottom: 5%;
@@ -36,4 +40,35 @@ img {
 .twitch {
     filter: invert(100%);
     width: 1em;
+}
+
+@media (max-width: 1700px) {
+    .card-image .twitch_thumbnail {
+        min-height: 200px;
+    }
+}
+
+
+@media (max-width: 1400px) {
+    .card-image .twitch_thumbnail {
+        min-height: 150px;
+    }
+}
+
+@media (max-width: 1100px) {
+    .card-image .twitch_thumbnail {
+        min-height: 100px;
+    }
+}
+
+@media (max-width: 640px) {
+    .card-image .twitch_thumbnail {
+        min-height: 200px;
+    }
+}
+
+@media (max-width: 430px) {
+    .card-image .twitch_thumbnail {
+        min-height: 100px;
+    }
 }

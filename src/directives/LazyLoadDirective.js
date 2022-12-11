@@ -1,83 +1,27 @@
 // https://css-tricks.com/lazy-loading-images-with-vue-js-directives-and-intersection-observer/
+const options = {
+    root: null,
+    threshold: "0"
+};
+
 export default {
-    mounted: function(el) {
-        function loadImage() {
-            const imageElement = Array.from(el.children).find(
-                (el) => el.nodeName === "IMG"
-            );
-            if (imageElement) {
-                imageElement.addEventListener("load", () => {
-                    setTimeout(() => el.classList.add("loaded"), 100);
-                });
-                imageElement.addEventListener("error", () =>
-                    console.log("error")
-                );
-                imageElement.src = imageElement.dataset.url;
+    created: function(el) {
+        const observer = new IntersectionObserver((entries, observer) => {
+            // we only expect one observer as we apply it directly to the image tag!
+            if (entries[0].isIntersecting) {
+                entries[0].target.srcset = entries[0].target.dataset.srcset;
+                observer.unobserve(el);
             }
-        }
-
-        function handleIntersect(entries, observer) {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    loadImage();
-                    observer.unobserve(el);
-                }
-            });
-        }
-
-        function createObserver() {
-            const options = {
-                root: null,
-                threshold: "0",
-            };
-            const observer = new IntersectionObserver(handleIntersect, options);
-            observer.observe(el);
-        }
-
-        if (window["IntersectionObserver"]) {
-            createObserver();
-        } else {
-            loadImage();
-        }
+        }, options);
+        observer.observe(el);
     },
     updated: function(el) {
-        function loadImage() {
-            const imageElement = Array.from(el.children).find(
-                (el) => el.nodeName === "IMG"
-            );
-            if (imageElement) {
-                imageElement.addEventListener("load", () => {
-                    setTimeout(() => el.classList.add("loaded"), 100);
-                });
-                imageElement.addEventListener("error", () =>
-                    console.log("error")
-                );
-                imageElement.src = imageElement.dataset.url;
+        const observer = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) {
+                entries[0].target.srcset = entries[0].target.dataset.srcset;
+                observer.unobserve(el);
             }
-        }
-
-        function handleIntersect(entries, observer) {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    loadImage();
-                    observer.unobserve(el);
-                }
-            });
-        }
-
-        function createObserver() {
-            const options = {
-                root: null,
-                threshold: "0",
-            };
-            const observer = new IntersectionObserver(handleIntersect, options);
-            observer.observe(el);
-        }
-
-        if (window["IntersectionObserver"]) {
-            createObserver();
-        } else {
-            loadImage();
-        }
+        }, options);
+        observer.observe(el);
     },
 };

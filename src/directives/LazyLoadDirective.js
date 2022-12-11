@@ -1,10 +1,4 @@
 // https://css-tricks.com/lazy-loading-images-with-vue-js-directives-and-intersection-observer/
-function loadImage(target) {
-    if (target) {
-        target.srcset = target.getAttribute("data-srcset");
-    }
-}
-
 const options = {
     root: null,
     threshold: "0"
@@ -15,7 +9,7 @@ export default {
         const observer = new IntersectionObserver((entries, observer) => {
             // we only expect one observer as we apply it directly to the image tag!
             if (entries[0].isIntersecting) {
-                loadImage(entries[0].target);
+                entries[0].target.srcset = entries[0].target.dataset.srcset;
                 observer.unobserve(el);
             }
         }, options);
@@ -24,7 +18,7 @@ export default {
     updated: function(el) {
         const observer = new IntersectionObserver((entries, observer) => {
             if (entries[0].isIntersecting) {
-                loadImage(entries[0].target);
+                entries[0].target.srcset = entries[0].target.dataset.srcset;
                 observer.unobserve(el);
             }
         }, options);

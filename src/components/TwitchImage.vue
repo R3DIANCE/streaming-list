@@ -4,7 +4,6 @@
   >
     <img
       v-lazyload
-      class="twitch_thumbnail"
       width="640px"
       height="340px"
       src="../assets/img/site/placeholder.webp"

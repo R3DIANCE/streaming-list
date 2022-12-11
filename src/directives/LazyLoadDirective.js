@@ -15,7 +15,17 @@ function observe_images(el) {
 
 export default {
     created: function(el) {
-        window.addEventListener("load", () => observe_images(el));
+        console.log(document.readyState);
+        if (document.readyState == "complete") {
+            // the page has loaded already
+            setTimeout(() => observe_images(el), 500);
+        } else if (document.readyState == "interactive") {
+            // the page has not loaded and the data is pulled from localstorage
+            window.addEventListener("load", () => observe_images(el));
+        } else {
+            // fallback
+            observe_images(el);
+        }        
     },
     updated: function(el) {
         observe_images(el);

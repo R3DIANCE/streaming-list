@@ -20,8 +20,8 @@
 - Tooltips to describe values, e.g. Game server status or total viewers.
 
 # Preview
-![streaming-list-de-preview](./preview/preview-de.webp)
-![streaming-list-en-preview](./preview/preview-en.webp)
+![streaming-list-de-preview](./github-images/preview/preview-de.webp)
+![streaming-list-en-preview](./github-images/preview/preview-en.webp)
 
 # Building and development
 
@@ -32,3 +32,11 @@
 4. now you can start developing with: `npm run dev`
   
 You can get started by editing the .env file
+
+# Speed
+
+## mobile
+![performance-mobile](./github-images/speed/mobile.webp)
+
+## desktop
+![performance-desktop](./github-images/speed/desktop.webp)

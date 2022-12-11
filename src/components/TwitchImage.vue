@@ -1,9 +1,9 @@
 <template>
   <div
-    v-lazyload
     class="card-image"
   >
     <img
+      v-lazyload
       class="twitch_thumbnail"
       width="640px"
       height="340px"

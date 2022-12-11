@@ -9,10 +9,10 @@
       src="../assets/img/site/placeholder.webp"
       srcset=""
       :data-srcset="`${thumbnailUrl.replace('{width}', '320').replace('{height}', '180')}?cache-key=${cacheKey} 895w, ` + `${thumbnailUrl.replace('{width}', '640').replace('{height}', '360')}?cache-key=${cacheKey} 896w, `"
-      :data-url="`${thumbnailUrl.replace('{width}', '320').replace('{height}', '180')}?cache-key=${cacheKey}`"
       :alt="userName"
       referrerPolicy="same-origin"
       crossorigin="anonymous"
+      sizes="(max-width: 640px) 15vw, (max-width: 320px) 10vw"
     >
     <div
       v-once

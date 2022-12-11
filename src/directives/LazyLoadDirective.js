@@ -12,7 +12,6 @@ export default {
                 imageElement.addEventListener("error", (error) =>
                     console.log("image error")
                 );
-                imageElement.src = imageElement.dataset.url;
                 imageElement.srcset = imageElement.dataset.srcset;
             }
         }
@@ -53,7 +52,6 @@ export default {
                 imageElement.addEventListener("error", () =>
                     console.log("error")
                 );
-                imageElement.src = imageElement.dataset.url;
                 imageElement.srcset = imageElement.dataset.srcset;
             }
         }

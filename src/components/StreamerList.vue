@@ -250,6 +250,11 @@ export default {
             };
         },
         async get_streamers() {
+            const streaming_list_update = new CustomEvent('streaming-list-update', {
+              detail: {
+                message: ''
+              }
+            });
             let api_response = await api.fetch_or_cache(
                 import.meta.env.VERCEL_ENV == "production"
                     ? "/api/streamers"
@@ -259,7 +264,11 @@ export default {
 
             if (api_response == {}) { api_response = []; }
 
-            this.streamers = api_response.map(this.filterObject);;
+            this.streamers = api_response.map(this.filterObject);
+
+            setTimeout(() => {
+              window.dispatchEvent(streaming_list_update);
+            }, 100);
         },
         // Fisher-Yates shuffle algorithm
         shuffleArray(array) {

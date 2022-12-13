@@ -153,17 +153,16 @@
     margin-left: auto;
     margin-right: auto;
     margin: auto;
-    width: 10%;
 
     &:hover {
         filter: invert(100%);
     }
-}
 
-.state1 {
-    transform: rotate(180deg);
-}
+    &.state_up {
+        transform: rotate(180deg);
+    }
 
-.state2 {
-    transform: rotate(0deg);
+    &.state_down {
+        transform: rotate(0deg);
+    }
 }

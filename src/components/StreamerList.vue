@@ -46,8 +46,8 @@
       "
       :class="
         show_filters
-          ? 'show_filters_button state2'
-          : 'show_filters_button state1'
+          ? 'show_filters_button state_down'
+          : 'show_filters_button state_up'
       "
       width="71"
       height="71"

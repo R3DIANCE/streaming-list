@@ -3,7 +3,7 @@ import App from "./App.vue";
 import LazyLoadDirective from "./directives/LazyLoadDirective.js";
 import { registerSW } from "virtual:pwa-register";
 import * as VueI18n from "vue-i18n";
-import messages from "@intlify/vite-plugin-vue-i18n/messages";
+import messages from "@intlify/unplugin-vue-i18n/messages";
 
 window.addEventListener("load", () => {
     registerSW({ immediate: true });

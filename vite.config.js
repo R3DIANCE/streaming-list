@@ -15,6 +15,7 @@ export default defineConfig({
         vue(),
         VueI18nPlugin({
             include: path.resolve(__dirname, "./src/locales/**"),
+            compositionOnly: true
         }),
         VitePWA({
             registerType: "autoUpdate",

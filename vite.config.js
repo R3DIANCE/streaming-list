@@ -2,7 +2,7 @@ import { fileURLToPath, URL } from "url"
 import { defineConfig, loadEnv } from "vite"
 import vue from "@vitejs/plugin-vue"
 import { VitePWA } from "vite-plugin-pwa"
-import vueI18n from "@intlify/vite-plugin-vue-i18n"
+import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import path from "path"
 
 const env = loadEnv("production", process.cwd(), '')
@@ -13,7 +13,7 @@ if (env.VERCEL_ENV == "production") { build_source_map = false; }
 export default defineConfig({
     plugins: [
         vue(),
-        vueI18n({
+        VueI18nPlugin({
             include: path.resolve(__dirname, "./src/locales/**"),
         }),
         VitePWA({

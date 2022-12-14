@@ -1,13 +1,13 @@
 {
   "name": "streaming-list",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "license": "MPL-2.0",
   "scripts": {
     "build": "vite build",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .eslintignore",
     "dev": "vite",
     "preview": "vite preview --port 5050",
-    "pwa": "npm run build && npx http-server dist"
+    "pwa": "pnpm run build && npx http-server dist"
   },
   "dependencies": {
     "sass": "^1.56.2",

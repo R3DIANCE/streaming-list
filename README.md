@@ -25,11 +25,11 @@
 
 # Building and development
 
-0. Make sure that you have [node 16+](https://nodejs.org/en/) installed with [NPM](https://nodejs.org/en/knowledge/getting-started/npm/what-is-npm/)
+0. Make sure that you have [node 16+](https://nodejs.org/en/) installed with [PNPM](https://www.npmjs.com/package/pnpm)
 1. Start by cloning the repository: `git clone https://github.com/Nickwasused/streaming-list.git`
 2. Change into the directory and open a shell of some sort e.g. PowerShell, bash
-3. install the dependencies with: `npm i`
-4. now you can start developing with: `npm run dev`
+3. install the dependencies with: `pnpm i`
+4. now you can start developing with: `pnpm run dev`
   
 You can get started by editing the .env file
 

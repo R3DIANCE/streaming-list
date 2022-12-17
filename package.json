@@ -1,6 +1,6 @@
 {
   "name": "streaming-list",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MPL-2.0",
   "scripts": {
     "build": "vite build",
@@ -12,7 +12,7 @@
   "dependencies": {
     "@intlify/unplugin-vue-i18n": "^0.8.1",
     "@vitejs/plugin-vue": "^4.0.0",
-    "sass": "^1.56.2",
+    "sass": "^1.57.0",
     "vite": "^4.0.1",
     "vite-plugin-pwa": "^0.14.0",
     "vue": "^3.2.45",
@@ -25,7 +25,7 @@
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",
     "@vue/eslint-config-prettier": "^7.0.0",
-    "eslint": "^8.29.0",
+    "eslint": "^8.30.0",
     "eslint-plugin-vue": "^9.8.0",
     "prettier": "^2.8.1"
   }

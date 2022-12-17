@@ -7,13 +7,13 @@
       <td>
         <h1
           :title="
-            $t('header.tooltips.streamer', {
+            t('header.tooltips.streamer', {
               streamer_count: streamerCount,
             })
           "
         >
           {{
-            $t("header.streamer_head", { count: streamerCount })
+            t("header.streamer_head", { count: streamerCount })
           }}
         </h1>
       </td>
@@ -22,10 +22,10 @@
   <table class="info_table">
     <tr
       :title="
-        altv_server['version'] == altv_cdn['version']
-          ? $t('header.tooltips.altv_version_1')
-          : $t('header.tooltips.altv_version_2', {
-            version: altv_cdn['version'],
+        altv_server.version == altv_cdn.version
+          ? t('header.tooltips.altv_version_1')
+          : t('header.tooltips.altv_version_2', {
+            version: altv_cdn.version,
           })
       "
     >
@@ -36,15 +36,15 @@
           referrerpolicy="no-referrer"
           target="_blank"
         >
-          {{ $t("header.altv_head_version") }}
+          {{ t("header.altv_head_version") }}
         </a>
       </td>
       <td>
         {{
           altv_server_active
-            ? altv_server["version"] == altv_cdn["version"]
-              ? `${altv_server["version"]} ✔️`
-              : `${altv_server["version"]} ⬆️`
+            ? altv_server.version == altv_cdn.version
+              ? `${altv_server.version} ✔️`
+              : `${altv_server.version} ⬆️`
             : "0.0 ❌"
         }}
       </td>
@@ -52,8 +52,8 @@
     <tr
       :title="
         altv_server_active
-          ? $t('header.tooltips.gameserver_1')
-          : $t('header.tooltips.gameserver_2')
+          ? t('header.tooltips.gameserver_1')
+          : t('header.tooltips.gameserver_2')
       "
     >
       <td>
@@ -63,7 +63,7 @@
           referrerpolicy="no-referrer"
           target="_blank"
         >
-          {{ $t("header.game_server_head") }}
+          {{ t("header.game_server_head") }}
         </a>
       </td>
       <td>{{ altv_server_active ? "Online ✔️" : "Offline ❌" }}</td>
@@ -71,13 +71,13 @@
     <tr
       :title="
         altv_server_active
-          ? $t('header.tooltips.players', {
-            player: altv_server['players'],
+          ? t('header.tooltips.players', {
+            player: altv_server.players,
           })
           : ''
       "
     >
-      <td>{{ $t("header.players_online_head") }}</td>
+      <td>{{ t("header.players_online_head") }}</td>
       <td>
         {{
           altv_server_active
@@ -88,98 +88,88 @@
         }}
       </td>
     </tr>
-    <tr :title="$t('header.tooltips.viewer', { viewer: viewerCount })">
-      <td>{{ $t("header.viewers_head") }}</td>
+    <tr :title="t('header.tooltips.viewer', { viewer: viewerCount })">
+      <td>{{ t("header.viewers_head") }}</td>
       <td>{{ viewerCount }}</td>
     </tr>
-    <tr :title="$t('header.tooltips.refresh')">
-      <td>{{ $t("header.last_refresh_head") }}</td>
+    <tr :title="t('header.tooltips.refresh')">
+      <td>{{ t("header.last_refresh_head") }}</td>
       <td>{{ last_update }}</td>
     </tr>
   </table>
 </template>
 
-<script>
+<script setup>
+import { onMounted, onUnmounted, onBeforeMount, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { ref } from "vue";
 import api from "../mixins/api.js";
 
-export default {
-    name: "PageHeader",
-    props: {
-        viewerCount: {
-            type: Number,
-            default: 0
-        },
-        streamerCount: {
-            type: Number,
-            default: 0
-        },
+const props = defineProps({
+    viewerCount: {
+        type: Number,
+        default: 0
     },
-    setup() {
-        const { locale, t } = useI18n({
-            inheritLocale: true,
-        });
+    streamerCount: {
+        type: Number,
+        default: 0
+    },
+});
 
-        const altv_server_active = ref(false);
-        const last_update = ref(t("header.last_update_never"));
-        const altv_cdn = ref({});
-        const update_timer = ref(null);
-        const altv_server = ref({});
+const { locale, t } = useI18n({
+    inheritLocale: true,
+});
 
-        return { 
-            altv_server_active,
-            last_update,
-            altv_cdn,
-            update_timer,
-            altv_server,
-            locale, t 
-        };
-    },
-    beforeMount() {
-        this.fetch_altv_cdn();
-        this.fetch_altv_server();
-    },
-    mounted: function () {
-        if (this.update_timer == null) {
-            this.update_timer = setInterval(() => {
-                this.fetch_altv_cdn();
-                this.fetch_altv_server();
-            }, 120000);
-        }
-    },
-    unmounted() {
-        clearInterval(this.update_timer);
-    },
-    methods: {
-        async fetch_altv_server() {
-            const cdn_response = await api.fetch_or_cache(
-                "https://cdn.altv.mp/server/release/x64_linux/update.json",
-                "altv_server_cdn",
-                60
-            );
+const altv_server_active = ref(false);
+const last_update = ref(t("header.last_update_never"));
+const update_timer = ref(null);
+const altv_cdn = ref({});
+const altv_server = ref({});
 
-            this.altv_cdn = cdn_response;
-        },
-        async fetch_altv_cdn() {
-            const api_response = await api.fetch_or_cache(
-                import.meta.env.VERCEL_ENV == "production"
-                    ? "/api/altv"
-                    : `https://api.altv.mp/server/${
-                          import.meta.env.VITE_ALTV_SERVER_ID
-                      }`,
-                "altv_server_data"
-            );
+async function fetch_altv_server() {
+    const cdn_response = await api.fetch_or_cache(
+        "https://cdn.altv.mp/server/release/x64_linux/update.json",
+        "altv_server_cdn",
+        60
+    );
 
-            this.last_update = new Date().toLocaleTimeString(this.locale);
+    altv_cdn.value = cdn_response;
+}
 
-            if (api_response["active"]) {
-                this.altv_server = api_response["info"];
-                this.altv_server_active = api_response["active"];
-            }
-        },
-    },
-};
+async function fetch_altv_cdn() {
+    const api_response = await api.fetch_or_cache(
+        import.meta.env.VERCEL_ENV == "production"
+            ? "/api/altv"
+            : `https://api.altv.mp/server/${
+                import.meta.env.VITE_ALTV_SERVER_ID
+            }`,
+        "altv_server_data"
+    );
+
+    last_update.value = new Date().toLocaleTimeString(locale);
+
+    if (api_response["active"]) {
+        altv_server.value = api_response["info"];
+        altv_server_active.value = api_response["active"];
+    }
+}
+
+onBeforeMount(() => {
+    fetch_altv_cdn();
+    fetch_altv_server();
+});
+
+onMounted(() => {
+    if (update_timer.value == null) {
+        update_timer.value = setInterval(() => {
+            fetch_altv_cdn();
+            fetch_altv_server();
+        }, 120000);
+    }
+});
+
+onUnmounted(() => {
+    clearInterval(update_timer.value);
+});
 </script>
 
 <style scoped lang="scss">

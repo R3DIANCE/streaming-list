@@ -22,7 +22,14 @@ export default {
             window.addEventListener("streaming-list-update", () => observe_images(el));
         }        
     },
-    updated: function(el) {
-        observe_images(el);
+    mounted: function(el) {
+        if (document.readyState == "complete") { observe_images(el); }
     },
+    updated: function(el) {
+        if (document.readyState == "complete") { observe_images(el); }
+    },
+    unmounted: function() {
+        window.removeEventListener("streaming-list-update", () => observe_images(el));
+        window.removeEventListener("load", () => observe_images(el));
+    }
 };

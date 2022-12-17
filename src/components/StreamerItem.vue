@@ -1,7 +1,7 @@
 <template>
   <li class="cards-list-item">
     <a
-      :href="'https://twitch.tv/' + stream['user_name']"
+      :href="'https://twitch.tv/' + stream.user_name"
       target="_blank"
       rel="noopener noreferrer"
       referrerpolicy="no-referrer"
@@ -13,38 +13,38 @@
       >
         <TwitchImage
           v-memo="[cacheKey, mouseOver]"
-          :thumbnail-url="stream['thumbnail_url']"
-          :user-name="stream['user_name']"
+          :thumbnail-url="stream.thumbnail_url"
+          :user-name="stream.user_name"
           :cache-key="cacheKey"
           :mouse-over="mouseOver"
         />
         <div class="card-content">
           <div class="card-text">
-            <p class="card-text-item">{{ stream["title"] }}</p>
+            <p class="card-text-item">{{ stream.title }}</p>
             <table class="card-streamer-table">
               <tr
                 :title="
-                  $t('streamer.tooltips.viewer', {
-                    user: stream['user_name'],
-                    viewer: stream['viewer_count'],
+                  t('streamer.tooltips.viewer', {
+                    user: stream.user_name,
+                    viewer: stream.viewer_count,
                   })
                 "
               >
-                <td>{{ $t("streamer.viewer_count") }}</td>
-                <td>{{ stream["viewer_count"] }}</td>
+                <td>{{ t("streamer.viewer_count") }}</td>
+                <td>{{ stream.viewer_count }}</td>
               </tr>
               <tr
                 :title="
-                  $t('streamer.tooltips.live_since', {
-                    user: stream['user_name'],
+                  t('streamer.tooltips.live_since', {
+                    user: stream.user_name,
                     time: new Date(
-                      stream['started_at']
+                      stream.started_at
                     ).toLocaleTimeString(),
                     total_time: calculate_time,
                   })
                 "
               >
-                <td>{{ $t("streamer.live_since") }}</td>
+                <td>{{ t("streamer.live_since") }}</td>
                 <td>{{ calculate_time }}</td>
               </tr>
             </table>
@@ -55,63 +55,49 @@
   </li>
 </template>
 
-<script>
+<script setup>
+import { ref, computed } from "vue";
 import { useI18n } from "vue-i18n";
-import { ref } from "vue";
 import TwitchImage from "./TwitchImage.vue";
 
-export default {
-    name: "StreamerItem",
-    components: {
-        TwitchImage,
+const props = defineProps({
+    stream: {
+        type: Object,
+        default: function() {
+            return { 
+                "user_id": "",
+                "user_name": "",
+                "title": "",
+                "viewer_count": 0,
+                "started_at": "2022-01-01T00:00:01Z",
+                "thumbnail_url": "" 
+            };
+        }
     },
-    props: {
-        stream: {
-            type: Object,
-            default: function() {
-                return { 
-                    "user_id": "",
-                    "user_name": "",
-                    "title": "",
-                    "viewer_count": 0,
-                    "started_at": "2022-01-01T00:00:01Z",
-                    "thumbnail_url": "" 
-                };
-            }
-        },
-        cacheKey: {
-            type: String,
-            default: "000000"
-        },
-    },
-    setup() {
-        const { locale, t } = useI18n({
-            inheritLocale: true,
-        });
+    cacheKey: {
+        type: String,
+        default: "000000"
+    }
+});
 
-        const mouseOver = ref(false);
+const { t } = useI18n({
+    inheritLocale: true,
+});
+const mouseOver = ref(false);
 
-        return { 
-            mouseOver,
-            locale, t 
-        };
-    },
-    computed: {
-        calculate_time() {
-            // Stream runtime calculation
-            let startDate = new Date(this.stream["started_at"]).getTime();
-            let timeEnd = Date.now();
-            let diff = timeEnd - startDate;
-            let utcdate = new Intl.DateTimeFormat("de", {
-                timeZone: "UTC",
-                hour: "numeric",
-                minute: "numeric",
-                second: "numeric",
-            }).format(diff);
-            return utcdate;
-        },
-    },
-};
+const calculate_time = computed(() => {
+    // Stream runtime calculation
+    let startDate = new Date(props.stream.started_at).getTime();
+    let timeEnd = Date.now();
+    let diff = timeEnd - startDate;
+    let utcdate = new Intl.DateTimeFormat("de", {
+        timeZone: "UTC",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+    }).format(diff);
+    return utcdate;
+});
 </script>
 
 <style scoped lang="scss">

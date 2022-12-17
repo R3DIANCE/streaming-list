@@ -33,28 +33,25 @@
   </div>
 </template>
 
-<script>
-export default {
-    name: "TwitchImage",
-    props: {
-        thumbnailUrl: {
-            type: String,
-            required: true,
-        },
-        userName: {
-            type: String,
-            required: true,
-        },
-        cacheKey: {
-            type: String,
-            required: true,
-        },
-        mouseOver: {
-            type: Boolean,
-            required: true,
-        },
+<script setup>
+const props = defineProps({
+    thumbnailUrl: {
+        type: String,
+        required: true,
     },
-};
+    userName: {
+        type: String,
+        required: true,
+    },
+    cacheKey: {
+        type: String,
+        required: true,
+    },
+    mouseOver: {
+        type: Boolean,
+        required: true,
+    },
+});
 </script>
 
 <style scoped lang="scss">

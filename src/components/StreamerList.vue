@@ -4,34 +4,34 @@
     class="sort"
   >
     <button
-      :class="filter == 'viewer_high' ? 'active' : ''"
+      :class="searchfilter == 'viewer_high' ? 'active' : ''"
       @click="set_filter('viewer_high')"
     >
-      {{ $t("streamer.sort.viewer_high") }}
+      {{ t("streamer.sort.viewer_high") }}
     </button>
     <button
-      :class="filter == 'viewer_low' ? 'active' : ''"
+      :class="searchfilter == 'viewer_low' ? 'active' : ''"
       @click="set_filter('viewer_low')"
     >
-      {{ $t("streamer.sort.viewer_low") }}
+      {{ t("streamer.sort.viewer_low") }}
     </button>
     <button
-      :class="filter == 'alphabetically_az' ? 'active' : ''"
+      :class="searchfilter == 'alphabetically_az' ? 'active' : ''"
       @click="set_filter('alphabetically_az')"
     >
-      {{ $t("streamer.sort.alphabetically_az") }}
+      {{ t("streamer.sort.alphabetically_az") }}
     </button>
     <button
-      :class="filter == 'alphabetically_za' ? 'active' : ''"
+      :class="searchfilter == 'alphabetically_za' ? 'active' : ''"
       @click="set_filter('alphabetically_za')"
     >
-      {{ $t("streamer.sort.alphabetically_za") }}
+      {{ t("streamer.sort.alphabetically_za") }}
     </button>
     <button
-      :class="filter.includes('shuffle') ? 'active' : ''"
+      :class="searchfilter.includes('shuffle') ? 'active' : ''"
       @click="set_filter('shuffle')"
     >
-      {{ $t("streamer.sort.shuffle") }}
+      {{ t("streamer.sort.shuffle") }}
     </button>
   </div>
   <div
@@ -57,12 +57,12 @@
   <div
     v-if="streamers.length > 0"
     class="searchcombo"
-    :title="$t('page.searchinfo')"
+    :title="t('page.searchinfo')"
   >
     <input
       v-model="searchword"
       type="text"
-      :placeholder="$t('page.search')"
+      :placeholder="t('page.search')"
     >
     <div class="clear_input">
       <img
@@ -74,19 +74,19 @@
   </div>
   <ul
     v-if="streamers.length > 0"
-    v-memo="[streamers, imgCacheKey, filter, searchword]"
+    v-memo="[streamers, imgCacheKey, searchfilter, searchword]"
     class="cards"
   >
     <StreamerItem
       v-for="stream of filterstreamers"
-      :key="stream['user_id']"
+      :key="stream.user_id"
       :stream="stream"
       :cache-key="imgCacheKey"
     />
   </ul>
   <div v-if="streamers.length <= 0">
     <h1 class="nolive">
-      {{ $t("page.nolive") }}
+      {{ t("page.nolive") }}
     </h1>
   </div>
   <a
@@ -106,196 +106,181 @@
   </a>
 </template>
 
-<script>
+<script setup>
+import { ref, onUnmounted, onUpdated, onMounted, onBeforeMount, computed } from "vue";
 import { useI18n } from "vue-i18n";
-import { ref } from "vue";
 import StreamerItem from "./StreamerItem.vue";
 import api from "../mixins/api.js";
 import useDebouncedRef from './useDebouncedRef.js';
 
-export default {
-    name: "StreamerList",
-    components: {
-        StreamerItem,
-    },
-    emits: ["set_viewer_count", "set_streamer_count"],
-    setup() {
-        const { locale, t } = useI18n({
-            inheritLocale: true,
-        });
+const emit = defineEmits(["set_viewer_count", "set_streamer_count"]);
 
-        const streamers = ref([]);
-        const views = ref(0);
-        const timer = ref(null);
-        const imgCacheKey = ref(Math.random().toString().substring(2, 8));
-        const searchword = useDebouncedRef("", 300);
-        const show_filters = ref(true);
-        const small_device = ref(false);
-        // possible values: alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle
-        // default value: viewer_high
-        let filter = ref("viewer_high");
+const { t } = useI18n({
+    inheritLocale: true,
+});
 
-        // load filter from localstorage
-        try {
-            const load_filter = localStorage.getItem("sort_method");
-            if (load_filter != undefined) { filter = ref(load_filter); }
-        } catch (error) {
-            console.warn("localstorage error.");
+const streamers = ref([]);
+const timer = ref(null);
+const imgCacheKey = ref(Math.random().toString().substring(2, 8));
+const searchword = useDebouncedRef("", 300);
+const show_filters = ref(true);
+const small_device = ref(false);
+// possible values: alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle
+// default value: viewer_high
+const searchfilter = ref("viewer_high");
+
+// load filter from localstorage
+try {
+    const load_filter = localStorage.getItem("sort_method");
+    if (load_filter != undefined) { searchfilter.value = load_filter; }
+} catch (error) {
+    console.warn("localstorage error.");
+}
+
+function window_resize() {
+    const width = window.innerWidth;
+    // const height = window.innerHeight
+
+    small_device.value = width < 742;
+    show_filters.value = !small_device.value;
+}
+
+function filterObject(obj) {
+    return {
+        user_id: obj.user_id,
+        user_name: obj.user_name,
+        title: obj.title,
+        viewer_count: obj.viewer_count,
+        started_at: obj.started_at,
+        thumbnail_url: obj.thumbnail_url
+    };
+}
+
+async function get_streamers() {
+    const streaming_list_update = new CustomEvent('streaming-list-update', {
+        detail: {
+            message: ''
+        }
+    });
+    let api_response = await api.fetch_or_cache(
+        import.meta.env.VERCEL_ENV == "production"
+            ? "/api/streamers"
+            : import.meta.env.VITE_SEARCH_SERVER,
+        "streamers"
+    );
+
+    if (api_response == {}) { api_response = []; }
+
+    streamers.value = api_response.map(filterObject);
+
+    setTimeout(() => {
+        window.dispatchEvent(streaming_list_update);
+    }, 100);
+}
+
+function set_filter(new_filter) {
+    if (new_filter == "shuffle") {
+        if (streamers.value.length != 0) {
+            searchfilter.value = `shuffle-${Math.random().toString().substring(2, 3)}`;
+        }
+    } else {
+        searchfilter.value = new_filter;
+    }
+    
+}
+
+onBeforeMount(() => {
+    get_streamers();
+});
+
+onMounted(() => {
+    window_resize();
+    window.addEventListener("resize", window_resize);
+    // save selected filter on page exit
+    window.addEventListener('beforeunload', () => {
+        if (searchfilter.value.includes("shuffle")) {
+            localStorage.setItem("sort_method", "shuffle");
+        } else {
+            localStorage.setItem("sort_method", searchfilter.value);
         }
         
-        return {
-            streamers,
-            views,
-            timer,
-            imgCacheKey,
-            searchword,
-            show_filters,
-            small_device,
-            filter,
-            locale, t
-        };
-    },
-    computed: {
-        filterstreamers() {
-            const { streamers, searchword } = this;
-            const tmp_searchword = searchword.toLowerCase();
-            let tmp_filter = this.filter;
-            const tmp_streamers = streamers.filter((stream) => (
-                stream.title.toLowerCase().includes(tmp_searchword) ||
-                stream.user_name.toLowerCase().includes(tmp_searchword)
-            ));
+    });
+    if (timer.value == null) {
+        timer.value = setInterval(() => {
+            get_streamers();
+            imgcachekey.value = Math.random().toString().substring(2, 8);
+        }, 300000);
+    }
+});
 
-            if (tmp_filter.toLowerCase().includes("shuffle")) { tmp_filter = "shuffle"; }
+onUpdated(() => {
+    // create a array with only the viewer_count
+    const viewerCount = streamers.value.map(obj => obj.viewer_count);
+    // count all viewers together
+    const totalViewerCount = viewerCount.reduce((acc, count) => acc + count, 0);
 
-            switch (tmp_filter) {
-                case "viewer_high":
-                    return tmp_streamers.sort(function (a, b) {
-                        return a["viewer_count"] - b["viewer_count"];
-                    }).reverse();
-                case "viewer_low":
-                    return tmp_streamers.sort(function (a, b) {
-                        return a["viewer_count"] - b["viewer_count"];
-                    });
-                case "alphabetically_az":
-                    return tmp_streamers.sort(function (a, b) {
-                        const a1 = a["user_name"].toLowerCase();
-                        const b1 = b["user_name"].toLowerCase();
-                        return a1 < b1 ? -1 : a1 > b1 ? 1 : 0;
-                    });
-                case "alphabetically_za":
-                    return tmp_streamers.sort(function (a, b) {
-                        const a1 = a["user_name"].toLowerCase();
-                        const b1 = b["user_name"].toLowerCase();
-                        return a1 < b1 ? -1 : a1 > b1 ? 1 : 0;
-                    }).reverse();
-                case "shuffle":
-                    return this.shuffleArray(tmp_streamers);
-                default:
-                    return tmp_streamers;
-            }
-        },
-    },
-    updated() {
-        // create a array with only the viewer_count
-        const viewerCount = this.streamers.map(obj => obj.viewer_count);
-        // count all viewers together
-        const totalViewerCount = viewerCount.reduce((acc, count) => acc + count, 0);
+    // emit the result to the App.vue component that will pass it to the Pageheader.vue
+    emit("set_viewer_count", totalViewerCount);
+    emit("set_streamer_count", streamers.value.length);
+});
 
-        // emit the result to the App.vue component that will pass it to the Pageheader.vue
-        this.$emit("set_viewer_count", totalViewerCount);
-        this.$emit("set_streamer_count", this.streamers.length);
-    },
-    mounted: function () {
-        this.window_resize();
-        window.addEventListener("resize", this.window_resize);
-        // save selected filter on page exit
-        window.addEventListener('beforeunload', () => {
-            if (this.filter.includes("shuffle")) {
-                localStorage.setItem("sort_method", "shuffle");
-            } else {
-                localStorage.setItem("sort_method", this.filter);
-            }
-            
+onUnmounted(() => {
+    clearInterval(timer.value);
+    window.removeEventListener("resize", window_resize);
+});
+
+// Fisher-Yates shuffle algorithm
+function shuffleArray(array) {
+    let remainingElements = array.length;
+    // Iterate through the array from the last element to the first
+    while (remainingElements) {
+        // Pick a random element from the remaining portion of the array
+        let randId = Math.floor(Math.random() * remainingElements--);
+        // Swap the current element with the random element
+        let tmp = array[remainingElements];
+        array[remainingElements] = array[randId];
+        array[randId] = tmp;
+    }
+    return array;
+}
+
+const filterstreamers = computed(() => {
+    const tmp_searchword = searchword.value.toLowerCase();
+    let local_filter = searchfilter.value;
+    const tmp_streamers = streamers.value.filter((stream) => (
+        stream.title.toLowerCase().includes(tmp_searchword) ||
+        stream.user_name.toLowerCase().includes(tmp_searchword)
+    ));
+
+    if (local_filter.toLowerCase().includes("shuffle")) { local_filter = "shuffle"; }
+
+    switch (local_filter) {
+    case "viewer_high":
+        return tmp_streamers.sort(function (a, b) {
+            return a["viewer_count"] - b["viewer_count"];
+        }).reverse();
+    case "viewer_low":
+        return tmp_streamers.sort(function (a, b) {
+            return a["viewer_count"] - b["viewer_count"];
         });
-        if (this.timer == null) {
-            this.timer = setInterval(() => {
-                this.get_streamers();
-                this.imgcachekey = Math.random().toString().substring(2, 8);
-            }, 300000);
-        }
-    },
-    beforeMount() {
-        this.get_streamers();
-    },
-    unmounted() {
-        clearInterval(this.timer);
-        window.removeEventListener("resize", this.window_resize);
-    },
-    methods: {
-        window_resize() {
-            const width = window.innerWidth;
-            // const height = window.innerHeight
-
-            this.small_device = width < 742;
-            this.show_filters = !this.small_device;
-        },
-        filterObject(obj) {
-            return {
-                user_id: obj.user_id,
-                user_name: obj.user_name,
-                title: obj.title,
-                viewer_count: obj.viewer_count,
-                started_at: obj.started_at,
-                thumbnail_url: obj.thumbnail_url
-            };
-        },
-        async get_streamers() {
-            const streaming_list_update = new CustomEvent('streaming-list-update', {
-              detail: {
-                message: ''
-              }
-            });
-            let api_response = await api.fetch_or_cache(
-                import.meta.env.VERCEL_ENV == "production"
-                    ? "/api/streamers"
-                    : import.meta.env.VITE_SEARCH_SERVER,
-                "streamers"
-            );
-
-            if (api_response == {}) { api_response = []; }
-
-            this.streamers = api_response.map(this.filterObject);
-
-            setTimeout(() => {
-              window.dispatchEvent(streaming_list_update);
-            }, 100);
-        },
-        // Fisher-Yates shuffle algorithm
-        shuffleArray(array) {
-            let remainingElements = array.length;
-            // Iterate through the array from the last element to the first
-            while (remainingElements) {
-                // Pick a random element from the remaining portion of the array
-                let randId = Math.floor(Math.random() * remainingElements--);
-                // Swap the current element with the random element
-                let tmp = array[remainingElements];
-                array[remainingElements] = array[randId];
-                array[randId] = tmp;
-            }
-            return array;
-        },
-        set_filter(filter) {
-            if (filter == "shuffle") {
-                if (this.streamers.length != 0) {
-                    this.filter = `shuffle-${Math.random().toString().substring(2, 3)}`;
-                }
-            } else {
-                this.filter = filter;
-            }
-            
-        }
-    },
-};
+    case "alphabetically_az":
+        return tmp_streamers.sort(function (a, b) {
+            const a1 = a["user_name"].toLowerCase();
+            const b1 = b["user_name"].toLowerCase();
+            return a1 < b1 ? -1 : a1 > b1 ? 1 : 0;
+        });
+    case "alphabetically_za":
+        return tmp_streamers.sort(function (a, b) {
+            const a1 = a["user_name"].toLowerCase();
+            const b1 = b["user_name"].toLowerCase();
+            return a1 < b1 ? -1 : a1 > b1 ? 1 : 0;
+        }).reverse();
+    case "shuffle":
+        return shuffleArray(tmp_streamers);
+    default:
+        return tmp_streamers;
+    }
+});
 </script>
 
 <style lang="scss">

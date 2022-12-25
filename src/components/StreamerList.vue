@@ -162,12 +162,8 @@ async function get_streamers() {
             message: ''
         }
     });
-    let api_response = await api.fetch_or_cache(
-        import.meta.env.VERCEL_ENV == "production"
-            ? "/api/streamers"
-            : import.meta.env.VITE_SEARCH_SERVER,
-        "streamers"
-    );
+    
+    let api_response = await api.fetch_or_cache(import.meta.env.VITE_SEARCH_SERVER, "streamers");
 
     if (api_response == {}) { api_response = []; }
 

@@ -136,14 +136,7 @@ async function fetch_altv_server() {
 }
 
 async function fetch_altv_cdn() {
-    const api_response = await api.fetch_or_cache(
-        import.meta.env.VERCEL_ENV == "production"
-            ? "/api/altv"
-            : `https://api.altv.mp/server/${
-                import.meta.env.VITE_ALTV_SERVER_ID
-            }`,
-        "altv_server_data"
-    );
+    const api_response = await api.fetch_or_cache(`https://api.altv.mp/server/${import.meta.env.VITE_ALTV_SERVER_ID}`,"altv_server_data");
 
     last_update.value = new Date().toLocaleTimeString(locale);
 

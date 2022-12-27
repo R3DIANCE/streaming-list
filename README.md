@@ -10,8 +10,8 @@
 - SASS ([Syntactically Awesome Style Sheets](https://sass-lang.com/))
 - Automatic refresh (alt:V, Twitch)
 - Lazy loading images with ([Intersection Observer](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API))
-- Fast Builds (~20 seconds on Vercel)
-- Small Builds (0.27 MB, with external Font)
+- Fast Builds (~12 seconds on Vercel)
+- Small Builds (0.28 MB, with external Font)
 - Caching API data in localstorage
 - Multi language support (Currently German and English) with Automatic detection.
 - Sort streams by Viewer count and Alphabetically or randomize the list.

@@ -4,28 +4,22 @@
     class="sort"
   >
     <button
-      :class="searchfilter == 'viewer_high' ? 'active' : ''"
-      @click="set_filter('viewer_high')"
+      :class="searchfilter == 'viewer_high'|| searchfilter == 'viewer_low' ? 'active' : ''"
+      @click="set_filter('viewer')"
     >
-      {{ t("sort.viewer_high") }}
+      {{ searchfilter == 'viewer_high' ? t("sort.viewer_low"):t("sort.viewer_high") }}
     </button>
     <button
-      :class="searchfilter == 'viewer_low' ? 'active' : ''"
-      @click="set_filter('viewer_low')"
+      :class="searchfilter == 'alphabetically_az'|| searchfilter == 'alphabetically_za' ? 'active' : ''"
+      @click="set_filter('alphabetically')"
     >
-      {{ t("sort.viewer_low") }}
+      {{ searchfilter == 'alphabetically_az' ? t("sort.alphabetically_za"):t("sort.alphabetically_az") }}
     </button>
     <button
-      :class="searchfilter == 'alphabetically_az' ? 'active' : ''"
-      @click="set_filter('alphabetically_az')"
+      :class="searchfilter == 'runtime_high'|| searchfilter == 'runtime_low' ? 'active' : ''"
+      @click="set_filter('runtime')"
     >
-      {{ t("sort.alphabetically_az") }}
-    </button>
-    <button
-      :class="searchfilter == 'alphabetically_za' ? 'active' : ''"
-      @click="set_filter('alphabetically_za')"
-    >
-      {{ t("sort.alphabetically_za") }}
+      {{ searchfilter == 'runtime_high' ? t("sort.runtime_low"):t("sort.runtime_high") }}
     </button>
     <button
       :class="searchfilter.includes('shuffle') ? 'active' : ''"
@@ -126,7 +120,7 @@ const imgCacheKey = ref(Math.random().toString().substring(2, 8));
 const searchword = useDebouncedRef("", 300);
 const show_filters = ref(true);
 const small_device = ref(false);
-// possible values: alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle
+// possible values: alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle, runtime_high, runtime_low
 // default value: viewer_high
 const searchfilter = ref("viewer_high");
 
@@ -176,14 +170,37 @@ async function get_streamers() {
 }
 
 function set_filter(new_filter) {
-    if (new_filter == "shuffle") {
+    switch (new_filter) {
+    case "shuffle":
         if (streamers.value.length != 0) {
-            searchfilter.value = `shuffle-${Math.random().toString().substring(2, 3)}`;
+            searchfilter.value =  `shuffle-${Math.random().toString().substring(2, 3)}`;
         }
-    } else {
-        searchfilter.value = new_filter;
+        break;
+    case "viewer":
+        if (searchfilter.value == "viewer_high") {
+            searchfilter.value = "viewer_low";
+        } else {
+            searchfilter.value = "viewer_high";
+        }
+        break;
+    case "alphabetically":
+        if (searchfilter.value == "alphabetically_az") {
+            searchfilter.value = "alphabetically_za";
+        } else {
+            searchfilter.value = "alphabetically_az";
+        }
+        break;
+    case "runtime":
+        if (searchfilter.value == "runtime_high") {
+            searchfilter.value = "runtime_low";
+        } else {
+            searchfilter.value = "runtime_high";
+        }
+        break;
+    default:
+        searchfilter.value == "viewer_high";
+        break;
     }
-    
 }
 
 onBeforeMount(() => {
@@ -274,6 +291,18 @@ const filterstreamers = computed(() => {
         }).reverse();
     case "shuffle":
         return shuffleArray(tmp_streamers);
+    case "runtime_high":
+        return tmp_streamers.sort(function (a, b) {
+            const a1 = a["started_at"];
+            const b1 = b["started_at"];
+            return a1 < b1 ? -1 : a1 > b1 ? 1 : 0;
+        }).reverse();
+    case "runtime_low":
+        return tmp_streamers.sort(function (a, b) {
+            const a1 = a["started_at"];
+            const b1 = b["started_at"];
+            return a1 < b1 ? -1 : a1 > b1 ? 1 : 0;
+        });
     default:
         return tmp_streamers;
     }
@@ -295,7 +324,9 @@ const filterstreamers = computed(() => {
             "viewer_low": "Zuschauer ⬇️",
             "alphabetically_az": "alphabetisch 🅰️- 🇿",
             "alphabetically_za": "alphabetisch 🇿 -🅰️",
-            "shuffle": "Zufällig 🎲"
+            "shuffle": "Zufällig 🎲",
+            "runtime_high": "Laufzeit ⌛",
+            "runtime_low": "Laufzeit ⏳"
         }
     },
     "en": {
@@ -307,7 +338,9 @@ const filterstreamers = computed(() => {
             "viewer_low": "Viewer ⬇️",
             "alphabetically_az": "alphabetically 🅰️- 🇿",
             "alphabetically_za": "alphabetically 🇿 -🅰️",
-            "shuffle": "Random 🎲"
+            "shuffle": "Random 🎲",
+            "runtime_high": "Runtime ⌛",
+            "runtime_low": "Runtime ⏳"
         }
     }
 }

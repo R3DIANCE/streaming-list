@@ -104,7 +104,7 @@ export default defineConfig({
     build: {
         manifest: false,
         minify: true,
-        ssrManifest: true,
+        ssrManifest: false,
     },
     server: {
         host: "127.0.0.1",

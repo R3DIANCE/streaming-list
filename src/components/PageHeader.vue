@@ -7,13 +7,13 @@
       <td>
         <h1
           :title="
-            t('header.tooltips.streamer', {
+            t('tooltips.streamer', {
               streamer_count: streamerCount,
             })
           "
         >
           {{
-            t("header.streamer_head", { count: streamerCount })
+            t("streamer_head", { count: streamerCount })
           }}
         </h1>
       </td>
@@ -23,8 +23,8 @@
     <tr
       :title="
         altv_server.version == altv_cdn.version
-          ? t('header.tooltips.altv_version_1')
-          : t('header.tooltips.altv_version_2', {
+          ? t('tooltips.altv_version_1')
+          : t('tooltips.altv_version_2', {
             version: altv_cdn.version,
           })
       "
@@ -36,7 +36,7 @@
           referrerpolicy="no-referrer"
           target="_blank"
         >
-          {{ t("header.altv_head_version") }}
+          {{ t("altv_head_version") }}
         </a>
       </td>
       <td>
@@ -52,8 +52,8 @@
     <tr
       :title="
         altv_server_active
-          ? t('header.tooltips.gameserver_1')
-          : t('header.tooltips.gameserver_2')
+          ? t('tooltips.gameserver_1')
+          : t('tooltips.gameserver_2')
       "
     >
       <td>
@@ -63,7 +63,7 @@
           referrerpolicy="no-referrer"
           target="_blank"
         >
-          {{ t("header.game_server_head") }}
+          {{ t("game_server_head") }}
         </a>
       </td>
       <td>{{ altv_server_active ? "Online ✔️" : "Offline ❌" }}</td>
@@ -71,13 +71,13 @@
     <tr
       :title="
         altv_server_active
-          ? t('header.tooltips.players', {
+          ? t('tooltips.players', {
             player: altv_server.players,
           })
           : ''
       "
     >
-      <td>{{ t("header.players_online_head") }}</td>
+      <td>{{ t("players_online_head") }}</td>
       <td>
         {{
           altv_server_active
@@ -88,12 +88,12 @@
         }}
       </td>
     </tr>
-    <tr :title="t('header.tooltips.viewer', { viewer: viewerCount })">
-      <td>{{ t("header.viewers_head") }}</td>
+    <tr :title="t('tooltips.viewer', { viewer: viewerCount })">
+      <td>{{ t("viewers_head") }}</td>
       <td>{{ viewerCount }}</td>
     </tr>
-    <tr :title="t('header.tooltips.refresh')">
-      <td>{{ t("header.last_refresh_head") }}</td>
+    <tr :title="t('tooltips.refresh')">
+      <td>{{ t("last_refresh_head") }}</td>
       <td>{{ last_update }}</td>
     </tr>
   </table>
@@ -116,11 +116,12 @@ const props = defineProps({
 });
 
 const { locale, t } = useI18n({
-    inheritLocale: true,
+    useScope: 'local',
+    inheritLocale: true
 });
 
 const altv_server_active = ref(false);
-const last_update = ref(t("header.last_update_never"));
+const last_update = ref(t("last_update_never"));
 const update_timer = ref(null);
 const altv_cdn = ref({});
 const altv_server = ref({});
@@ -168,3 +169,46 @@ onUnmounted(() => {
 <style scoped lang="scss">
 @import "../assets/PageHeader.scss";
 </style>
+
+<i18n lang="json">
+{
+    "de": {
+        "streamer_head": "Streamer:innen Online: {count}",
+        "altv_head_version": "alt:V Version:",
+        "game_server_head": "Gameserver Status:",
+        "players_online_head": "Spieler:innen Online:",
+        "viewers_head": "Zuschauer:innen insgesamt:",
+        "last_refresh_head": "Zuletzt aktualisiert:",
+        "last_update_never": "Nie",
+        "tooltips": {
+            "streamer": "Es sind gerade {streamer_count} Streamer:innen live.",
+            "altv_version_1": "Der Server benutzt die aktuellste alt:V Version. ✔️",
+            "altv_version_2": "Der Server benötigt ein alt:V Update. ({version})",
+            "gameserver_1": "Der Gameserver ist Online.",
+            "gameserver_2": "Der Gameserver ist Offline.",
+            "players": "Aktuell spielen {player} Spieler:innen auf dem Server.",
+            "viewer": "Insgesamt schauen {viewer} Zuschauer:innen Streamer:innen von LuckyV zu.",
+            "refresh": "Die Daten auf dieser Website wurden zuletzt um diese Uhrzeit aktualisiert."
+        }
+    },
+    "en": {
+        "streamer_head": "Streamers Online: {count}",
+        "altv_head_version": "alt:V Version:",
+        "game_server_head": "Gameserver Status:",
+        "players_online_head": "Players Online:",
+        "viewers_head": "Total viewers:",
+        "last_refresh_head": "Last refresh:",
+        "last_update_never": "Never",
+        "tooltips": {
+            "streamer": "There are {streamer_count} streamers live right now.",
+            "altv_version_1": "The server is using the latest alt:V Version. ✔️",
+            "altv_version_2": "The server requires a alt:V update. ({version})",
+            "gameserver_1": "The Gameserver is online.",
+            "gameserver_2": "The Gameserver is offline.",
+            "players": "Currently {player} players are playing on the server.",
+            "viewer": "A total of {viewer} viewers are watching streamers from LuckyV.",
+            "refresh": "The data on this website was last updated at this time."
+        }
+    }
+}
+</i18n>

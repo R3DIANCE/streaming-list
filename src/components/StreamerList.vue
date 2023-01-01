@@ -7,31 +7,31 @@
       :class="searchfilter == 'viewer_high' ? 'active' : ''"
       @click="set_filter('viewer_high')"
     >
-      {{ t("streamer.sort.viewer_high") }}
+      {{ t("sort.viewer_high") }}
     </button>
     <button
       :class="searchfilter == 'viewer_low' ? 'active' : ''"
       @click="set_filter('viewer_low')"
     >
-      {{ t("streamer.sort.viewer_low") }}
+      {{ t("sort.viewer_low") }}
     </button>
     <button
       :class="searchfilter == 'alphabetically_az' ? 'active' : ''"
       @click="set_filter('alphabetically_az')"
     >
-      {{ t("streamer.sort.alphabetically_az") }}
+      {{ t("sort.alphabetically_az") }}
     </button>
     <button
       :class="searchfilter == 'alphabetically_za' ? 'active' : ''"
       @click="set_filter('alphabetically_za')"
     >
-      {{ t("streamer.sort.alphabetically_za") }}
+      {{ t("sort.alphabetically_za") }}
     </button>
     <button
       :class="searchfilter.includes('shuffle') ? 'active' : ''"
       @click="set_filter('shuffle')"
     >
-      {{ t("streamer.sort.shuffle") }}
+      {{ t("sort.shuffle") }}
     </button>
   </div>
   <div
@@ -57,12 +57,12 @@
   <div
     v-if="streamers.length > 0"
     class="searchcombo"
-    :title="t('page.searchinfo')"
+    :title="t('searchinfo')"
   >
     <input
       v-model="searchword"
       type="text"
-      :placeholder="t('page.search')"
+      :placeholder="t('search')"
     >
     <div class="clear_input">
       <img
@@ -86,7 +86,7 @@
   </ul>
   <div v-if="streamers.length <= 0">
     <h1 class="nolive">
-      {{ t("page.nolive") }}
+      {{ t("nolive") }}
     </h1>
   </div>
   <a
@@ -116,7 +116,8 @@ import useDebouncedRef from './useDebouncedRef.js';
 const emit = defineEmits(["set_viewer_count", "set_streamer_count"]);
 
 const { t } = useI18n({
-    inheritLocale: true,
+    useScope: 'local',
+    inheritLocale: true
 });
 
 const streamers = ref([]);
@@ -282,3 +283,32 @@ const filterstreamers = computed(() => {
 <style lang="scss">
 @import "../assets/StreamerList.scss";
 </style>
+
+<i18n lang="json">
+{
+    "de": {
+        "search": "Suche...",
+        "searchinfo": "Streamer:in, Stream Titel.",
+        "nolive": "Leider ist aktuell kein Streamer:in live. 😴",
+        "sort": {
+            "viewer_high": "Zuschauer ⬆️",
+            "viewer_low": "Zuschauer ⬇️",
+            "alphabetically_az": "alphabetisch 🅰️- 🇿",
+            "alphabetically_za": "alphabetisch 🇿 -🅰️",
+            "shuffle": "Zufällig 🎲"
+        }
+    },
+    "en": {
+        "search": "Search...",
+        "searchinfo": "Streamer, Stream Title.",
+        "nolive": "Unfortunately there is no streamer live at the moment. 😴",
+        "sort": {
+            "viewer_high": "Viewer ⬆️",
+            "viewer_low": "Viewer ⬇️",
+            "alphabetically_az": "alphabetically 🅰️- 🇿",
+            "alphabetically_za": "alphabetically 🇿 -🅰️",
+            "shuffle": "Random 🎲"
+        }
+    }
+}
+</i18n>

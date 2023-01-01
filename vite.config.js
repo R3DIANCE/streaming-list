@@ -14,7 +14,6 @@ export default defineConfig({
     plugins: [
         vue(),
         VueI18nPlugin({
-            include: path.resolve(__dirname, "./src/locales/**"),
             compositionOnly: true,
             fullInstall: false,
             defaultSFCLang: "json"

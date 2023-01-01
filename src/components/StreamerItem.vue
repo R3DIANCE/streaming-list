@@ -24,18 +24,18 @@
             <table class="card-streamer-table">
               <tr
                 :title="
-                  t('streamer.tooltips.viewer', {
+                  t('tooltips.viewer', {
                     user: stream.user_name,
                     viewer: stream.viewer_count,
                   })
                 "
               >
-                <td>{{ t("streamer.viewer_count") }}</td>
+                <td>{{ t("viewer_count") }}</td>
                 <td>{{ stream.viewer_count }}</td>
               </tr>
               <tr
                 :title="
-                  t('streamer.tooltips.live_since', {
+                  t('tooltips.live_since', {
                     user: stream.user_name,
                     time: new Date(
                       stream.started_at
@@ -44,7 +44,7 @@
                   })
                 "
               >
-                <td>{{ t("streamer.live_since") }}</td>
+                <td>{{ t("live_since") }}</td>
                 <td>{{ calculate_time }}</td>
               </tr>
             </table>
@@ -81,7 +81,8 @@ const props = defineProps({
 });
 
 const { t } = useI18n({
-    inheritLocale: true,
+    useScope: 'local',
+    inheritLocale: true
 });
 const mouseOver = ref(false);
 
@@ -103,3 +104,24 @@ const calculate_time = computed(() => {
 <style scoped lang="scss">
 @import "../assets/StreamerItem.scss";
 </style>
+
+<i18n lang="json">
+{
+    "de": {
+        "viewer_count": "Zuschauer:",
+        "live_since": "Live seit:",
+        "tooltips": {
+            "viewer": "{user} hat gerade {viewer} Zuschauer:innen.",
+            "live_since": "{user} ist live seit {time} Uhr und damit {total_time} Stunden."
+        }
+    },
+    "en": {
+        "viewer_count": "Viewers:",
+        "live_since": "Live since:",
+        "tooltips": {
+            "viewer": "{user} has {viewer} viewers.",
+            "live_since": "{user} is live since {time}, which is {total_time} hours."
+        }
+    }
+}
+</i18n>

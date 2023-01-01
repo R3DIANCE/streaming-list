@@ -25,7 +25,7 @@ export default defineConfig({
                 cleanupOutdatedCaches: false,
                 sourcemap: build_source_map,
                 globPatterns: [
-                    "**/*.{woff2,ttf,eot,woff,svg,css,js,jpg,ico,png,webp,html,json,txt}",
+                    "**/*.{woff2,html,js,css,png,webp,jpg,svg}",
                 ],
             },
             manifest: {

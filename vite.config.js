@@ -27,6 +27,9 @@ export default defineConfig({
                 globPatterns: [
                     "**/*.{woff2,html,js,css,png,webp,jpg,svg}",
                 ],
+                globIgnores: [
+                    "og.png"
+                ]
             },
             manifest: {
                 name: "streaming-list",

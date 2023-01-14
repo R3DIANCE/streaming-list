@@ -5,4 +5,4 @@
   X-Frame-Options: SAMEORIGIN
 
 /
-  Link: </fonts/Courgette-Regular-min.woff2>; rel=preload; as=style
+  Link: </fonts/Courgette-Regular-min.woff2>; rel=preload; as=font/woff2

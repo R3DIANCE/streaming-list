@@ -3,7 +3,6 @@ import { defineConfig, loadEnv } from "vite"
 import vue from "@vitejs/plugin-vue"
 import { VitePWA } from "vite-plugin-pwa"
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
-import path from "path"
 
 const env = loadEnv("production", process.cwd(), '')
 let build_source_map = true;

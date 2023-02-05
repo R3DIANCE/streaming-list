@@ -65,3 +65,14 @@
         width: 33.33%;
     }
 }
+
+@media (prefers-reduced-motion: reduce) {
+    .cards-list-item .card-item {
+        transition: none;
+
+        &:hover {
+            color: black;
+            background-color: #fcd401;
+        }
+    }
+}

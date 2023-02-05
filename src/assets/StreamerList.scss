@@ -69,6 +69,24 @@
     }
 }
 
+@media (prefers-reduced-motion: reduce) {
+    .sort button {
+        transition: none;
+
+        &:hover {
+            color: black;
+            background-color: #fcd401;
+        }
+    }
+
+    .sort .active {
+        &:hover {
+            color: white;
+            background-color: black;
+        }
+    }
+}
+
 @media (max-width: 741px) {
     .sort {
         flex-direction: column;
@@ -127,6 +145,16 @@
     }
 }
 
+@media (prefers-reduced-motion: reduce) {
+    .mock_button img {
+        transition: none;
+
+        &:hover {
+            filter: invert(0%);
+        }
+    }
+}
+
 .nolive {
     text-align: center;
 }
@@ -145,6 +173,16 @@
     img {
         width: 100%;
         height: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .clear_input {
+        transition: none;
+
+        &:hover {
+            filter: invert(0%);
+        }
     }
 }
 

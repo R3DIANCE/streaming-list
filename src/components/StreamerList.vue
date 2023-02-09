@@ -144,7 +144,7 @@ function filterObject(obj) {
     return {
         user_id: obj.user_id,
         user_name: obj.user_name,
-        title: obj.title,
+        title: obj.title.replace(/^(\[LuckyV\]|\[LuckyV.de\]|LuckyV\.de|Lucky V|LuckyV\.de 💛|LuckyV 💛)( |)/, ""),
         viewer_count: obj.viewer_count,
         started_at: obj.started_at,
         thumbnail_url: obj.thumbnail_url

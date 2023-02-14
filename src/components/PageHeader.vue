@@ -1,6 +1,6 @@
 <template>
   <table
-    v-memo="[streamerCount, altv_server, altv_cdn]"
+    v-memo="[streamerCount, altv_server]"
     class="stream_count_table"
   >
     <tr>
@@ -21,13 +21,7 @@
   </table>
   <table class="info_table">
     <tr
-      :title="
-        altv_server.version == altv_cdn.version
-          ? t('tooltips.altv_version_1')
-          : t('tooltips.altv_version_2', {
-            version: altv_cdn.version,
-          })
-      "
+      :title="t('tooltips.altv_version', { version: altv_server.version })"
     >
       <td>
         <a
@@ -42,10 +36,8 @@
       <td>
         {{
           altv_server_active
-            ? altv_server.version == altv_cdn.version
-              ? `${altv_server.version} ✔️`
-              : `${altv_server.version} ⬆️`
-            : "0.0 ❌"
+            ? altv_server.version
+            : "0.0"
         }}
       </td>
     </tr>
@@ -123,21 +115,10 @@ const { locale, t } = useI18n({
 const altv_server_active = ref(false);
 const last_update = ref(t("last_update_never"));
 const update_timer = ref(null);
-const altv_cdn = ref({});
 const altv_server = ref({});
 
 async function fetch_altv_server() {
-    const cdn_response = await api.fetch_or_cache(
-        "https://cdn.altv.mp/server/release/x64_linux/update.json",
-        "altv_server_cdn",
-        60
-    );
-
-    altv_cdn.value = cdn_response;
-}
-
-async function fetch_altv_cdn() {
-    const api_response = await api.fetch_or_cache(`https://api.altv.mp/server/${import.meta.env.VITE_ALTV_SERVER_ID}`,"altv_server_data");
+    const api_response = await api.fetch_or_cache(`https://api.altv.mp/server/${import.meta.env.VITE_ALTV_SERVER_ID}`, "altv_server_data");
 
     last_update.value = new Date().toLocaleTimeString(locale);
 
@@ -148,14 +129,12 @@ async function fetch_altv_cdn() {
 }
 
 onBeforeMount(() => {
-    fetch_altv_cdn();
     fetch_altv_server();
 });
 
 onMounted(() => {
     if (update_timer.value == null) {
         update_timer.value = setInterval(() => {
-            fetch_altv_cdn();
             fetch_altv_server();
         }, 120000);
     }
@@ -182,8 +161,7 @@ onUnmounted(() => {
         "last_update_never": "Nie",
         "tooltips": {
             "streamer": "Es sind gerade {streamer_count} Streamer:innen live.",
-            "altv_version_1": "Der Server benutzt die aktuellste alt:V Version. ✔️",
-            "altv_version_2": "Der Server benötigt ein alt:V Update. ({version})",
+            "altv_version": "Der Server benutzt die alt:V Version {version}.",
             "gameserver_1": "Der Gameserver ist Online.",
             "gameserver_2": "Der Gameserver ist Offline.",
             "players": "Aktuell spielen {player} Spieler:innen auf dem Server.",
@@ -201,8 +179,7 @@ onUnmounted(() => {
         "last_update_never": "Never",
         "tooltips": {
             "streamer": "There are {streamer_count} streamers live right now.",
-            "altv_version_1": "The server is using the latest alt:V Version. ✔️",
-            "altv_version_2": "The server requires a alt:V update. ({version})",
+            "altv_version": "The server is using alt:V Version {version}.",
             "gameserver_1": "The Gameserver is online.",
             "gameserver_2": "The Gameserver is offline.",
             "players": "Currently {player} players are playing on the server.",

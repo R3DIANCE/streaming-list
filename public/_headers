@@ -1,5 +1,5 @@
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://ajax.cloudflare.com https://static.cloudflareinsights.com/ https://polyfill.io/v3/; style-src 'self' 'unsafe-inline'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; img-src 'self' data: https://static-cdn.jtvnw.net/previews-ttv/ https://static-cdn.jtvnw.net/cf_vods/ https://static-cdn.jtvnw.net/jtv_user_pictures/; frame-src 'none'; connect-src 'self'  https://api.altv.mp/ https://twitch-search-server-de-gta5-2.nickwasused.com/;
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://ajax.cloudflare.com https://static.cloudflareinsights.com/ https://polyfill.io/v3/; style-src 'self' 'unsafe-inline'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; img-src 'self' data: https://static-cdn.jtvnw.net/previews-ttv/ https://static-cdn.jtvnw.net/cf_vods/ https://static-cdn.jtvnw.net/jtv_user_pictures/; frame-src 'none'; connect-src 'self' https://api.altv.mp/ https://twitch-search-server-de-gta5-2.nickwasused.com/; report-uri https://nickwasused.report-uri.com/r/d/csp/enforce;
   Permissions-Policy: interest-cohort=()
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: SAMEORIGIN

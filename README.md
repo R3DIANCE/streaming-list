@@ -14,10 +14,10 @@
 - Small Builds (0.28 MB, with external Font)
 - Caching API data in localstorage
 - Multi language support (Currently German and English) with Automatic detection.
-- Sort streams by Viewer count and Alphabetically or randomize the list.
+- Sort streams by Viewer count, Alphabetically, runtime or randomize the list.
 - Search streams by title or Username.
-- Show the status of the game server, e.g. if the Version is up-to-date or if the server is online.
-- Tooltips to describe values, e.g. Game server status or total viewers.
+- Show the status of the game server, e.g. if the server is online.
+- Tooltips to describe values.
 
 # Preview
 ![streaming-list-de-preview](./github-images/preview/preview-de.webp)

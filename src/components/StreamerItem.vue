@@ -8,15 +8,12 @@
     >
       <div
         class="card-item"
-        @mouseover="mouseOver = true"
-        @mouseleave="mouseOver = false"
       >
         <TwitchImage
-          v-memo="[cacheKey, mouseOver]"
+          v-memo="[cacheKey]"
           :thumbnail-url="stream.thumbnail_url"
           :user-name="stream.user_name"
           :cache-key="cacheKey"
-          :mouse-over="mouseOver"
         />
         <div class="card-content">
           <div class="card-text">
@@ -84,7 +81,6 @@ const { t } = useI18n({
     useScope: 'local',
     inheritLocale: true
 });
-const mouseOver = ref(false);
 
 const calculate_time = computed(() => {
     // Stream runtime calculation

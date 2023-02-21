@@ -20,8 +20,12 @@
         &:hover {
             color: white;
             background-color: black;
-        }
 
+            .card-image .external {
+                display: inline;
+            }
+        }
+        
         .card-content {
             display: flex;
             flex-grow: 1;

@@ -26,7 +26,6 @@
       >
     </div>
     <img
-      v-if="mouseOver"
       class="external"
       src="../assets/img/site/external.svg"
     >
@@ -46,11 +45,7 @@ const props = defineProps({
     cacheKey: {
         type: String,
         required: true,
-    },
-    mouseOver: {
-        type: Boolean,
-        required: true,
-    },
+    }
 });
 </script>
 

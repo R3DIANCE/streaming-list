@@ -3,4 +3,4 @@
   Permissions-Policy: interest-cohort=()
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: SAMEORIGIN
-  Link: <https://twitch-search-server-1.nickwasused.com>; rel="preconnect", <https://api.altv.mp>; rel="preconnect", <https://static-cdn.jtvnw.net>; rel="preconnect", </fonts/Courgette-Regular-min.woff2>; rel="preload"; type="font/woff2"
+  Link: <https://twitch-search-server-1.nickwasused.com>; rel="preconnect", <https://api.alt-mp.com>; rel="preconnect", <https://static-cdn.jtvnw.net>; rel="preconnect", </fonts/Courgette-Regular-min.woff2>; rel="preload"; as="font"; type="font/woff2" 

@@ -50,7 +50,7 @@
     >
       <td>
         <a
-          :href="`https://api.altv.mp/server/${altv_server['id']}`"
+          :href="`https://api.alt-mp.com/server/${altv_server['id']}`"
           rel="noopener noreferrer"
           referrerpolicy="no-referrer"
           target="_blank"

@@ -118,7 +118,7 @@ const update_timer = ref(null);
 const altv_server = ref({});
 
 async function fetch_altv_server() {
-    const api_response = await api.fetch_or_cache(`https://api.altv.mp/server/${import.meta.env.VITE_ALTV_SERVER_ID}`, "altv_server_data");
+    const api_response = await api.fetch_or_cache(`https://api.alt-mp.com/server/${import.meta.env.VITE_ALTV_SERVER_ID}`, "altv_server_data");
 
     last_update.value = new Date().toLocaleTimeString(locale);
 

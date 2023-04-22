@@ -270,21 +270,21 @@ const filterstreamers = computed(() => {
 
     switch (local_filter) {
     case "viewer_high":
-        return tmp_streamers.sort(function (a, b) {
+        return [...tmp_streamers].sort(function (a, b) {
             return a["viewer_count"] - b["viewer_count"];
         }).reverse();
     case "viewer_low":
-        return tmp_streamers.sort(function (a, b) {
+        return [...tmp_streamers].sort(function (a, b) {
             return a["viewer_count"] - b["viewer_count"];
         });
     case "alphabetically_az":
-        return tmp_streamers.sort(function (a, b) {
+        return [...tmp_streamers].sort(function (a, b) {
             const a1 = a["user_name"].toLowerCase();
             const b1 = b["user_name"].toLowerCase();
             return a1 < b1 ? -1 : a1 > b1 ? 1 : 0;
         });
     case "alphabetically_za":
-        return tmp_streamers.sort(function (a, b) {
+        return [...tmp_streamers].sort(function (a, b) {
             const a1 = a["user_name"].toLowerCase();
             const b1 = b["user_name"].toLowerCase();
             return a1 < b1 ? -1 : a1 > b1 ? 1 : 0;
@@ -292,13 +292,13 @@ const filterstreamers = computed(() => {
     case "shuffle":
         return shuffleArray(tmp_streamers);
     case "runtime_high":
-        return tmp_streamers.sort(function (a, b) {
+        return [...tmp_streamers].sort(function (a, b) {
             const a1 = a["started_at"];
             const b1 = b["started_at"];
             return a1 < b1 ? -1 : a1 > b1 ? 1 : 0;
         }).reverse();
     case "runtime_low":
-        return tmp_streamers.sort(function (a, b) {
+        return [...tmp_streamers].sort(function (a, b) {
             const a1 = a["started_at"];
             const b1 = b["started_at"];
             return a1 < b1 ? -1 : a1 > b1 ? 1 : 0;

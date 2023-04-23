@@ -24,7 +24,7 @@ const api = {
                 };
                 localStorage.setItem(key, JSON.stringify(save_item));
             } catch (error) {
-                console.warn(`error while fetching resource: ${error}`);
+                console.warn(`error while fetching resource: ${url}, ${key} ${error}`);
                 if (local_item == undefined) {
                     return {};
                 } else {

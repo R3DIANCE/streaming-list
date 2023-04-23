@@ -128,8 +128,8 @@ async function fetch_altv_server() {
     }
 }
 
-onBeforeMount(() => {
-    fetch_altv_server();
+onBeforeMount(async () => {
+    await fetch_altv_server();
 });
 
 onMounted(() => {

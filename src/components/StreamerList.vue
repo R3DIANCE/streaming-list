@@ -204,8 +204,8 @@ function set_filter(new_filter) {
     }
 }
 
-onBeforeMount(() => {
-    get_streamers();
+onBeforeMount(async () => {
+    await get_streamers();
 });
 
 onMounted(() => {

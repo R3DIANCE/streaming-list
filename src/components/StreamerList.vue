@@ -122,7 +122,6 @@ const show_filters = ref(true);
 const small_device = ref(false);
 // possible values: alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle, runtime_high, runtime_low
 // default value: viewer_high
-const old_searchfilter = ref("viewer_high");
 const searchfilter = ref("viewer_high");
 
 // load filter from localstorage
@@ -153,12 +152,6 @@ function filterObject(obj) {
 }
 
 async function get_streamers() {
-    const streaming_list_update = new CustomEvent('streaming-list-update', {
-        detail: {
-            message: ''
-        }
-    });
-    
     let api_response = await api.fetch_or_cache(import.meta.env.VITE_SEARCH_SERVER, "streamers");
 
     if (api_response == {}) { api_response = []; }
@@ -166,6 +159,11 @@ async function get_streamers() {
     streamers.value = api_response.map(filterObject);
 
     setTimeout(() => {
+        const streaming_list_update = new CustomEvent('streaming-list-update', {
+            detail: {
+                message: ''
+            }
+        });
         window.dispatchEvent(streaming_list_update);
     }, 100);
 }
@@ -232,6 +230,7 @@ onMounted(() => {
 onUpdated(() => {
     // create a array with only the viewer_count
     const viewerCount = streamers.value.map(obj => obj.viewer_count);
+
     // count all viewers together
     const totalViewerCount = viewerCount.reduce((acc, count) => acc + count, 0);
 
@@ -268,10 +267,6 @@ const filterstreamers = computed(() => {
         stream.title.toLowerCase().includes(tmp_searchword) ||
         stream.user_name.toLowerCase().includes(tmp_searchword)
     ));
-
-    if (old_searchfilter.value == searchfilter.value) { return tmp_streamers }
-
-    old_searchfilter.value = searchfilter.value;
 
     if (local_filter.toLowerCase().includes("shuffle")) { local_filter = "shuffle"; }
 

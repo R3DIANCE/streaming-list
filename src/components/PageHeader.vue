@@ -151,7 +151,7 @@ onUnmounted(() => {
 
 <i18n lang="json">
 {
-    "de": {
+    "de-DE": {
         "streamer_head": "Streamer:innen Online: {count}",
         "altv_head_version": "alt:V Version:",
         "game_server_head": "Gameserver Status:",
@@ -169,7 +169,7 @@ onUnmounted(() => {
             "refresh": "Die Daten auf dieser Website wurden zuletzt um diese Uhrzeit aktualisiert."
         }
     },
-    "en": {
+    "en-US": {
         "streamer_head": "Streamers Online: {count}",
         "altv_head_version": "alt:V Version:",
         "game_server_head": "Gameserver Status:",

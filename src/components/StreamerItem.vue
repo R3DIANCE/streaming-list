@@ -103,7 +103,7 @@ const calculate_time = computed(() => {
 
 <i18n lang="json">
 {
-    "de": {
+    "de-DE": {
         "viewer_count": "Zuschauer:",
         "live_since": "Live seit:",
         "tooltips": {
@@ -111,7 +111,7 @@ const calculate_time = computed(() => {
             "live_since": "{user} ist live seit {time} Uhr und damit {total_time} Stunden."
         }
     },
-    "en": {
+    "en-US": {
         "viewer_count": "Viewers:",
         "live_since": "Live since:",
         "tooltips": {

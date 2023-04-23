@@ -122,6 +122,7 @@ const show_filters = ref(true);
 const small_device = ref(false);
 // possible values: alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle, runtime_high, runtime_low
 // default value: viewer_high
+const old_searchfilter = ref("viewer_high");
 const searchfilter = ref("viewer_high");
 
 // load filter from localstorage
@@ -210,6 +211,7 @@ onBeforeMount(() => {
 onMounted(() => {
     window_resize();
     window.addEventListener("resize", window_resize);
+
     // save selected filter on page exit
     window.addEventListener('beforeunload', () => {
         if (searchfilter.value.includes("shuffle")) {
@@ -261,10 +263,15 @@ function shuffleArray(array) {
 const filterstreamers = computed(() => {
     const tmp_searchword = searchword.value.toLowerCase();
     let local_filter = searchfilter.value;
+
     const tmp_streamers = streamers.value.filter((stream) => (
         stream.title.toLowerCase().includes(tmp_searchword) ||
         stream.user_name.toLowerCase().includes(tmp_searchword)
     ));
+
+    if (old_searchfilter.value == searchfilter.value) { return tmp_streamers }
+
+    old_searchfilter.value = searchfilter.value;
 
     if (local_filter.toLowerCase().includes("shuffle")) { local_filter = "shuffle"; }
 

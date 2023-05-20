@@ -20,7 +20,7 @@ const i18n = VueI18n.createI18n({
     silentTranslationWarn: true,
     defaultSFCLang: "json",
     locale: window.navigator.language,
-    fallbackLocale: "en",
+    fallbackLocale: "en-US",
     globalInjection: false
 });
 

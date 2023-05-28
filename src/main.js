@@ -1,4 +1,6 @@
-import { createApp } from "vue";
+import { createApp, provide, h } from 'vue'
+import { DefaultApolloClient } from '@vue/apollo-composable'
+import { ApolloClient, InMemoryCache } from '@apollo/client/core'
 import App from "./App.vue";
 import LazyLoadDirective from "./directives/LazyLoadDirective.js";
 import { registerSW } from "virtual:pwa-register";
@@ -8,7 +10,20 @@ window.addEventListener("load", () => {
     registerSW({ immediate: true });
 });
 
-const app = createApp(App);
+const cache = new InMemoryCache();
+
+const apolloClient = new ApolloClient({
+    cache,
+    uri: 'https://twitch-search-server-de-gta5-1.nickwasused.com/graphql',
+  })
+
+const app = createApp({
+    setup () {
+        provide(DefaultApolloClient, apolloClient)
+    },
+
+    render: () => h(App),
+})
 
 app.directive("lazyload", LazyLoadDirective);
 

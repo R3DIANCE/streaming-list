@@ -111,6 +111,8 @@ import { useQuery } from '@vue/apollo-composable'
 
 const STREAMERS_QUERY = gql`
   query {
+    getViewerCount(title: "luckyv,lucky v")
+    getStreamerCount(title: "luckyv,lucky v")
     Streamers(title: "luckyv,lucky v") {
       user_id
       user_name
@@ -130,6 +132,22 @@ const { t } = useI18n({
 });
 
 const { result, loading, error, refetch } = useQuery(STREAMERS_QUERY);
+
+const streamer_count = computed(() => result.value?.getStreamerCount ?? 0);
+const viewer_count = computed(() => result.value?.getViewerCount ?? 0);
+const streamers = computed(() => {
+    setTimeout(() => {
+        const streaming_list_update = new CustomEvent('streaming-list-update', {
+            detail: {
+                message: ''
+            }
+        });
+        window.dispatchEvent(streaming_list_update);
+    }, 100);
+
+    return result.value?.Streamers ?? [];
+})
+
 const timer = ref(null);
 const imgCacheKey = ref(Math.random().toString().substring(2, 8));
 const searchword = useDebouncedRef("", 300);
@@ -211,15 +229,9 @@ onMounted(() => {
 });
 
 onUpdated(() => {
-    // create a array with only the viewer_count
-    const viewerCount = streamers.value.map(obj => obj.viewer_count);
-
-    // count all viewers together
-    const totalViewerCount = viewerCount.reduce((acc, count) => acc + count, 0);
-
     // emit the result to the App.vue component that will pass it to the Pageheader.vue
-    emit("set_viewer_count", totalViewerCount);
-    emit("set_streamer_count", streamers.value.length);
+    emit("set_viewer_count", viewer_count.value);
+    emit("set_streamer_count", streamer_count.value);
 });
 
 onUnmounted(() => {
@@ -241,19 +253,6 @@ function shuffleArray(array) {
     }
     return array;
 }
-
-const streamers = computed(() => {
-    setTimeout(() => {
-        const streaming_list_update = new CustomEvent('streaming-list-update', {
-            detail: {
-                message: ''
-            }
-        });
-        window.dispatchEvent(streaming_list_update);
-    }, 100);
-
-    return result.value?.Streamers ?? [];
-})
 
 const filterstreamers = computed(() => {
     const tmp_searchword = searchword.value.toLowerCase();

@@ -1,6 +1,6 @@
 <template>
   <table
-    v-memo="[streamerCount, altv_server]"
+    v-memo="[streamer_count, viewer_count, altv_server]"
     class="stream_count_table"
   >
     <tr>
@@ -8,12 +8,12 @@
         <h1
           :title="
             t('tooltips.streamer', {
-              streamer_count: streamerCount,
+              streamer_count: streamer_count,
             })
           "
         >
           {{
-            t("streamer_head", { count: streamerCount })
+            t("streamer_head", { count: streamer_count })
           }}
         </h1>
       </td>
@@ -80,9 +80,9 @@
         }}
       </td>
     </tr>
-    <tr :title="t('tooltips.viewer', { viewer: viewerCount })">
+    <tr :title="t('tooltips.viewer', { viewer: viewer_count })">
       <td>{{ t("viewers_head") }}</td>
-      <td>{{ viewerCount }}</td>
+      <td>{{ viewer_count }}</td>
     </tr>
     <tr :title="t('tooltips.refresh')">
       <td>{{ t("last_refresh_head") }}</td>
@@ -92,25 +92,28 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, onBeforeMount, ref } from "vue";
+import { onMounted, onUnmounted, onBeforeMount, ref, computed } from "vue";
 import { useI18n } from "vue-i18n";
 import api from "../mixins/api.js";
-
-const props = defineProps({
-    viewerCount: {
-        type: Number,
-        default: 0
-    },
-    streamerCount: {
-        type: Number,
-        default: 0
-    },
-});
+import gql from 'graphql-tag'
+import { useQuery } from '@vue/apollo-composable'
 
 const { locale, t } = useI18n({
     useScope: 'local',
     inheritLocale: true
 });
+
+const COUNT_QUERY = gql`
+  query {
+    getViewerCount(title: "luckyv,lucky v")
+    getStreamerCount(title: "luckyv,lucky v")
+  }
+`
+
+const { result, loading, error, refetch } = useQuery(COUNT_QUERY);
+
+const streamer_count = computed(() => result.value?.getStreamerCount ?? 0);
+const viewer_count = computed(() => result.value?.getViewerCount ?? 0);
 
 const altv_server_active = ref(false);
 const last_update = ref(t("last_update_never"));
@@ -136,6 +139,7 @@ onMounted(() => {
     if (update_timer.value == null) {
         update_timer.value = setInterval(() => {
             fetch_altv_server();
+            refetch();
         }, 120000);
     }
 });

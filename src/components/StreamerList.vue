@@ -102,7 +102,7 @@
 </template>
 
 <script setup>
-import { ref, onUnmounted, onUpdated, onMounted, onBeforeMount, computed } from "vue";
+import { ref, onUnmounted, onMounted, computed } from "vue";
 import { useI18n } from "vue-i18n";
 import StreamerItem from "./StreamerItem.vue";
 import useDebouncedRef from './useDebouncedRef.js';
@@ -111,8 +111,6 @@ import { useQuery } from '@vue/apollo-composable'
 
 const STREAMERS_QUERY = gql`
   query {
-    getViewerCount(title: "luckyv,lucky v")
-    getStreamerCount(title: "luckyv,lucky v")
     Streamers(title: "luckyv,lucky v") {
       user_id
       user_name
@@ -133,8 +131,6 @@ const { t } = useI18n({
 
 const { result, loading, error, refetch } = useQuery(STREAMERS_QUERY);
 
-const streamer_count = computed(() => result.value?.getStreamerCount ?? 0);
-const viewer_count = computed(() => result.value?.getViewerCount ?? 0);
 const streamers = computed(() => {
     setTimeout(() => {
         const streaming_list_update = new CustomEvent('streaming-list-update', {
@@ -226,12 +222,6 @@ onMounted(() => {
             imgcachekey.value = Math.random().toString().substring(2, 8);
         }, 300000);
     }
-});
-
-onUpdated(() => {
-    // emit the result to the App.vue component that will pass it to the Pageheader.vue
-    emit("set_viewer_count", viewer_count.value);
-    emit("set_streamer_count", streamer_count.value);
 });
 
 onUnmounted(() => {

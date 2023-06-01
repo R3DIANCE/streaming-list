@@ -1,9 +1,9 @@
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://ajax.cloudflare.com https://static.cloudflareinsights.com/; style-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; img-src 'self' data: https://static-cdn.jtvnw.net/previews-ttv/ https://static-cdn.jtvnw.net/cf_vods/ https://static-cdn.jtvnw.net/jtv_user_pictures/; frame-src 'none'; connect-src 'self' https://api.alt-mp.com/ https://twitch-search-server-de-gta5-1.nickwasused.com/; report-uri https://nickwasused.report-uri.com/r/d/csp/enforce;
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://ajax.cloudflare.com https://static.cloudflareinsights.com/; style-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; img-src 'self' data: https://static-cdn.jtvnw.net/previews-ttv/ https://static-cdn.jtvnw.net/cf_vods/ https://static-cdn.jtvnw.net/jtv_user_pictures/; frame-src 'none'; connect-src 'self' https://api.alt-mp.com/ https://tts-de-gta5.nickwasused.com/; report-uri https://nickwasused.report-uri.com/r/d/csp/enforce;
   Permissions-Policy: interest-cohort=()
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: SAMEORIGIN
-  Link: <https://twitch-search-server-1.nickwasused.com>; rel="preconnect", <https://api.alt-mp.com>; rel="preconnect", <https://static-cdn.jtvnw.net>; rel="preconnect"
+  Link: <https://tts-de-gta5.nickwasused.com/>; rel="preconnect", <https://api.alt-mp.com>; rel="preconnect", <https://static-cdn.jtvnw.net>; rel="preconnect"
   Cross-Origin-Embedder-Policy: require-corp; report-to="default"
   Cross-Origin-Opener-Policy: same-origin; report-to="default"
   Cross-Origin-Resource-Policy: same-site

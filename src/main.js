@@ -14,7 +14,7 @@ const cache = new InMemoryCache();
 
 const apolloClient = new ApolloClient({
     cache,
-    uri: 'https://twitch-search-server-de-gta5-1.nickwasused.com/graphql',
+    uri: 'https://tts-de-gta5.nickwasused.com/graphql',
   })
 
 const app = createApp({

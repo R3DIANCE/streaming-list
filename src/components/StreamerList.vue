@@ -102,47 +102,21 @@
 </template>
 
 <script setup>
-import { ref, onUnmounted, onMounted, computed } from "vue";
+import { ref, onUnmounted, onMounted, computed, toRefs } from "vue";
 import { useI18n } from "vue-i18n";
 import StreamerItem from "./StreamerItem.vue";
 import useDebouncedRef from './useDebouncedRef.js';
-import gql from 'graphql-tag'
-import { useQuery } from '@vue/apollo-composable'
-
-const STREAMERS_QUERY = gql`
-  query {
-    Streamers(title: "luckyv,lucky v") {
-      user_id
-      user_name
-      title
-      viewer_count
-      started_at
-      thumbnail_url
-    }
-  }
-`
-
-const emit = defineEmits(["set_viewer_count", "set_streamer_count"]);
 
 const { t } = useI18n({
     useScope: 'local',
     inheritLocale: true
 });
 
-const { result, loading, error, refetch } = useQuery(STREAMERS_QUERY);
-
-const streamers = computed(() => {
-    setTimeout(() => {
-        const streaming_list_update = new CustomEvent('streaming-list-update', {
-            detail: {
-                message: ''
-            }
-        });
-        window.dispatchEvent(streaming_list_update);
-    }, 100);
-
-    return result.value?.Streamers ?? [];
+const props = defineProps({
+  streamers: Array
 })
+
+const { streamers } = toRefs(props);
 
 const timer = ref(null);
 const imgCacheKey = ref(Math.random().toString().substring(2, 8));

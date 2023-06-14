@@ -92,28 +92,19 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, onBeforeMount, ref, computed } from "vue";
+import { onMounted, onUnmounted, onBeforeMount, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import api from "../mixins/api.js";
-import gql from 'graphql-tag'
-import { useQuery } from '@vue/apollo-composable'
 
 const { locale, t } = useI18n({
     useScope: 'local',
     inheritLocale: true
 });
 
-const COUNT_QUERY = gql`
-  query {
-    getViewerCount(title: "luckyv,lucky v")
-    getStreamerCount(title: "luckyv,lucky v")
-  }
-`
-
-const { result, loading, error, refetch } = useQuery(COUNT_QUERY);
-
-const streamer_count = computed(() => result.value?.getStreamerCount ?? 0);
-const viewer_count = computed(() => result.value?.getViewerCount ?? 0);
+const props = defineProps({
+  streamer_count: Number,
+  viewer_count: Number
+})
 
 const altv_server_active = ref(false);
 const last_update = ref(t("last_update_never"));

@@ -118,7 +118,6 @@ const props = defineProps({
 
 const { streamers } = toRefs(props);
 
-const timer = ref(null);
 const imgCacheKey = ref(Math.random().toString().substring(2, 8));
 const searchword = useDebouncedRef("", 300);
 const show_filters = ref(true);
@@ -190,16 +189,9 @@ onMounted(() => {
         }
         
     });
-    if (timer.value == null) {
-        timer.value = setInterval(() => {
-            refetch();
-            imgcachekey.value = Math.random().toString().substring(2, 8);
-        }, 300000);
-    }
 });
 
 onUnmounted(() => {
-    clearInterval(timer.value);
     window.removeEventListener("resize", window_resize);
 });
 

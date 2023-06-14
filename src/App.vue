@@ -4,11 +4,27 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref, onMounted, onUnmounted } from "vue";
 import PageHeader from "./components/PageHeader.vue";
 import StreamerList from "./components/StreamerList.vue";
 import gql from 'graphql-tag'
 import { useQuery } from '@vue/apollo-composable'
+
+const timer = ref(null);
+
+onMounted(() => {
+    if (timer.value == null) {
+        timer.value = setInterval(() => {
+            refetch();
+            imgcachekey.value = Math.random().toString().substring(2, 8);
+        }, 300000);
+    }
+});
+
+onUnmounted(() => {
+    clearInterval(timer.value);
+    window.removeEventListener("resize", window_resize);
+});
 
 const { result, loading, error, refetch } = useQuery(gql`
   query {

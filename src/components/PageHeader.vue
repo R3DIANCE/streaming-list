@@ -130,7 +130,6 @@ onMounted(() => {
     if (update_timer.value == null) {
         update_timer.value = setInterval(() => {
             fetch_altv_server();
-            refetch();
         }, 120000);
     }
 });

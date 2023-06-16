@@ -113,8 +113,8 @@ const { t } = useI18n({
 });
 
 const props = defineProps({
-  streamers: Array
-})
+    streamers: Array
+});
 
 const { streamers } = toRefs(props);
 

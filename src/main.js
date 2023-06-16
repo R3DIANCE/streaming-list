@@ -1,6 +1,6 @@
-import { createApp, provide, h } from 'vue'
-import { DefaultApolloClient } from '@vue/apollo-composable'
-import { ApolloClient, InMemoryCache } from '@apollo/client/core'
+import { createApp, provide, h } from 'vue';
+import { DefaultApolloClient } from '@vue/apollo-composable';
+import { ApolloClient, InMemoryCache } from '@apollo/client/core';
 import App from "./App.vue";
 import LazyLoadDirective from "./directives/LazyLoadDirective.js";
 import { registerSW } from "virtual:pwa-register";
@@ -15,15 +15,15 @@ const cache = new InMemoryCache();
 const apolloClient = new ApolloClient({
     cache,
     uri: 'https://tts-de-gta5.nickwasused.com/graphql',
-  })
+});
 
 const app = createApp({
     setup () {
-        provide(DefaultApolloClient, apolloClient)
+        provide(DefaultApolloClient, apolloClient);
     },
 
     render: () => h(App),
-})
+});
 
 app.directive("lazyload", LazyLoadDirective);
 

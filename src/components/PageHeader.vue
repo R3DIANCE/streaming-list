@@ -102,9 +102,9 @@ const { locale, t } = useI18n({
 });
 
 const props = defineProps({
-  streamer_count: Number,
-  viewer_count: Number
-})
+    streamer_count: Number,
+    viewer_count: Number
+});
 
 const altv_server_active = ref(false);
 const last_update = ref(t("last_update_never"));

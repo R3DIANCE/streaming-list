@@ -1,5 +1,5 @@
 <template>
-  <PageHeader :viewer_count="viewer_count" :streamer_count="streamer_count" />
+  <PageHeader :viewer_count="viewer_count" :streamer_count="streamers.length" />
   <StreamerList :streamers="streamers" />
 </template>
 
@@ -42,7 +42,6 @@ const { result, loading, error, refetch } = useQuery(gql`
 
 const viewer_count = computed(() => result.value?.getViewerCount ?? 0);
 const streamers = computed(() => result.value?.Streamers ?? []);
-const streamer_count = streamers.lenght;
 </script>
 
 <style lang="scss">

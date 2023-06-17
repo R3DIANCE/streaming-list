@@ -268,7 +268,7 @@ const filterstreamers = computed(() => {
 
 <i18n lang="json">
 {
-    "de-DE": {
+    "de": {
         "search": "Suche...",
         "searchinfo": "Streamer:in, Stream Titel.",
         "nolive": "Leider ist aktuell kein Streamer:in live. 😴",
@@ -283,7 +283,7 @@ const filterstreamers = computed(() => {
         },
         "up": "Zurück nach oben."
     },
-    "en-US": {
+    "en": {
         "search": "Search...",
         "searchinfo": "Streamer, Stream Title.",
         "nolive": "Unfortunately there is no streamer live at the moment. 😴",

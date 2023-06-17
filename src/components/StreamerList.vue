@@ -68,7 +68,6 @@
   </div>
   <ul
     v-if="streamers.length > 0"
-    v-memo="[streamers, imgCacheKey, searchfilter, searchword]"
     class="cards"
   >
     <StreamerItem

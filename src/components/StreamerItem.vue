@@ -10,7 +10,6 @@
         class="card-item"
       >
         <TwitchImage
-          v-memo="[cacheKey]"
           :thumbnail-url="stream.thumbnail_url"
           :user-name="stream.user_name"
           :cache-key="cacheKey"

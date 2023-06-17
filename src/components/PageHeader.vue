@@ -1,6 +1,5 @@
 <template>
   <table
-    v-memo="[streamer_count, viewer_count, altv_server]"
     class="stream_count_table"
   >
     <tr>

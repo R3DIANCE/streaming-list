@@ -42,13 +42,14 @@
         flex-direction: column;
         appearance: none;
         background-color: #fcd401;
-        border: 1px solid rgba(27, 31, 35, .15);
+        border: 1px solid rgba(27, 31, 35, 0.15);
         border-radius: 6px;
-        box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
+        box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
         box-sizing: border-box;
         color: black;
         cursor: pointer;
-        font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+        font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
+            sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
         font-size: 14px;
         font-weight: 600;
         line-height: 20px;

@@ -1,32 +1,29 @@
 {
-  "name": "streaming-list",
-  "version": "1.0.2",
-  "license": "MPL-2.0",
-  "scripts": {
-    "build": "vite build",
-    "build2": "vite-bundle-visualizer",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .eslintignore",
-    "dev": "vite",
-    "preview": "vite preview --port 5050",
-    "pwa": "pnpm run build && npx http-server dist"
-  },
-  "dependencies": {
-    "@intlify/unplugin-vue-i18n": "^0.11.0",
-    "@vitejs/plugin-vue": "^4.2.3",
-    "sass": "^1.63.3",
-    "villus": "^3.1.0",
-    "vite": "^4.3.9",
-    "vite-plugin-pwa": "^0.16.4",
-    "vue": "^3.3.4",
-    "vue-i18n": "^9.2.2",
-    "workbox-window": "^7.0.0"
-  },
-  "devDependencies": {
-    "@rushstack/eslint-patch": "^1.3.2",
-    "@vue/eslint-config-prettier": "^7.1.0",
-    "eslint": "^8.42.0",
-    "eslint-plugin-vue": "^9.14.1",
-    "prettier": "^2.8.8",
-    "vite-bundle-visualizer": "^0.7.0"
-  }
+    "name": "streaming-list",
+    "version": "1.0.2",
+    "license": "MPL-2.0",
+    "scripts": {
+        "build": "vite build",
+        "build2": "vite-bundle-visualizer",
+        "format": "prettier .  --write",
+        "dev": "vite",
+        "preview": "vite preview --port 5050",
+        "pwa": "pnpm run build && npx http-server dist"
+    },
+    "dependencies": {
+        "@intlify/unplugin-vue-i18n": "^0.11.0",
+        "@vitejs/plugin-vue": "^4.2.3",
+        "sass": "^1.63.3",
+        "typescript": "^5.1.3",
+        "villus": "^3.1.0",
+        "vite": "^4.3.9",
+        "vite-plugin-pwa": "^0.16.4",
+        "vue": "^3.3.4",
+        "vue-i18n": "^9.2.2",
+        "workbox-window": "^7.0.0"
+    },
+    "devDependencies": {
+        "prettier": "^2.8.8",
+        "vite-bundle-visualizer": "^0.7.0"
+    }
 }

@@ -1,4 +1,4 @@
-import { createApp, provide, h } from 'vue';
+import { createApp } from 'vue';
 import { createClient } from 'villus';
 import App from "./App.vue";
 import LazyLoadDirective from "./directives/LazyLoadDirective.js";

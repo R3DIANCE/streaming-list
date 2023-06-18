@@ -1,6 +1,5 @@
 import { createApp, provide, h } from 'vue';
-import { DefaultApolloClient } from '@vue/apollo-composable';
-import { ApolloClient, InMemoryCache } from '@apollo/client/core';
+import { createClient } from 'villus';
 import App from "./App.vue";
 import LazyLoadDirective from "./directives/LazyLoadDirective.js";
 import { registerSW } from "virtual:pwa-register";
@@ -10,22 +9,12 @@ window.addEventListener("load", () => {
     registerSW({ immediate: true });
 });
 
-const cache = new InMemoryCache();
+const app = createApp(App);
 
-const apolloClient = new ApolloClient({
-    cache,
-    uri: 'https://tts-de-gta5.nickwasused.com/graphql',
+const client = createClient({
+    url: 'https://tts-de-gta5.nickwasused.com/graphql',
+    cachePolicy: 'cache-and-network'
 });
-
-const app = createApp({
-    setup () {
-        provide(DefaultApolloClient, apolloClient);
-    },
-
-    render: () => h(App),
-});
-
-app.directive("lazyload", LazyLoadDirective);
 
 const i18n = VueI18n.createI18n({
     legacy: false,
@@ -39,5 +28,7 @@ const i18n = VueI18n.createI18n({
     globalInjection: false
 });
 
+app.directive("lazyload", LazyLoadDirective);
+app.use(client)
 app.use(i18n);
 app.mount("#app");

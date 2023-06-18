@@ -104,7 +104,7 @@ export default defineConfig({
     },
     build: {
         manifest: false,
-        minify: true,
+        minify: 'esbuild',
         ssrManifest: false,
     },
     server: {

@@ -6,8 +6,8 @@
   <StreamerList
     :streamers="streamers"
   />
-  <div v-if="error">
-    {{ error }}
+  <div v-if="gql_error">
+    {{ gql_error }}
   </div>
 </template>
 
@@ -15,11 +15,11 @@
 import { ref, onMounted, onUnmounted, computed } from "vue";
 import PageHeader from "./components/PageHeader.vue";
 import StreamerList from "./components/StreamerList.vue";
-import gql from 'graphql-tag';
-import { useQuery } from '@vue/apollo-composable';
+import { useQuery } from 'villus';
 
+const gql_error = ref(null);
 const timer = ref(null);
-const { result, error, refetch } = useQuery(gql`
+const QUERY = `
   query {
     getViewerCount(title: "luckyv,lucky v")
     Streamers(title: "luckyv,lucky v") {
@@ -31,15 +31,24 @@ const { result, error, refetch } = useQuery(gql`
       thumbnail_url
     }
   }
-`);
+`;
 
-const viewer_count = computed(() => result.value?.getViewerCount ?? 0);
-const streamers = computed(() => result.value?.Streamers ?? []);
+const { data, execute, onError } = useQuery({
+  query: QUERY,
+});
+
+onError(error => {
+  console.error(error);
+  gql_error.value = error;
+})
+
+const viewer_count = computed(() => data.value?.getViewerCount ?? 0);
+const streamers = computed(() => data.value?.Streamers ?? []);
 
 onMounted(() => {
     if (timer.value == null) {
         timer.value = setInterval(() => {
-            refetch();
+            execute();
             imgcachekey.value = Math.random().toString().substring(2, 8);
         }, 300000);
     }
@@ -47,7 +56,6 @@ onMounted(() => {
 
 onUnmounted(() => {
     clearInterval(timer.value);
-    window.removeEventListener("resize", window_resize);
 });
 </script>
 

@@ -134,6 +134,7 @@ const imgCacheKey = ref<string>(Math.random().toString().substring(2, 8))
 const searchword = useDebouncedRef("", 300, false)
 const show_filters = ref<boolean>(true)
 const small_device = ref<boolean>(false)
+const resize_timeout = ref<number | null>(null)
 // possible values: alphabetically_az, alphabetically_za, viewer_high, viewer_low, shuffle, runtime_high, runtime_low
 // default value: viewer_high
 const searchfilter = ref<string>("viewer_high")
@@ -146,14 +147,6 @@ try {
     }
 } catch (error) {
     console.warn("localstorage error.")
-}
-
-function window_resize() {
-    const width = window.innerWidth
-    // const height = window.innerHeight
-
-    small_device.value = width < 742
-    show_filters.value = !small_device.value
 }
 
 function set_filter(new_filter: string) {
@@ -192,9 +185,32 @@ function set_filter(new_filter: string) {
     }
 }
 
+function window_resize(skip_delay: boolean = false) {
+    if (skip_delay) {
+        const width = window.innerWidth
+        small_device.value = width < 742
+        show_filters.value = !small_device.value
+    } else {
+        if (!resize_timeout.value) {
+            resize_timeout.value = setTimeout(function() {
+                const width = window.innerWidth
+                small_device.value = width < 742
+                show_filters.value = !small_device.value
+                if (resize_timeout.value) {
+                    clearTimeout(resize_timeout.value);
+                    resize_timeout.value = null;
+                }
+            }, 500)
+        }
+    }
+    
+}
+
 onMounted(() => {
-    window_resize()
-    window.addEventListener("resize", window_resize)
+    window_resize(true)
+    window.addEventListener("resize", function() {
+        window_resize(false);
+    });
 
     // save selected filter on page exit
     window.addEventListener("beforeunload", () => {
@@ -208,6 +224,9 @@ onMounted(() => {
 
 onUnmounted(() => {
     window.removeEventListener("resize", window_resize)
+    if (resize_timeout.value) {
+        clearTimeout(resize_timeout.value);
+    }
 })
 
 // Fisher-Yates shuffle algorithm

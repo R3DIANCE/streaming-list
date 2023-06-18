@@ -28,7 +28,7 @@ query {
       started_at
       thumbnail_url
     }
-  }
+}
 `
 
 const { data, execute, onError } = useQuery({

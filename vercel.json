@@ -1,7 +1,7 @@
 {
     "headers": [
     {
-      "source": "/service-worker.js",
+      "source": "/sw.js",
       "headers": [
         {
           "key": "Cache-Control",
@@ -47,6 +47,10 @@
         {
             "key": "Cross-Origin-Resource-Policy",
             "value": "same-site"
+        },
+        {
+            "key": "Content-Security-Policy",
+            "value": "default-src 'self'; script-src 'self'; style-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; img-src 'self' data: https://static-cdn.jtvnw.net/previews-ttv/ https://static-cdn.jtvnw.net/cf_vods/ https://static-cdn.jtvnw.net/jtv_user_pictures/; frame-src 'none'; connect-src 'self' https://api.alt-mp.com/ https://tts-de-gta5.nickwasused.com/; report-uri https://nickwasused.report-uri.com/r/d/csp/enforce;"
         }
       ]
     }

@@ -13,7 +13,11 @@
   Cache-Control: public, max-age=604800
 
 /assets/*.css
+  ! Cache-Control 
   Cache-Control: public, max-age=14400
 
 /sw.js
   Cache-Control: public, must-revalidate
+
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex

@@ -13,6 +13,8 @@
   Cache-Control: public, max-age=2628000
 
 /img/icons/*
+  Cache-Control: public, max-age=604800
+
 /assets/*
   Cache-Control: public, max-age=604800
 

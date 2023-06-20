@@ -9,6 +9,10 @@
   Cross-Origin-Resource-Policy: same-site
   ! Access-Control-Allow-Origin
 
+/fonts/*
+  Cache-Control: public, max-age=2628000
+
+/img/icons/*
 /assets/*
   Cache-Control: public, max-age=604800
 

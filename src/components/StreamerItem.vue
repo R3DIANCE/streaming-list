@@ -1,7 +1,7 @@
 <template>
     <li class="cards-list-item">
         <a
-            :href="'https://twitch.tv/' + stream.user_name"
+            :href="`https://twitch.tv/${stream.user_name}`"
             target="_blank"
             rel="noopener noreferrer"
             referrerpolicy="no-referrer"
@@ -95,7 +95,7 @@ const calculate_time = computed(() => {
 </script>
 
 <style scoped lang="scss">
-@import "../assets/StreamerItem.scss";
+@import "../assets/css/StreamerItem.scss";
 </style>
 
 <i18n lang="json">

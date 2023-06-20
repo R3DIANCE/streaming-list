@@ -59,5 +59,5 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss">
-@import "./assets/app.scss";
+@import "./assets/css/app.scss";
 </style>

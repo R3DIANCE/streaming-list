@@ -62,7 +62,7 @@
             "
             width="71"
             height="71"
-            src="../assets/img/site/up.svg"
+            :src="up_icon"
         />
     </div>
     <div
@@ -74,7 +74,7 @@
         <div class="clear_input">
             <img
                 alt="clear search"
-                src="../assets/img/site/x.svg"
+                :src="x_icon"
                 @click="searchword = ''"
             />
         </div>
@@ -104,7 +104,7 @@
                 alt=""
                 width="66"
                 height="66"
-                src="../assets/img/site/up.svg"
+                :src="up_icon"
             />
         </div>
     </a>
@@ -115,6 +115,8 @@ import { ref, onUnmounted, onMounted, computed, toRefs, PropType } from "vue"
 import { useI18n } from "vue-i18n"
 import StreamerItem from "./StreamerItem.vue"
 import useDebouncedRef from "./useDebouncedRef.js"
+import x_icon from '@/assets/img/x.svg'
+import up_icon from '@/assets/img/up.svg'
 
 const { t } = useI18n({
     useScope: "local",
@@ -306,7 +308,7 @@ const filterstreamers = computed<Array<Streamer>>(() => {
 </script>
 
 <style lang="scss">
-@import "../assets/StreamerList.scss";
+@import "../assets/css/StreamerList.scss";
 </style>
 
 <i18n lang="json">

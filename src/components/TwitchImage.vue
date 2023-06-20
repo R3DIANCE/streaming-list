@@ -4,7 +4,7 @@
             v-lazyload
             width="640px"
             height="340px"
-            src="../assets/img/site/placeholder.webp"
+            :src="placeholder"
             srcset=""
             :data-srcset="
                 `${thumbnailUrl
@@ -27,14 +27,18 @@
             <img
                 class="twitch"
                 alt="twitch logo"
-                src="../assets/img/site/twitch.svg"
+                :src="twitch_icon"
             />
         </div>
-        <img class="external" src="../assets/img/site/external.svg" />
+        <img class="external" :src="external_icon" />
     </div>
 </template>
 
 <script setup lang="ts">
+import placeholder from '@/assets/img/placeholder.webp'
+import external_icon from '@/assets/img/external.svg'
+import twitch_icon from '@/assets/img/external.svg'
+
 const props = defineProps({
     thumbnailUrl: {
         type: String,
@@ -52,5 +56,5 @@ const props = defineProps({
 </script>
 
 <style scoped lang="scss">
-@import "../assets/TwitchImage.scss";
+@import "../assets/css/TwitchImage.scss";
 </style>

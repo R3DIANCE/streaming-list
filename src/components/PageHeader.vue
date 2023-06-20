@@ -148,7 +148,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
-@import "../assets/PageHeader.scss";
+@import "../assets/css/PageHeader.scss";
 </style>
 
 <i18n lang="json">

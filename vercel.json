@@ -59,7 +59,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self'; style-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; img-src 'self' data: https://static-cdn.jtvnw.net/previews-ttv/ https://static-cdn.jtvnw.net/cf_vods/ https://static-cdn.jtvnw.net/jtv_user_pictures/; frame-src 'none'; connect-src 'self' https://api.alt-mp.com/ https://tts-de-gta5.nickwasused.com/; report-uri https://nickwasused.report-uri.com/r/d/csp/enforce;"
+          "value": "default-src 'self'; script-src 'self'; style-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; img-src 'self' data: https://static-cdn.jtvnw.net/previews-ttv/ https://static-cdn.jtvnw.net/cf_vods/ https://static-cdn.jtvnw.net/jtv_user_pictures/; frame-src 'none'; connect-src 'self' https://api.alt-mp.com/ https://tts-de-gta5.nickwasused.com/; report-uri https://o4505391383838720.ingest.sentry.io/api/4505391386001408/security/?sentry_key=e2caf30e811348dcb0a10a8f0b9580c5;"
         }
       ]
     }

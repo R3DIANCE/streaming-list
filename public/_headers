@@ -1,5 +1,5 @@
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; img-src 'self' data: https://static-cdn.jtvnw.net/previews-ttv/ https://static-cdn.jtvnw.net/cf_vods/ https://static-cdn.jtvnw.net/jtv_user_pictures/; frame-src 'none'; connect-src 'self' https://api.alt-mp.com/ https://tts-de-gta5.nickwasused.com/; report-uri https://nickwasused.report-uri.com/r/d/csp/enforce;
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com/beacon.min.js; style-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; img-src 'self' data: https://static-cdn.jtvnw.net/previews-ttv/ https://static-cdn.jtvnw.net/cf_vods/ https://static-cdn.jtvnw.net/jtv_user_pictures/; frame-src 'none'; connect-src 'self' https://api.alt-mp.com/ https://tts-de-gta5.nickwasused.com/; report-uri https://nickwasused.report-uri.com/r/d/csp/enforce;
   Permissions-Policy: interest-cohort=()
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: SAMEORIGIN

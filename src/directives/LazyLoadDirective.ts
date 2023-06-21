@@ -22,31 +22,15 @@ function observe_images(el: HTMLElement): void {
 }
 
 export default {
-    created(el: HTMLElement): void {
-        if (document.readyState === "interactive") {
-            // the page has not loaded and the data is pulled from localstorage
-            window.addEventListener("load", () => observe_images(el))
-        } else {
-            window.addEventListener("streaming-list-update", () =>
-                observe_images(el)
-            )
-        }
-    },
     mounted(el: HTMLElement): void {
         if (document.readyState === "complete") {
             observe_images(el)
         }
     },
     updated(el: HTMLElement): void {
-        if (document.readyState === "complete") {
-            observe_images(el)
-        }
+        observe_images(el)
     },
     unmounted(): void {
-        window.removeEventListener(
-            "streaming-list-update",
-            () => observe_images
-        )
         window.removeEventListener("load", () => observe_images)
     },
 }

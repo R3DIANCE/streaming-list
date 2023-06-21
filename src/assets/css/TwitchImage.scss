@@ -30,9 +30,11 @@
 }
 
 .card-item {
-    &:hover {
-        .card-image .external {
-            display: inline;
+    @media (hover: hover) {
+        &:hover {
+            .card-image .external {
+                display: inline;
+            }
         }
     }
 }

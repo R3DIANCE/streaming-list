@@ -13,36 +13,34 @@
                     :cache-key="cacheKey"
                 />
                 <div class="card-content">
-                    <div class="card-text">
-                        <p class="card-text-item">{{ stream.title }}</p>
-                        <table class="card-streamer-table">
-                            <tr
-                                :title="
-                                    t('tooltips.viewer', {
-                                        user: stream.user_name,
-                                        viewer: stream.viewer_count,
-                                    })
-                                "
-                            >
-                                <td>{{ t("viewer_count") }}</td>
-                                <td>{{ stream.viewer_count }}</td>
-                            </tr>
-                            <tr
-                                :title="
-                                    t('tooltips.live_since', {
-                                        user: stream.user_name,
-                                        time: new Date(
-                                            stream.started_at
-                                        ).toLocaleTimeString(),
-                                        total_time: calculate_time,
-                                    })
-                                "
-                            >
-                                <td>{{ t("live_since") }}</td>
-                                <td>{{ calculate_time }}</td>
-                            </tr>
-                        </table>
-                    </div>
+                    <p class="card-text-item">{{ stream.title }}</p>
+                    <table class="card-streamer-table">
+                        <tr
+                            :title="
+                                t('tooltips.viewer', {
+                                    user: stream.user_name,
+                                    viewer: stream.viewer_count,
+                                })
+                            "
+                        >
+                            <td>{{ t("viewer_count") }}</td>
+                            <td>{{ stream.viewer_count }}</td>
+                        </tr>
+                        <tr
+                            :title="
+                                t('tooltips.live_since', {
+                                    user: stream.user_name,
+                                    time: new Date(
+                                        stream.started_at
+                                    ).toLocaleDateString(),
+                                    total_time: calculate_time,
+                                })
+                            "
+                        >
+                            <td>{{ t("live_since") }}</td>
+                            <td>{{ calculate_time }}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </a>

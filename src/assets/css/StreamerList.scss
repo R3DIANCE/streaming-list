@@ -63,9 +63,11 @@
         white-space: nowrap;
         margin: 1%;
 
-        &:hover {
-            color: white;
-            background-color: black;
+        @media (hover: hover) {
+            &:hover {
+                color: white;
+                background-color: black;
+            }
         }
     }
 }
@@ -74,16 +76,20 @@
     .sort button {
         transition: none;
 
-        &:hover {
-            color: black;
-            background-color: #fcd401;
+        @media (hover: hover) {
+            &:hover {
+                color: black;
+                background-color: #fcd401;
+            }
         }
     }
 
     .sort .active {
-        &:hover {
-            color: white;
-            background-color: black;
+        @media (hover: hover) {
+            &:hover {
+                color: white;
+                background-color: black;
+            }
         }
     }
 }
@@ -150,8 +156,10 @@
     .mock_button img {
         transition: none;
 
-        &:hover {
-            filter: invert(0%);
+        @media (hover: hover) {
+            &:hover {
+                filter: invert(0%);
+            }
         }
     }
 }
@@ -167,8 +175,10 @@
     display: inline;
     filter: invert(0%);
 
-    &:hover {
-        filter: invert(100%);
+    @media (hover: hover) {
+        &:hover {
+            filter: invert(100%);
+        }
     }
 
     img {
@@ -181,8 +191,10 @@
     .clear_input {
         transition: none;
 
-        &:hover {
-            filter: invert(0%);
+        @media (hover: hover) {
+            &:hover {
+                filter: invert(0%);
+            }
         }
     }
 }
@@ -193,10 +205,12 @@
     margin-right: auto;
     margin: auto;
 
-    &:hover {
-        filter: invert(100%);
+    @media (hover: hover) {
+        &:hover {
+            filter: invert(100%);
+        }
     }
-
+    
     &.state_up {
         transform: rotate(180deg);
     }

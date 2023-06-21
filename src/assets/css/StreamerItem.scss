@@ -17,42 +17,42 @@
         overflow: hidden;
         transition: all 0.3s linear;
 
-        &:hover {
-            color: white;
-            background-color: black;
-
-            .card-image .external {
-                display: inline;
+        @media (hover: hover) {
+            &:hover {
+                color: white;
+                background-color: black;
+    
+                .card-image .external {
+                    display: inline;
+                }
             }
         }
-
+        
         .card-content {
             display: flex;
             flex-grow: 1;
             flex-direction: column;
             padding-left: 1rem;
             padding-right: 1rem;
+            flex: 1 1 auto;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            overflow-wrap: break-word;
+            min-width: 0;
 
-            .card-text {
-                flex: 1 1 auto;
-                font-size: 0.875rem;
-                margin-bottom: 1rem;
+            .card-streamer-table {
+                width: 80%;
+                font-size: 1rem;
 
-                .card-streamer-table {
-                    width: 80%;
-                    font-size: 1rem;
-
-                    th,
-                    td {
-                        padding: 1px 2px;
-                        width: 100%;
-                    }
+                th,
+                td {
+                    padding: 1px 2px;
+                    width: 100%;
                 }
+            }
 
-                .card-text-item {
-                    font-size: 1.2em;
-                    margin-top: 0px;
-                }
+            .card-text-item {
+                font-size: 1.2em;
             }
         }
     }
@@ -74,9 +74,12 @@
     .cards-list-item .card-item {
         transition: none;
 
-        &:hover {
-            color: black;
-            background-color: #fcd401;
+        @media (hover: hover) {
+            &:hover {
+                color: black;
+                background-color: #fcd401;
+            } 
         }
+        
     }
 }

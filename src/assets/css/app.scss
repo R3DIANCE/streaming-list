@@ -7,6 +7,8 @@ html {
     word-wrap: break-word;
     background-color: #343a40;
     color: white;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
 }
 
 @font-face {
@@ -42,7 +44,9 @@ a {
     color: white;
     text-decoration: none;
 
-    &:hover {
-        color: #fcd401;
+    @media (hover: hover) {
+        &:hover {
+            color: #fcd401;
+        }
     }
 }

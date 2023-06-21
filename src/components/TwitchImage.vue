@@ -4,6 +4,7 @@
             v-lazyload
             width="640px"
             height="340px"
+            :src="placeholder"
             srcset=""
             :data-srcset="
                 `${thumbnailUrl
@@ -36,6 +37,7 @@
 <script setup lang="ts">
 import external_icon from '@/assets/img/external.svg'
 import twitch_icon from '@/assets/img/twitch.svg'
+import placeholder from '@/assets/img/placeholder.webp'
 
 const props = defineProps({
     thumbnailUrl: {

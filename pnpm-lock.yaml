@@ -41,8 +41,8 @@ devDependencies:
     specifier: ^2.8.8
     version: 2.8.8
   vite-bundle-visualizer:
-    specifier: ^0.8.0
-    version: 0.8.0(rollup@2.79.1)
+    specifier: ^0.8.1
+    version: 0.8.1(rollup@2.79.1)
 
 packages:
 
@@ -3468,8 +3468,8 @@ packages:
       vue: 3.3.4
     dev: false
 
-  /vite-bundle-visualizer@0.8.0(rollup@2.79.1):
-    resolution: {integrity: sha512-Z3RHuiqgxtNrCof1uINFel7VzESRYp3s9HK8Tg5JHXvcyVjIVIz6keUntna7CWtoNUIWUjaBwhmMCML9GM5qiw==}
+  /vite-bundle-visualizer@0.8.1(rollup@2.79.1):
+    resolution: {integrity: sha512-CLNRfxjdVi6lMC0/FJCKqJ06LMvizGuoCJRHBPWcVHMhUZ04O3O4ACcaMoOjcJMaB8+QexfmaWKUcmyX3iOwOA==}
     hasBin: true
     dependencies:
       cac: 6.7.14

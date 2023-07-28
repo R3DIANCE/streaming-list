@@ -21,8 +21,9 @@ export default defineConfig({
         }),
         VitePWA({
             registerType: "autoUpdate",
+            includeAssets: ['favicon.ico', 'android-chrome-192x192.png', 'android-chrome-512x512-maskable.png', 'android-chrome-512x512.png', 'icon.svg'],
             workbox: {
-                cleanupOutdatedCaches: false,
+                cleanupOutdatedCaches: true,
                 sourcemap: build_source_map,
                 globPatterns: ["**/*.{woff2,html,js,css,png,webp,jpg,svg}"],
                 globIgnores: ["og.png"],
